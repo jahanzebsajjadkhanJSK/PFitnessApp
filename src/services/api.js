@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = 'http://localhost:5001';
+const BASE_URL = 'http://192.168.1.6:5001';
 
 const api = axios.create({
   baseURL: BASE_URL,
@@ -12,7 +12,6 @@ const AuthService = {
       'Content-Type': 'application/json',
       'Host': BASE_URL, // Leverage BASE_URL for host consistency (recommended)
       'Content-Length': String(JSON.stringify({ email, password }).length),
-
     };
 
     const body = {

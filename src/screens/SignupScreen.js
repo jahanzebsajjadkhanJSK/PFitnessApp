@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
+import { View, Text, TextInput, Button, StyleSheet ,Alert} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import AuthService from '../services/api';
 
 const SignupScreen = () => {
   const [email, setEmail] = useState('');
@@ -8,8 +9,19 @@ const SignupScreen = () => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const navigation = useNavigation();
 
-  const handleSignup = () => {
-    navigation.navigate('ConfirmSignup')
+  const handleSignup = async () => {
+    if (password !== confirmPassword) {
+      Alert.alert('Password Mismatch', 'Passwords do not match. Please try again.');
+      return;
+    }
+    console.log("these are the email and password ",email,password)
+    try {
+      const response = await AuthService.signup(email, password);
+      console.log('signup successful:', response.data);
+      navigation.navigate("ConfirmSignup",{ email })
+    } catch (error) {
+      console.error('signup error:', error);
+    }
   };
 
   return (
@@ -61,6 +73,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     marginBottom: 10,
     paddingHorizontal: 10,
+    color:'black'
   },
   textColor:{
     color:'black'

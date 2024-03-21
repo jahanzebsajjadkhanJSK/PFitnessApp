@@ -1,13 +1,24 @@
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
+import { View, Text, TextInput, Button, StyleSheet } from 'react-native'; 
+import AuthService from '../services/api';
 
 const ConfirmForgotPasswordScreen = () => {
   const [code, setCode] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const navigation = useNavigation()
-
-  const handleConfirmForgotPassword = () => {
+  const route=useRoute()
+  const { email } = route.params;
+  
+  const handleConfirmForgotPassword = async() => {
+    try {
+      const response = await AuthService.confirmForgotPassword(email,code ,newPassword);
+      console.log('signup successful:', response.data);
+      navigation.navigate('Login')
+      
+    } catch (error) {
+      console.error('signup error:', error);
+    }
    navigation.navigate('Login')
   };
 
@@ -51,6 +62,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     marginBottom: 10,
     paddingHorizontal: 10,
+    color:"black"
   },
   textColor:{
     color:'black'

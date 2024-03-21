@@ -1,13 +1,23 @@
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
+import AuthService from '../services/api';
 
 const ConfirmSignupScreen = () => {
   const [code, setCode] = useState('');
   const navigation =useNavigation()
+  const route = useRoute();
+  const { email } = route.params;
 
-  const handleConfirmSignup = () => {
-   navigation.navigate('Login')
+  const handleConfirmSignup = async () => {
+    try {
+      const response = await AuthService.confirmsignup(email, code);
+      console.log('confirmsignup successful:', response.data);
+      navigation.navigate('Login')
+      
+    } catch (error) {
+      console.error('signup error:', error);
+    }
   };
 
   return (
@@ -41,6 +51,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     marginBottom: 10,
     paddingHorizontal: 10,
+    color:"black"
   },
   textColor:{
     color:'black'

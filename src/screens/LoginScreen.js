@@ -18,13 +18,10 @@ const LoginScreen = () => {
     }
   };
 
-  const handleForgotPassword = async () => {
-    try {
-      const response = await AuthService.login(email, password);
-      Alert.alert(response)
-    } catch (error) {
-      Alert.alert(error)
-    }
+  const handleForgotPassword =  () => {
+   
+      navigation.navigate('ForgotPassword')
+    
   };
 
   return (
