@@ -1,15 +1,15 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import SignupScreen from './src/screens/SignupScreen';
-import LoginScreen from './src/screens/LoginScreen';
-import ConfirmSignupScreen from './src/screens/ConfirmSignupScreen';
-import ForgotPasswordScreen from './src/screens/ForgotPasswordScreen';
-import ConfirmForgotPasswordScreen from './src/screens/ConfirmForgotPasswordScreen';
+import SignupScreen from '../screens/SignupScreen';
+import LoginScreen from '../screens/LoginScreen';
+import ConfirmSignupScreen from '../screens/ConfirmSignupScreen';
+import ForgotPasswordScreen from '../screens/ForgotPasswordScreen';
+import ConfirmForgotPasswordScreen from '../screens/ConfirmForgotPasswordScreen';
 
 const Stack = createStackNavigator();
 
-const Navigation = () => {
+const AuthNavigation = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Signup">
@@ -23,4 +23,4 @@ const Navigation = () => {
   );
 };
 
-export default Navigation;
+export default AuthNavigation;
