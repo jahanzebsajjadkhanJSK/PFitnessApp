@@ -13,7 +13,7 @@ const LoginScreen = () => {
     try {
       const response = await AuthService.login(email, password);
       console.log('Login successful:', response);
-      Alert.alert("login success")
+      navigation.navigate('Home')
     } catch (error) {
       console.error('Login error:', error);
     }

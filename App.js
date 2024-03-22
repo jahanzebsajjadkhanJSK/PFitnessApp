@@ -5,10 +5,12 @@ import MainTabNavigator from './src/Navigation/MainTabNavigator';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 const App = () => {
+  const signedin = false
   return (
     <SafeAreaProvider>
     <NavigationContainer>
-      <MainTabNavigator />
+      {signedin?<MainTabNavigator/>:
+      <AuthNavigation/>}
     </NavigationContainer>
     </SafeAreaProvider>
   );

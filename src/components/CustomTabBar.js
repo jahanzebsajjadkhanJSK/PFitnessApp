@@ -22,7 +22,8 @@ const CustomTabBar = ({state, descriptors, navigation}) => {
     require('../assets/apple.png'),
     require('../assets/apple.png'),
     require('../assets/apple.png'),
-		
+		require('../assets/apple.png'),
+    require('../assets/apple.png'),
   ];
 
   const onPress = (route, index, isFocused) => {
@@ -114,18 +115,21 @@ const CustomTabBar = ({state, descriptors, navigation}) => {
           enabled: false,
         }}>
         {/* Content of the bottom sheet */}
-        <View style={styles.bottomSheetContent}>
+        <View
+          style={[
+            styles.bottomSheetContent,
+            {flexWrap: 'wrap', flexDirection: 'row', backgroundColor:"#272a3c"},
+          ]}>
           {buttonImages.map((imageSource, index) => (
             <TouchableOpacity
               key={index}
-              style={{
-                ...styles.buttonContainer,
-                width: screenWidth * 0.2,
-                height: screenWidth * 0.2,
-                borderRadius: 40,
-              }}>
+              style={[
+                styles.buttonContainer,
+                {width: screenWidth * 0.33, height: screenWidth * 0.33 ,borderWidth:2 ,borderRadius:100},
+              ]} // Adjust width and height for desired sizing
+            >
               <Image source={imageSource} style={styles.buttonImage} />
-							<Text>Some Page</Text>
+              <Text>Some Page</Text>
             </TouchableOpacity>
           ))}
         </View>
@@ -163,12 +167,14 @@ const styles = StyleSheet.create({
   bottomSheetContent: {
     alignItems: 'center',
     padding: 20,
-		flexDirection:"row"
+    flexDirection: 'row',
+		backgroundColor:"#272a3c"
   },
   bottomSheetContent: {
-		flexDirection:"row",
+    flexDirection: 'row',
     alignItems: 'center', // Center buttons horizontally (optional)
     justifyContent: 'space-around', // Distribute buttons evenly (optional)
+		
   },
   buttonContainer: {
     // borderRadius: width * 0.1, // Set borderRadius to 10% of screen width for circular shape
@@ -181,8 +187,8 @@ const styles = StyleSheet.create({
     shadowRadius: 4, // Add optional shadow for depth
   },
   buttonImage: {
-    width: '100%', // Fill button container with image
-    height: '100%',
+    width: '40%', // Fill button container with image
+    height: '40%',
   },
 });
 
