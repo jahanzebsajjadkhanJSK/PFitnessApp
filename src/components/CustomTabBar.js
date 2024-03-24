@@ -9,15 +9,15 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import RBSheet from 'react-native-raw-bottom-sheet';
+import { createNavigatorFactory } from '@react-navigation/native';
 
 const CustomTabBar = ({state, descriptors, navigation}) => {
-  console.log('inside customtab bar state', state);
-  console.log('inside customtab bar=, descriptor ', descriptors);
-  console.log('inside customtab bar  navigation', navigation);
+  // console.log('inside customtab bar state', state);
+  // console.log('inside customtab bar=, descriptor ', descriptors);
+  // console.log('inside customtab bar  navigation', navigation);
   const refRBSheet = useRef(null);
   const screenWidth = Dimensions.get('window').width;
   const buttonImages = [
-    // Replace these with your actual PNG image sources
     require('../assets/apple.png'),
     require('../assets/apple.png'),
     require('../assets/apple.png'),
@@ -67,7 +67,7 @@ const CustomTabBar = ({state, descriptors, navigation}) => {
           options,
           isFocused,
         );
-
+        
         return (
           <TouchableOpacity
             key={index}
@@ -123,6 +123,7 @@ const CustomTabBar = ({state, descriptors, navigation}) => {
           {buttonImages.map((imageSource, index) => (
             <TouchableOpacity
               key={index}
+              onPress={()=>{navigation.navigate('searchFoodScreen')}}
               style={[
                 styles.buttonContainer,
                 {width: screenWidth * 0.33, height: screenWidth * 0.33 ,borderWidth:2 ,borderRadius:100},

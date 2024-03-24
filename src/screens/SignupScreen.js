@@ -54,6 +54,7 @@ const SignupScreen = () => {
         placeholderTextColor="grey"
       />
       <Button title="Signup" onPress={handleSignup} />
+      <Button  title="Bypass Auth for now" onPress={()=>{navigation.navigate('tabNavigation',{screen:"Home"})}} />
     </View>
   );
 };
