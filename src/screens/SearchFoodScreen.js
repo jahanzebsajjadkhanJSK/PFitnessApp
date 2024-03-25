@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState ,useEffect} from 'react';
 import {
   View,
   Text,
@@ -16,13 +16,26 @@ import { useSelector, useDispatch } from 'react-redux';
 import { decrement, increment } from '../../store/action';
 
 
-const SearchFoodScreen = () => {
+const SearchFoodScreen = ({navigation}) => {
   const [searchQuery, setSearchQuery] = useState('');
 	const [activeCategory, setActiveCategory] = useState('All');
 	const count = useSelector((state) => state.counter); // Access state from store
   const dispatch = useDispatch();
 	const handleClear = ()=>{}
 	console.log("this is count value",count)
+	// useEffect(() => {
+	// 	const backButtonListener = navigation.addListener('beforeRemove', (e) => {
+	// 		// Check if the user wants to exit the app
+	// 		if (!e.data.action.type === 'Navigation/BACK') {
+	// 			return;
+	// 		}
+	
+	// 		// Navigate back to top if hardware back button pressed
+	// 		navigation.popToTop();
+	// 	});
+	
+	// 	return backButtonListener;
+	// }, [navigation]);
   return (
     <View style={styles.container}>
       {/* Status Bar */}
@@ -32,10 +45,12 @@ const SearchFoodScreen = () => {
       <View style={{...styles.header}}>
         <Searchbar
           placeholder="Search"
+					style={{backgroundColor:"grey"}}
           onChangeText={setSearchQuery}
           value={searchQuery}
+					placeholderTextColor={"white"}
 					right={() => (
-						<IconButton icon="close" onPress={handleClear} /> // Custom right-side element
+						<IconButton icon="thermometer" onPress={handleClear} /> // Custom right-side element
 					)}
         />
         <CategoryFilters
@@ -55,7 +70,7 @@ const SearchFoodScreen = () => {
       </View>
 
 			<View style={{flex:1, justifyContent:'center'}}>
-      <Text>Example for redux implementation = Count: {count.counter}</Text>
+      <Text style={{color:"white"}}>Example for redux implementation = Count: {count.counter}</Text>
       <Button title="Increase" onPress={() => dispatch(increment())} />
       <Button title="Decrease" onPress={() => dispatch(decrement())} />
     </View>
