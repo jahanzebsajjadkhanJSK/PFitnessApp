@@ -7,6 +7,7 @@ import {
   StyleSheet,
 	Button
 } from 'react-native';
+import Config from 'react-native-config';
 import {Searchbar} from 'react-native-paper';
 import CategoryFilters from '../utils/Helpers/CategoryFilters';
 import {appThemeColors} from '../utils/theme';
@@ -22,7 +23,9 @@ const SearchFoodScreen = ({navigation}) => {
 	const count = useSelector((state) => state.counter); // Access state from store
   const dispatch = useDispatch();
 	const handleClear = ()=>{}
-	console.log("this is count value",count)
+	const myurl = Config.BASE_URL
+	// console.log("this is count value",count)
+	console.log(myurl)
 	// useEffect(() => {
 	// 	const backButtonListener = navigation.addListener('beforeRemove', (e) => {
 	// 		// Check if the user wants to exit the app
