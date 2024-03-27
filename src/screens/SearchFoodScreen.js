@@ -7,6 +7,7 @@ import {
   StyleSheet,
   Button,
   FlatList,
+  Alert,
 } from 'react-native';
 import Config from 'react-native-config';
 import {Searchbar} from 'react-native-paper';
@@ -16,25 +17,95 @@ import {IconButton} from 'react-native-paper';
 import {useSelector, useDispatch} from 'react-redux';
 // import { increaseCounter, decreaseCounter } from '../store/actions'; // Adjust path as needed
 import {decrement, increment} from '../../store/action';
+import {addNutritionLog} from '../services/NutritionApis/NutritionLogApi';
 
 const SearchFoodScreen = ({navigation}) => {
   const [searchQuery, setSearchQuery] = useState('');
+  const token = useSelector(state => state.counter.userToken);
+
   const [activeCategory, setActiveCategory] = useState('All');
   const count = useSelector(state => state.counter); // Access state from store
   const allFood = useSelector(state => state.counter.allFood);
-  console.log('this is all food ===---', allFood);
+  // console.log('this is all food ===---', allFood);
   const [filteredFood, setFilteredFood] = useState('');
   const dispatch = useDispatch();
 
+  function retrieveEntry(selectedId) {
+    console.log('i m here', selectedId);
+    const data = allFood;
+    // Iterate through each object in the provided object
+    for (const key in data) {
+      if (typeof data[key] === 'object' && data[key] !== null) {
+        if (Array.isArray(data[key])) {
+          // Iterate through array of objects
+          console.log('i m loop', selectedId);
+          const entry = data[key].find(item => item.id === selectedId);
+          if (entry) {
+            console.log('this is ths select food obhect', entry.id);
+            return entry;
+          }
+        } else {
+          // Recursively call the function for nested objects
+          const entry = retrieveEntry(selectedId, data[key]);
+          if (entry) {
+            console.log('this is ths select food obhect', entry.id);
+            return entry;
+          }
+        }
+      }
+    }
+
+    return null;
+  }
+
+  const addLog = async selectedId => {
+    const selectedFoodObject = retrieveEntry(selectedId);
+    const apiData = {
+      foodId: selectedFoodObject.id,
+      consumedAt: new Date(),
+      quantity: 3,
+      isCustom: false,
+      isMeal: false,
+    };
+    console.log(token);
+    try {
+      const response = await addNutritionLog(apiData, token);
+      console.log(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   useEffect(() => {
     const searchTimer = setTimeout(() => {
-      const filteredFoodData = allFood.customizedFoodList.filter(food =>
+      const nameData = obj => {
+        const names = [];
+        for (const key in obj) {
+          if (typeof obj[key] === 'object' && obj[key] !== null) {
+            if (Array.isArray(obj[key])) {
+              // Iterate through array of objects
+              obj[key].forEach(item => {
+                if (item.name) {
+                  names.push({name: item.name, id: item.id});
+                }
+              });
+            } else {
+              // Recursively call the function for nested objects
+              names.push(...collectNames(obj[key]));
+            }
+          }
+        }
+
+        return names;
+      };
+
+      console.log('these are the names ', nameData(allFood));
+      const filteredFoodData = nameData(allFood).filter(food =>
         food.name.toLowerCase().startsWith(searchQuery.toLowerCase()),
       );
+      console.log('8989', filteredFoodData);
       setFilteredFood(filteredFoodData);
-      // Update UI with filteredFood (e.g., render FlatList)
-      // ...
-    }, 2000); // Delay of 2 seconds
+    }, 0);
 
     return () => clearTimeout(searchTimer); // Clear timer on cleanup
   }, [searchQuery, allFood]);
@@ -43,19 +114,7 @@ const SearchFoodScreen = ({navigation}) => {
   const myurl = Config.BASE_URL;
   // console.log("this is count value",count)
   console.log(myurl);
-  // useEffect(() => {
-  // 	const backButtonListener = navigation.addListener('beforeRemove', (e) => {
-  // 		// Check if the user wants to exit the app
-  // 		if (!e.data.action.type === 'Navigation/BACK') {
-  // 			return;
-  // 		}
 
-  // 		// Navigate back to top if hardware back button pressed
-  // 		navigation.popToTop();
-  // 	});
-
-  // 	return backButtonListener;
-  // }, [navigation]);
   return (
     <View style={styles.container}>
       {/* Status Bar */}
@@ -69,11 +128,8 @@ const SearchFoodScreen = ({navigation}) => {
           onChangeText={setSearchQuery}
           value={searchQuery}
           placeholderTextColor={'white'}
-          right={() => (
-            <IconButton icon="thermometer" onPress={handleClear} /> // Custom right-side element
-          )}
         />
-     
+
         <CategoryFilters
           tags={[
             'All',
@@ -88,33 +144,46 @@ const SearchFoodScreen = ({navigation}) => {
             setActiveCategory(val);
           }}
         />
-
-        {/* <View style={styles.categoryContainer}>
-          <TouchableOpacity style={styles.categoryTag}>
-            <Text style={styles.categoryText}>Category 1</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.categoryTag}>
-            <Text style={styles.categoryText}>Category 2</Text>
-          </TouchableOpacity>
-          {/* Add more category tags as needed */}
-        {/* </View>  */}
       </View>
       {filteredFood && (
-          <FlatList
-            data={filteredFood}
-            renderItem={({item}) => (
-              <TouchableOpacity
-                style={{backgroundColor: 'white', alignItems: 'center'}}
-                onPress={() => {
-                  // Handle food item press (e.g., navigate to details screen)
+        <FlatList
+          data={filteredFood}
+          renderItem={({item}) => (
+            <TouchableOpacity
+              style={{
+                backgroundColor: 'white',
+                borderBottomWidth: 2,
+                height: 50,
+                borderBottomColor: 'grey',
+              }}
+              onPress={() => {
+                Alert.alert(
+                  'Confirmation',
+                  `Are you sure you want to select "${item.name}"?`,
+                  [
+                    {text: 'Cancel', style: 'cancel'},
+                    {
+                      text: 'OK',
+                      onPress: () => {
+                        addLog(item.id);
+                      },
+                    },
+                  ],
+                );
+              }}>
+              <View
+                style={{
+                  flex: 1,
+                  backgroundColor: appThemeColors.backgroundGrey,
+                  alignItems: 'center',
                 }}>
                 <Text style={{color: 'red'}}>{item.name}</Text>
-                {/* Add more item details as needed */}
-              </TouchableOpacity>
-            )}
-            keyExtractor={item => item.id} // Assuming each food item has a unique ID
-          />
-        )}
+              </View>
+            </TouchableOpacity>
+          )}
+          keyExtractor={item => item.id} // Assuming each food item has a unique ID
+        />
+      )}
 
       <View style={{flex: 1, justifyContent: 'center'}}>
         <Text style={{color: 'white'}}>

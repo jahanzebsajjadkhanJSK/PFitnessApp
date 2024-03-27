@@ -62,9 +62,8 @@ const CustomTabBar = ({state, descriptors, navigation}) => {
 
         console.log(
           'this is the route and its index',
-          route,
-          index,
-          options,
+
+          options.iconName,
           isFocused,
         );
         
@@ -78,14 +77,14 @@ const CustomTabBar = ({state, descriptors, navigation}) => {
             onPress={() => {
               onPress(route, index, isFocused);
             }}>
-            <Text style={{color: isFocused ? '#ff6833' : 'grey'}}>
+            {!(route.name === "+") && <Text style={{color: isFocused ? '#ff6833' : 'grey'}}>
               {route.name}
-            </Text>
-            {/* <Icon
+            </Text>}
+            <Icon
               name={options.iconName}
-              size={40}
-              color={isFocused ? '#007AFF' : '#ccc'}
-            /> */}
+              size={25}
+              color={isFocused ? '#ff6833' :route.name === "+" ? "black" :  'grey'}
+            />
           </TouchableOpacity>
         );
       })}

@@ -17,28 +17,28 @@ const MainTabNavigator = () => {
         <Tab.Screen
          name="Home"
          component={HomeScreen}
-         options={{ iconName: 'rocket' }}
+         options={{ iconName: 'home' }}
       /> 
 
      <Tab.Screen
          name="Diary"
          component={DiaryScreen}
-         options={{ iconName: 'rocket' }}
+         options={{ iconName: 'book' }}
        />
       <Tab.Screen
         name="+"
         component={FoodScreen}
-        options={{ iconName: 'rocket' }}
+        options={{ iconName: 'plus' }}
       />
       <Tab.Screen
         name="Food"
         component={FoodScreen}
-        options={{ iconName: 'rocket' }}
+        options={{ iconName: 'cutlery' }}
       /> 
      <Tab.Screen
          name="More"
          component={MoreScreen}
-         options={{ iconName: 'rocket' }}
+         options={{ iconName: 'cog' }}
        /> 
     </Tab.Navigator>
   );
