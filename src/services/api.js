@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-const BASE_URL = 'http://192.168.1.6:5001';
+// const BASE_URL = 'http://192.168.1.6:5001';
+const BASE_URL='http://ec2-34-197-168-116.compute-1.amazonaws.com:5001';
 
 const api = axios.create({
   baseURL: BASE_URL,
@@ -22,7 +23,7 @@ const AuthService = {
     try {
       const response = await api.post('/login', body, { headers });
       // Handle successful login response (e.g., store token, navigate to next screen)
-      console.log('Login successful:', response);
+       return response;
     } catch (error) {
       // Handle login errors (e.g., display error message to user)
       console.error('Login error:', error);

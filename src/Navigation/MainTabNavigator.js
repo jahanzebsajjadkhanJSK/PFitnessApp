@@ -14,32 +14,32 @@ const MainTabNavigator = () => {
       tabBar={(props) => <CustomTabBar {...props} />}
       initialRouteName="Home"
     >
-      <Tab.Screen
-        name="Home"
-        component={HomeScreen}
-        options={{ iconName: 'rocket' }}
-      />
+        <Tab.Screen
+         name="Home"
+         component={HomeScreen}
+         options={{ iconName: 'rocket' }}
+      /> 
 
-      <Tab.Screen
-        name="Diary"
-        component={DiaryScreen}
-        options={{ iconName: 'rocket' }}
-      />
+     <Tab.Screen
+         name="Diary"
+         component={DiaryScreen}
+         options={{ iconName: 'rocket' }}
+       />
       <Tab.Screen
         name="+"
-        component={DiaryScreen}
+        component={FoodScreen}
         options={{ iconName: 'rocket' }}
       />
       <Tab.Screen
         name="Food"
         component={FoodScreen}
         options={{ iconName: 'rocket' }}
-      />
-      <Tab.Screen
-        name="More"
-        component={MoreScreen}
-        options={{ iconName: 'rocket' }}
-      />
+      /> 
+     <Tab.Screen
+         name="More"
+         component={MoreScreen}
+         options={{ iconName: 'rocket' }}
+       /> 
     </Tab.Navigator>
   );
 };

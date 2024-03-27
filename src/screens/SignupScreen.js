@@ -1,26 +1,29 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet ,Alert} from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import React, {useState} from 'react';
+import {View, Text, TextInput, Button, StyleSheet, Alert} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
 import AuthService from '../services/api';
-// import Config from 'react-native-config';
+import Config from 'react-native-config';
 
 const SignupScreen = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const navigation = useNavigation();
-  // console.log(Config.TARGET)
+  console.log(Config);
 
   const handleSignup = async () => {
     if (password !== confirmPassword) {
-      Alert.alert('Password Mismatch', 'Passwords do not match. Please try again.');
+      Alert.alert(
+        'Password Mismatch',
+        'Passwords do not match. Please try again.',
+      );
       return;
     }
-    console.log("these are the email and password ",email,password)
+    console.log('these are the email and password ', email, password);
     try {
       const response = await AuthService.signup(email, password);
       console.log('signup successful:', response.data);
-      navigation.navigate("ConfirmSignup",{ email })
+      navigation.navigate('ConfirmSignup', {email});
     } catch (error) {
       console.error('signup error:', error);
     }
@@ -55,8 +58,25 @@ const SignupScreen = () => {
         secureTextEntry
         placeholderTextColor="grey"
       />
-      <Button title="Signup" onPress={handleSignup} />
-      <Button  title="Bypass Auth for now" onPress={()=>{navigation.navigate('tabNavigation',{screen:"Home"})}} />
+      <View style={{marginTop:10}}>
+        <Button title="Signup" onPress={handleSignup} />
+      </View>
+      <View style={{marginTop:10}}> 
+        <Button
+          title="Login"
+          onPress={() => {
+            navigation.navigate('Login');
+          }}
+        />
+      </View>
+      <View style={{marginTop:50}}>
+        <Button
+          title="SKIP"
+          onPress={() => {
+            navigation.navigate('tabNavigation', {screen: 'Home'});
+          }}
+        />
+      </View>
     </View>
   );
 };
@@ -76,11 +96,11 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     marginBottom: 10,
     paddingHorizontal: 10,
-    color:'black'
+    color: 'black',
   },
-  textColor:{
-    color:'black'
-  }
+  textColor: {
+    color: 'black',
+  },
 });
 
 export default SignupScreen;

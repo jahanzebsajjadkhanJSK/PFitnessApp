@@ -7,3 +7,16 @@ export const increment = () => ({
     type: 'DECREMENT',
   });
   
+
+
+  export const loginSuccess = (payload) => (
+    {
+    type: 'STORE_TOKEN',
+    payload: payload
+  });
+
+  export const allFoodData = (payload) => (
+    {
+    type: 'ALL_FOOD_DATA',
+    payload: payload
+  });

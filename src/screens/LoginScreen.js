@@ -2,18 +2,23 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import AuthService from '../services/api';
+import { UseDispatch, useDispatch } from 'react-redux';
+import { loginSuccess } from '../../store/action';
 
 const LoginScreen = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigation = useNavigation()
+  const dispatch = useDispatch()
 
   const handleLogin = async () => {
     console.log("these are the email and password ",email,password)
     try {
       const response = await AuthService.login(email, password);
-      console.log('Login successful:', response);
-      navigation.navigate('Home')
+      console.log('Login successful:', response.data);
+      const token = response.data.token
+      dispatch(loginSuccess(token));
+      navigation.navigate('tabNavigation', {screen: 'Home'})
     } catch (error) {
       console.error('Login error:', error);
     }
