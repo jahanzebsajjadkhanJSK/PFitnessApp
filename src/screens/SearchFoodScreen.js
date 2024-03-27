@@ -22,7 +22,7 @@ const SearchFoodScreen = ({navigation}) => {
   const [activeCategory, setActiveCategory] = useState('All');
   const count = useSelector(state => state.counter); // Access state from store
   const allFood = useSelector(state => state.counter.allFood);
-  console.log("this is all food ===---",allFood)
+  console.log('this is all food ===---', allFood);
   const [filteredFood, setFilteredFood] = useState('');
   const dispatch = useDispatch();
 
@@ -73,22 +73,7 @@ const SearchFoodScreen = ({navigation}) => {
             <IconButton icon="thermometer" onPress={handleClear} /> // Custom right-side element
           )}
         />
-        {filteredFood && (
-          <FlatList
-            data={filteredFood}
-            renderItem={({item}) => (
-              <TouchableOpacity
-                style={{backgroundColor:"white", }}
-                onPress={() => {
-                  // Handle food item press (e.g., navigate to details screen)
-                }}>
-                <Text style={{color:"red"}}>{item.name}</Text>
-                {/* Add more item details as needed */}
-              </TouchableOpacity>
-            )}
-            keyExtractor={item => item.id} // Assuming each food item has a unique ID
-          />
-        )}
+     
         <CategoryFilters
           tags={[
             'All',
@@ -114,6 +99,22 @@ const SearchFoodScreen = ({navigation}) => {
           {/* Add more category tags as needed */}
         {/* </View>  */}
       </View>
+      {filteredFood && (
+          <FlatList
+            data={filteredFood}
+            renderItem={({item}) => (
+              <TouchableOpacity
+                style={{backgroundColor: 'white', alignItems: 'center'}}
+                onPress={() => {
+                  // Handle food item press (e.g., navigate to details screen)
+                }}>
+                <Text style={{color: 'red'}}>{item.name}</Text>
+                {/* Add more item details as needed */}
+              </TouchableOpacity>
+            )}
+            keyExtractor={item => item.id} // Assuming each food item has a unique ID
+          />
+        )}
 
       <View style={{flex: 1, justifyContent: 'center'}}>
         <Text style={{color: 'white'}}>
