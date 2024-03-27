@@ -26,7 +26,7 @@ const SearchFoodScreen = ({navigation}) => {
   const [activeCategory, setActiveCategory] = useState('All');
   const count = useSelector(state => state.counter); // Access state from store
   const allFood = useSelector(state => state.counter.allFood);
-  // console.log('this is all food ===---', allFood);
+  console.log('this is all food ===---', allFood);
   const [filteredFood, setFilteredFood] = useState('');
   const dispatch = useDispatch();
 
@@ -176,8 +176,9 @@ const SearchFoodScreen = ({navigation}) => {
                   flex: 1,
                   backgroundColor: appThemeColors.backgroundGrey,
                   alignItems: 'center',
+                  justifyContent:"center"
                 }}>
-                <Text style={{color: 'red'}}>{item.name}</Text>
+                <Text style={{color: 'white'}}>{item.name}</Text>
               </View>
             </TouchableOpacity>
           )}

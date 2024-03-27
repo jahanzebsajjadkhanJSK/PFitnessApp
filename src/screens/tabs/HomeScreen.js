@@ -29,6 +29,20 @@ const HomeScreen = () => {
     saturated_fat_g: '',
     cholesterol_mg: '',
   });
+  const fetchFoods = async () => {
+    console.log("i came here")
+    try {
+      const food = await getAllFoods(token);
+      dispatch(allFoodData(food));
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+
+  useEffect(() => {
+    fetchFoods();
+  }, []);
 
   const handleInputChange = (key, value) => {
     setFoodData({...foodData, [key]: value});
