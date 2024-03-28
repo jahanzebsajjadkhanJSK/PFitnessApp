@@ -15,15 +15,16 @@ const authorizationHeader = () => {
 
 export const addNutritionLog = async (data, token) => {
   const authHeader = {
-    Authorization: `Bearer ${token}`, // Replace `getToken` with your token retrieval logic
+    Authorization: `Bearer ${token}`, 
   };
   const url = `${baseUrl}/nutrition/log`;
-  try{
-        const response = await axios.post(url, data, {headers: authHeader});
+  try {
+    const response = await axios.post(url, data, {headers: authHeader});
     return response.data;
-  }catch(error)
-  {console.error(error);}
-  
+  } catch (error) {
+    console.error(error.response.data)
+    return error
+  }
 };
 
 export const getDailyLog = async date => {
@@ -44,28 +45,28 @@ export const deleteFoodLog = async logId => {
   return response.data;
 };
 
-export const addCustomFood = async (data,token) => {
+export const addCustomFood = async (data, token) => {
   const authHeader = {
     Authorization: `Bearer ${token}`, // Replace `getToken` with your token retrieval logic
   };
   const apiData = {
-    "name": data.name,
-    "quantity": data.quantity,
-    "energy_kcal": data.energy_kcal,
-    "carbohydrates": {
-        "glucose": data.glucose,
-        "fructose": data.fructose,
-        "fibre": data.fibre
+    name: data.name,
+    quantity: data.quantity,
+    energy_kcal: data.energy_kcal,
+    carbohydrates: {
+      glucose: data.glucose,
+      fructose: data.fructose,
+      fibre: data.fibre,
     },
-    "protein_g": data.protein_g,
-    "fats": {
-        "unsaturated_fat_g": data.unsaturated_fat_g,
-        "polyunsaturated_fat_g": data.polyunsaturated_fat_g,
-        "saturated_fat_g": data.saturated_fat_g
+    protein_g: data.protein_g,
+    fats: {
+      unsaturated_fat_g: data.unsaturated_fat_g,
+      polyunsaturated_fat_g: data.polyunsaturated_fat_g,
+      saturated_fat_g: data.saturated_fat_g,
     },
-    "cholesterol_mg": data.cholesterol_mg
-}
-console.log('hitting api with this foof data' ,apiData)
+    cholesterol_mg: data.cholesterol_mg,
+  };
+  console.log('hitting api with this foof data', apiData);
   const url = `${baseUrl}/nutrition/food`;
   const response = await axios.post(url, apiData, {
     headers: authHeader,

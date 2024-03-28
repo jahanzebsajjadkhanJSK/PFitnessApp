@@ -33,22 +33,20 @@ const SearchFoodScreen = ({navigation}) => {
   function retrieveEntry(selectedId) {
     console.log('i m here', selectedId);
     const data = allFood;
-    // Iterate through each object in the provided object
+
     for (const key in data) {
       if (typeof data[key] === 'object' && data[key] !== null) {
         if (Array.isArray(data[key])) {
-          // Iterate through array of objects
-          console.log('i m loop', selectedId);
           const entry = data[key].find(item => item.id === selectedId);
           if (entry) {
-            console.log('this is ths select food obhect', entry.id);
+            if (key == 'customizedFoodList') {
+              entry.isCustom = true;
+            }
             return entry;
           }
         } else {
-          // Recursively call the function for nested objects
           const entry = retrieveEntry(selectedId, data[key]);
           if (entry) {
-            console.log('this is ths select food obhect', entry.id);
             return entry;
           }
         }
@@ -64,13 +62,13 @@ const SearchFoodScreen = ({navigation}) => {
       foodId: selectedFoodObject.id,
       consumedAt: new Date(),
       quantity: 3,
-      isCustom: false,
+      isCustom: selectedFoodObject.isCustom,
       isMeal: false,
     };
-    console.log(token);
+    // console.log(token);
     try {
       const response = await addNutritionLog(apiData, token);
-      console.log(response.data);
+      console.log(response);
     } catch (error) {
       console.error(error);
     }
@@ -83,14 +81,12 @@ const SearchFoodScreen = ({navigation}) => {
         for (const key in obj) {
           if (typeof obj[key] === 'object' && obj[key] !== null) {
             if (Array.isArray(obj[key])) {
-              // Iterate through array of objects
               obj[key].forEach(item => {
                 if (item.name) {
                   names.push({name: item.name, id: item.id});
                 }
               });
             } else {
-              // Recursively call the function for nested objects
               names.push(...collectNames(obj[key]));
             }
           }
@@ -176,7 +172,7 @@ const SearchFoodScreen = ({navigation}) => {
                   flex: 1,
                   backgroundColor: appThemeColors.backgroundGrey,
                   alignItems: 'center',
-                  justifyContent:"center"
+                  justifyContent: 'center',
                 }}>
                 <Text style={{color: 'white'}}>{item.name}</Text>
               </View>

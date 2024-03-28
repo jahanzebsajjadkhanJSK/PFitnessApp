@@ -49,7 +49,6 @@ const HomeScreen = () => {
   };
 
   const handleSubmit =  async () => {
-    // Perform the API request with foodData object
     console.log('Food Data:', foodData);
     try {
       const response = await addCustomFood(foodData,token)

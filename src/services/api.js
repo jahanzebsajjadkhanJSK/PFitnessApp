@@ -22,10 +22,8 @@ const AuthService = {
 
     try {
       const response = await api.post('/login', body, { headers });
-      // Handle successful login response (e.g., store token, navigate to next screen)
        return response;
     } catch (error) {
-      // Handle login errors (e.g., display error message to user)
       console.error('Login error:', error);
     }
   },

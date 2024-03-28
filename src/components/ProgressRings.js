@@ -1,6 +1,4 @@
 import React from 'react';
-// import { G, Circle } from 'react-native-svg';
-// import { ProgressCircle } from 'react-native-svg-charts';
 import * as Progress from 'react-native-progress';
 import {View, Text, StyleSheet} from 'react-native';
 import PieChart from 'react-native-pie-chart'
@@ -8,10 +6,10 @@ import PieChart from 'react-native-pie-chart'
 const ProgressRing = ({circleType, amountOfCalories}) => {
   const totalCalories = 250;
   const progress = amountOfCalories / totalCalories;
-  const widthAndHeight = 100
+  
   const series = [123, 321, 123, 189, 537]
   const sliceColor = ['#328e8e', '#b060c1', '#ff9100', '#ff6c00', '#ff3c00']
-
+const widthAndHeight = 100
 
   return (
     <View style={{ flex:1 ,alignItems: 'center', justifyContent:'space-between'}}>
