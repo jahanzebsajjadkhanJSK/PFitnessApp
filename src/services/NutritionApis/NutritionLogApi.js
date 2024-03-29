@@ -15,15 +15,15 @@ const authorizationHeader = () => {
 
 export const addNutritionLog = async (data, token) => {
   const authHeader = {
-    Authorization: `Bearer ${token}`, 
+    Authorization: `Bearer ${token}`,
   };
   const url = `${baseUrl}/nutrition/log`;
   try {
     const response = await axios.post(url, data, {headers: authHeader});
     return response.data;
   } catch (error) {
-    console.error(error.response.data)
-    return error
+    console.error(error.response.data);
+    return error;
   }
 };
 
@@ -74,26 +74,51 @@ export const addCustomFood = async (data, token) => {
   return response.data;
 };
 
-export const updateCustomFood = async (foodId, data) => {
+export const updateCustomFood = async (foodId, data, token) => {
+  // console.log('6565',token)
+  const authHeader = {
+    Authorization: `Bearer ${token}`, // Replace `getToken` with your token retrieval logic
+  };
+  console.log('came to update',foodId)
   const url = `${baseUrl}/nutrition/food/${foodId}`;
-  const response = await axios.put(url, data, {headers: authorizationHeader()});
-  return response.data;
+  try {
+    console.log('updating food ===with id',foodId)
+    const response = await axios.put(url, data, {headers: authHeader});
+    console.log('this is the response for update food',response.data)
+    return response.data;
+    
+  } catch (error) {
+    console.log(error.response.data);
+  }
 };
 
-export const deleteCustomFood = async foodId => {
+export const deleteCustomFood = async (foodId, token) => {
+  const authHeader = {
+    Authorization: `Bearer ${token}`, // Replace `getToken` with your token retrieval logic
+  };
   const url = `${baseUrl}/nutrition/food/${foodId}`;
-  const response = await axios.delete(url, {headers: authorizationHeader()});
-  return response.data;
+  try {
+    console.log('deleting food ===with id',foodId)
+    const response = await axios.delete(url, {headers: authHeader});
+    return response.data;
+  } catch (error) {
+    console.log(error.response.data);
+  }
 };
 
 export const getAllFoods = async token => {
   const authHeader = {
     Authorization: `Bearer ${token}`, // Replace `getToken` with your token retrieval logic
   };
-  console.log('this is the authorizationHeader', authHeader);
+  // console.log('this is the authorizationHeader', authHeader);
   const url = `${baseUrl}/nutrition/all`;
-  const response = await axios.get(url, {headers: authHeader});
-  return response.data;
+  try {
+    const response = await axios.get(url, {headers: authHeader});
+    console.log('this is all fod response',response.data)
+    return response.data;
+  } catch (error) {
+    error.response.data;
+  }
 };
 
 // Helper function to retrieve the access token from storage/context (replace with your implementation)

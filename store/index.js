@@ -31,6 +31,26 @@ const counterReducer = (state = initialState, action) => {
         ...state,
         allFood: action.payload,
       };
+      case 'DELETE_CUSTOM_FOOD':
+        return {
+          ...state,
+          allFood: {
+            ...state.allFood,
+            customizedFoodList: state.allFood.customizedFoodList.filter(
+              (food) => food.id !== action.payload
+            ),
+          },
+        }
+        case 'UPDATE_CUSTOM_FOOD':
+      return {
+        ...state,
+        allFood: {
+          ...state.allFood,
+          customizedFoodList: state.allFood.customizedFoodList.map((food) =>
+            food.id === action.payload.id ? { ...food, ...action.payload.updatedData } : food
+          ),
+        },
+      };
 
     default:
       return state;
