@@ -50,28 +50,31 @@ export const addCustomFood = async (data, token) => {
     Authorization: `Bearer ${token}`, // Replace `getToken` with your token retrieval logic
   };
   const apiData = {
-    name: data.name,
-    quantity: data.quantity,
-    energy_kcal: data.energy_kcal,
+    name: data?.name,
+    quantity: data?.quantity,
+    energy_kcal: data?.energy_kcal,
     carbohydrates: {
-      glucose: data.glucose,
-      fructose: data.fructose,
-      fibre: data.fibre,
+      glucose: data?.glucose,
+      fructose: data?.fructose,
+      fibre: data?.fibre,
     },
-    protein_g: data.protein_g,
+    protein_g: data?.protein_g,
     fats: {
-      unsaturated_fat_g: data.unsaturated_fat_g,
-      polyunsaturated_fat_g: data.polyunsaturated_fat_g,
-      saturated_fat_g: data.saturated_fat_g,
+      unsaturated_fat_g: data?.unsaturated_fat_g,
+      polyunsaturated_fat_g: data?.polyunsaturated_fat_g,
+      saturated_fat_g: data?.saturated_fat_g,
     },
-    cholesterol_mg: data.cholesterol_mg,
+    cholesterol_mg: data?.cholesterol_mg,
   };
   console.log('hitting api with this foof data', apiData);
   const url = `${baseUrl}/nutrition/food`;
-  const response = await axios.post(url, apiData, {
+  try{const response = await axios.post(url, apiData, {
     headers: authHeader,
   });
   return response.data;
+}catch(error){
+  console.log(error.response.data)
+}
 };
 
 export const updateCustomFood = async (foodId, data, token) => {
@@ -105,6 +108,73 @@ export const deleteCustomFood = async (foodId, token) => {
     console.log(error.response.data);
   }
 };
+
+
+export const addNewMeal = async (token) => {
+  const url = `${baseUrl}/nutrition/meal`;
+  try {
+    const response = await axios.post(
+      url,
+      {
+        name: 'light dinner',
+        foodList: [
+          {
+            quantity: 1,
+            foodId: '1086ad22-8eb6-4630-ac60-ba3801ba61c6',
+            isCustom: true,
+          },
+          {
+            quantity: 2,
+            foodId: '05e0413b-aaf8-4515-ba13-2c5423594b62',
+            isCustom: false,
+          },
+        ],
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error('Error adding new meal:', error);
+    throw error;
+  }
+};
+
+export const deleteMeal = async (mealId, token) => {
+  const url = `${baseUrl}/nutrition/meal/${mealId}`;
+ console.log('this is meal id in api',mealId)
+  try {
+    const response = await axios.delete(url, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error deleting meal:', error.response.data);
+    throw error;
+  }
+};
+
+export const updateMeal = async (mealId, updatedData ,token) => {
+  const url = `${baseUrl}/nutrition/meal/${mealId}`;
+
+  try {
+    const response = await api.put(url, updatedData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error updating meal:', error);
+    throw error;
+  }
+};
+
 
 export const getAllFoods = async token => {
   const authHeader = {

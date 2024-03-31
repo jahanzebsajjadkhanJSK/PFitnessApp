@@ -6,6 +6,7 @@ const initialState = {
   userToken: '',
   isLoggedIn: false,
   allFood: {},
+  dailyLog: {},
 };
 
 const counterReducer = (state = initialState, action) => {
@@ -41,6 +42,16 @@ const counterReducer = (state = initialState, action) => {
             ),
           },
         }
+        case 'DELETE_MEAL':
+          return {
+            ...state,
+            allFood: {
+              ...state.allFood,
+              mealList: state.allFood.mealList.filter(
+                (food) => food.id !== action.payload
+              ),
+            },
+          }
         case 'UPDATE_CUSTOM_FOOD':
       return {
         ...state,
@@ -51,6 +62,16 @@ const counterReducer = (state = initialState, action) => {
           ),
         },
       };
+      case 'UPDATE_MEAL':
+        return {
+          ...state,
+          allFood: {
+            ...state.allFood,
+            mealList: state.allFood.mealList.map((food) =>
+              food.id === action.payload.id ? { ...food, ...action.payload.updatedData } : food
+            ),
+          },
+        };
 
     default:
       return state;

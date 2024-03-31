@@ -1,10 +1,14 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
+import FoodSearch from '../../components/FoodSearch';
 
 const FoodScreen = () => {
   return (
     <View style={styles.container}>
-      <Text>Food Screen</Text>
+      
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <FoodSearch />
+    </View>
     </View>
   );
 };

@@ -11,9 +11,17 @@ export const deleteCustomFoodFromList = id => ({
   type: 'DELETE_CUSTOM_FOOD',
   payload: id,
 });
+export const deleteMealFromList = id => ({
+  type: 'DELETE_MEAL',
+  payload: id,
+});
 
 export const updateCustomFoodInList = (id, updatedData) => ({
   type: 'UPDATE_CUSTOM_FOOD',
+  payload: {id, updatedData},
+});
+export const updateMealInList = (id, updatedData) => ({
+  type: 'UPDATE_MEAL',
   payload: {id, updatedData},
 });
 
