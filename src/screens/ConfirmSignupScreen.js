@@ -16,7 +16,7 @@ const ConfirmSignupScreen = () => {
       navigation.navigate('Login')
       
     } catch (error) {
-      console.error('signup error:', error);
+      console.error('signup error:', error.response.data);
     }
   };
 

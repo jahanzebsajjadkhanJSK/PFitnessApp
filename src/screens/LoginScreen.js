@@ -20,7 +20,7 @@ const LoginScreen = () => {
       dispatch(loginSuccess(token));
       navigation.navigate('tabNavigation', {screen: 'Home'})
     } catch (error) {
-      console.error('Login error:', error);
+      console.error('Login error:', error.response.data);
     }
   };
 

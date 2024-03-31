@@ -24,7 +24,7 @@ const AuthService = {
       const response = await api.post('/login', body, { headers });
        return response;
     } catch (error) {
-      console.error('Login error:', error);
+      console.error('Login error:', error.response.data);
     }
   },
 

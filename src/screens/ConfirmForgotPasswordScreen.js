@@ -17,7 +17,7 @@ const ConfirmForgotPasswordScreen = () => {
       navigation.navigate('Login')
       
     } catch (error) {
-      console.error('signup error:', error);
+      console.error('signup error:', error.response.data);
     }
    navigation.navigate('Login')
   };

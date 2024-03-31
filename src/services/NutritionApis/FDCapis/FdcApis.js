@@ -9,7 +9,9 @@ const fdcBaseUrl = 'https://api.nal.usda.gov/fdc/v1';
 
 export const fdcApi = {
   getFoodList: () => {
-    const url = `${fdcBaseUrl}/foods/list?dataType=Survey%20%28FNDDS%29&pageSize=200&pageNumber=1&api_key=${fdcApiKey}`;
+    const pageNumber = 1
+    const pageSize = 100
+    const url = `${fdcBaseUrl}/foods/list?dataType=Survey%20%28FNDDS%29&pageSize=${pageSize}&pageNumber=${pageNumber}&api_key=${fdcApiKey}`;
     return axios.get(url);
   },
   searchFoodsUsingBody: (query, dataType, pageSize, pageNumber) => {
