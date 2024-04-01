@@ -16,7 +16,7 @@ import {appThemeColors} from '../utils/theme';
 import {IconButton} from 'react-native-paper';
 import {useSelector, useDispatch} from 'react-redux';
 // import { increaseCounter, decreaseCounter } from '../store/actions'; // Adjust path as needed
-import {decrement, increment} from '../../store/action';
+import {decrement, increment} from '../store/action';
 import {addNutritionLog} from '../services/NutritionApis/NutritionLogApi';
 
 const SearchFoodScreen = ({navigation}) => {

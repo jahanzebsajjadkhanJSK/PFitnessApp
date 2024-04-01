@@ -6,7 +6,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import AppNavigator from './src/Navigation/AppNavigator';
 import { PaperProvider } from 'react-native-paper';
 import { Provider } from 'react-redux';
-import store from './store'; // Import your store
+import store from './src/store'; // Import your store
 import { Text, View } from 'react-native';
 
 

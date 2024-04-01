@@ -3,7 +3,7 @@ import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import AuthService from '../services/api';
 import { UseDispatch, useDispatch } from 'react-redux';
-import { loginSuccess } from '../../store/action';
+import { loginSuccess } from '../store/action';
 
 const LoginScreen = () => {
   const [email, setEmail] = useState('');
