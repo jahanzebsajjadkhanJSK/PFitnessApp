@@ -4,7 +4,7 @@ import { View, Text, StyleSheet } from 'react-native';
 const MoreScreen = () => {
   return (
     <View style={styles.container}>
-      <Text>More Screen</Text>
+      <Text>Ai Coach</Text>
     </View>
   );
 };
