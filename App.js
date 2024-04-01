@@ -3,7 +3,7 @@ import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 // import MainTabNavigator from './src/Navigation/MainTabNavigator';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import AppNavigator from './src/Navigation/AppNavigator';
+import AppNavigator from './src/navigation/AppNavigator';
 import { PaperProvider } from 'react-native-paper';
 import { Provider } from 'react-redux';
 import store from './src/store'; // Import your store

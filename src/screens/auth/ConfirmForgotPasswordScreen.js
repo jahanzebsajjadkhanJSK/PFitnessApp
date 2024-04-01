@@ -1,26 +1,25 @@
-import { useNavigation, useRoute } from '@react-navigation/native';
-import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet } from 'react-native'; 
-import AuthService from '../services/api';
+import { useNavigation, useRoute } from '@react-navigation/native'
+import React, { useState } from 'react'
+import { View, Text, TextInput, Button, StyleSheet } from 'react-native'
+import AuthService from '../../services/api'
 
 const ConfirmForgotPasswordScreen = () => {
-  const [code, setCode] = useState('');
-  const [newPassword, setNewPassword] = useState('');
+  const [code, setCode] = useState('')
+  const [newPassword, setNewPassword] = useState('')
   const navigation = useNavigation()
-  const route=useRoute()
-  const { email } = route.params;
-  
-  const handleConfirmForgotPassword = async() => {
+  const route = useRoute()
+  const { email } = route.params
+
+  const handleConfirmForgotPassword = async () => {
     try {
-      const response = await AuthService.confirmForgotPassword(email,code ,newPassword);
-      console.log('signup successful:', response.data);
+      const response = await AuthService.confirmForgotPassword(email, code, newPassword)
+      console.log('signup successful:', response.data)
       navigation.navigate('Login')
-      
     } catch (error) {
-      console.error('signup error:', error.response.data);
+      console.error('signup error:', error.response.data)
     }
-   navigation.navigate('Login')
-  };
+    navigation.navigate('Login')
+  }
 
   return (
     <View style={styles.container}>
@@ -44,15 +43,15 @@ const ConfirmForgotPasswordScreen = () => {
       />
       <Button title="Confirm New Password" onPress={handleConfirmForgotPassword} />
     </View>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    paddingHorizontal: 20,
+    paddingHorizontal: 20
   },
   input: {
     width: '100%',
@@ -62,11 +61,11 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     marginBottom: 10,
     paddingHorizontal: 10,
-    color:"black"
+    color: 'black'
   },
-  textColor:{
-    color:'black'
+  textColor: {
+    color: 'black'
   }
-});
+})
 
-export default ConfirmForgotPasswordScreen;
+export default ConfirmForgotPasswordScreen

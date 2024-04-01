@@ -11,13 +11,13 @@ import {
 } from 'react-native';
 import Config from 'react-native-config';
 import {Searchbar} from 'react-native-paper';
-import CategoryFilters from '../utils/Helpers/CategoryFilters';
-import {appThemeColors} from '../utils/theme';
+import CategoryFilters from '../../../utils/Helpers/CategoryFilters';
+import {appThemeColors} from '../../../utils/theme';
 import {IconButton} from 'react-native-paper';
 import {useSelector, useDispatch} from 'react-redux';
 // import { increaseCounter, decreaseCounter } from '../store/actions'; // Adjust path as needed
-import {decrement, increment} from '../store/action';
-import {addNutritionLog} from '../services/NutritionApis/NutritionLogApi';
+import {decrement, increment} from '../../../store/action';
+import {addNutritionLog} from '../../../services/NutritionApis/NutritionLogApi';
 
 const SearchFoodScreen = ({navigation}) => {
   const [searchQuery, setSearchQuery] = useState('');
