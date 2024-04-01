@@ -5,7 +5,7 @@
 
 ## Installation
 
-```cd ios; pod install --allow-root``` - If there is any issue in this step, try running ```pod deintegrate``` and then ```pod install --allow-root```
+```cd ios; pod install --allow-root``` - If there is any issue in this step, try running ```pod deintegrate``` first.
 
 ```cd ..; npm install```
 
