@@ -4,13 +4,22 @@
   "private": true,
   "scripts": {
     "android": "react-native run-android",
-    "andoirdstage": "ENVFILE=.env.stagging react-native run-android",
-    "andoirddev": "ENVFILE=.env.dev react-native run-android",
+    "android:stage": "ENVFILE=.env.stagging react-native run-android",
+    "android:dev": "ENVFILE=.env.dev react-native run-android",
     "build:dev": "cp .env.dev .env && react-scripts build",
     "ios": "react-native run-ios",
-    "lint": "eslint .",
+    "eslint": "eslint .",
+    "eslint:fix": "eslint . --fix",
     "start": "react-native start",
-    "test": "jest"
+    "test": "jest",
+    "prepare": "husky",
+    "lint-staged": "lint-staged"
+  },
+  "lint-staged": {
+    "*.{js,vue}": [
+      "prettier --write",
+      "eslint --ignore-path .gitignore --fix"
+    ]
   },
   "dependencies": {
     "@react-navigation/bottom-tabs": "^6.5.20",
