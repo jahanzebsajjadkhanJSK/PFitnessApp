@@ -3,7 +3,7 @@ import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 import AuthService from '../../services/api'
 import { UseDispatch, useDispatch } from 'react-redux'
-import { loginSuccess } from '../../store/action'
+import { storeToken } from '../../store/counterReducer'
 
 const LoginScreen = () => {
   const [email, setEmail] = useState('')
@@ -17,7 +17,7 @@ const LoginScreen = () => {
       const response = await AuthService.login(email, password)
       console.log('Login successful:', response.data)
       const token = response.data.token
-      dispatch(loginSuccess(token))
+      dispatch(storeToken(token))
       navigation.navigate('tabNavigation', { screen: 'Home' })
     } catch (error) {
       console.error('Login error:', error.response.data)

@@ -15,8 +15,8 @@ import CategoryFilters from '../../../utils/Helpers/CategoryFilters';
 import {appThemeColors} from '../../../utils/theme';
 import {IconButton} from 'react-native-paper';
 import {useSelector, useDispatch} from 'react-redux';
-// import { increaseCounter, decreaseCounter } from '../store/actions'; // Adjust path as needed
-import {decrement, increment} from '../../../store/action';
+// import { increaseCounter, decreaseCounter } from '../store/counterReducer'; // Adjust path as needed
+import {decrement, increment} from '../../../store/counterReducer';
 import {addNutritionLog} from '../../../services/NutritionApis/NutritionLogApi';
 
 const SearchFoodScreen = ({navigation}) => {

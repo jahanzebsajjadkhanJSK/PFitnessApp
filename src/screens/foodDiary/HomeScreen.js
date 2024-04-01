@@ -23,8 +23,8 @@ import {
   deleteCustomFoodFromList,
   deleteMealFromList,
   updateCustomFoodInList,
-  updateMealInList,
-} from '../../store/action';
+  updateMealInList
+} from '../../store/counterReducer'
 import {useEffect} from 'react';
 import React, {useState} from 'react';
 import {useFocusEffect} from '@react-navigation/native';
