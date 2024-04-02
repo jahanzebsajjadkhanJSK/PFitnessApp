@@ -1,24 +1,23 @@
-import { createStackNavigator } from '@react-navigation/stack'
+import { createDrawerNavigator } from '@react-navigation/drawer'
+
 import AuthNavigation from './AuthNavigation'
 import MainTabNavigator from './MainTabNavigator'
-import SearchFoodScreen from '../screens/quickAdd/addFood/SearchFoodScreen'
+import WorkoutBuilderScreen from '../screens/workoutBuilder'
 
 const customNavigationOptions = {
   headerShown: false
 }
 
-const Stack = createStackNavigator()
+const Drawer = createDrawerNavigator()
 const AppNavigator = () => {
   return (
-    <Stack.Navigator initialRouteName="Signup">
-      <Stack.Screen name="authNavigation" component={AuthNavigation}
-      options={customNavigationOptions} />
-      <Stack.Screen name="tabNavigation" component={MainTabNavigator}
-      options={customNavigationOptions} />
-      <Stack.Screen name="searchFoodScreen" component={SearchFoodScreen}
-      options={customNavigationOptions} />
-    </Stack.Navigator>
+    <Drawer.Navigator initialRouteName="HoWorkout Builderme">
+      <Drawer.Screen name="Home" component={MainTabNavigator} options={customNavigationOptions} />
+      <Drawer.Screen name="Workout Builder" component={WorkoutBuilderScreen} />
+    </Drawer.Navigator>
   )
 }
-
 export default AppNavigator
+
+//     {/* <Stack.Screen name="authNavigation" component={AuthNavigation}
+// options={customNavigationOptions} /> */}

@@ -14,14 +14,14 @@ const App = () => {
   return (
     <Provider store={store}>
       <PaperProvider>
-    <SafeAreaProvider>
-    <NavigationContainer>
-    <AppNavigator/>
-      </NavigationContainer>
+        <SafeAreaProvider>
+          <NavigationContainer>
+            <AppNavigator />
+          </NavigationContainer>
 
-     </SafeAreaProvider>
-     </PaperProvider>
-     </Provider>
+        </SafeAreaProvider>
+      </PaperProvider>
+    </Provider>
   )
 }
 

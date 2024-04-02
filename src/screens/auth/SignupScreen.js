@@ -73,7 +73,7 @@ const SignupScreen = () => {
         <Button
           title="SKIP"
           onPress={() => {
-            navigation.navigate('tabNavigation', { screen: 'Home' })
+            navigation.navigate('Home')
           }}
         />
       </View>
