@@ -9,44 +9,24 @@ import {
   ScrollView,
   Dimensions
 } from 'react-native'
-import { useDispatch, useSelector } from 'react-redux'
-import {
-  getAllFoods,
-  addCustomFood,
-  updateCustomFood,
-  deleteCustomFood,
-  updateMeal,
-  deleteMeal
-} from '../../services/NutritionApis/NutritionLogApi'
-import {
-  allFoodData,
-  deleteCustomFoodFromList,
-  deleteMealFromList,
-  updateCustomFoodInList,
-  updateMealInList
-} from '../../store/counterReducer'
-import React, { useEffect, useState } from 'react'
-import { useFocusEffect } from '@react-navigation/native'
+import { useEffect, useState } from 'react'
+import { observer } from 'mobx-react'
+
 import { appThemeColors } from '../../utils/theme'
+import { useStores } from '../../store/useStores'
+
 const screenWidth = Dimensions.get('window').width
 
 const HomeScreen = ({ navigation }) => {
-  const dispatch = useDispatch()
-  const isLoggedIn = useSelector(state => state.counter.isLoggedIn)
-  const token = useSelector(state => state.counter.userToken)
-  const allFood = useSelector(state => state.counter.allFood)
-  console.log('this is from store ---====== food data', allFood)
+  const { nutritionStore, userStore: { token } } = useStores()
+  const allFood = nutritionStore.allFood
   const customFoods = allFood?.customizedFoodList
   const mealList = allFood?.mealList
-  console.log('thiis is the mean ==////', mealList)
-  // console.log('this is from store ---====== food data', allFood);
-  // console.log('this is from store ---======token', token);
 
   const [modalVisible, setModalVisible] = useState(false)
   const [update, setUpdate] = useState('false')
   const [showMeal, setShowMeal] = useState(false)
   const [customFoodShow, setCustomFoodShow] = useState(false)
-  console.log('update food store', update)
 
   const [foodData, setFoodData] = useState({
     name: '',
@@ -78,7 +58,7 @@ const HomeScreen = ({ navigation }) => {
             }}>
             <View>
               <Text style={{ color: 'white' }}>{item.name}</Text>
-              {meal == false && (
+              {meal === false && (
                 <>
                   <Text style={{ color: 'white' }}>Quantity: {item?.quantity}</Text>
                   <Text style={{ marginBottom: 10, color: 'white' }}>
@@ -88,11 +68,11 @@ const HomeScreen = ({ navigation }) => {
               )}
             </View>
             <View>
-              <Button title="Delete" onPress={() => meal == false ? handleDelete(item.id) : handleDeleteMeal(item.id)} />
+              <Button title="Delete" onPress={() => meal === false ? handleDelete(item.id) : handleDeleteMeal(item.id)} />
               <Button
                 title="Update"
                 onPress={() =>
-                  meal == false
+                  meal === false
                     ? handleUpdate(item.id, {
                       name: 'Green Team'
                     })
@@ -166,19 +146,15 @@ const HomeScreen = ({ navigation }) => {
     />
   )
   const fetchFoods = async () => {
-    console.log('i came here')
     try {
-      const food = await getAllFoods(token)
-      dispatch(allFoodData(food))
+      await nutritionStore.getAllFoods(token)
     } catch (error) {
       console.error(error)
     }
   }
   const handleDelete = async id => {
     try {
-      await deleteCustomFood(id, token)
-      dispatch(deleteCustomFoodFromList(id))
-      console.log('now deleted')
+      await nutritionStore.deleteCustomFood(id, token)
       setUpdate('true')
     } catch (error) {
       console.log(error)
@@ -187,23 +163,15 @@ const HomeScreen = ({ navigation }) => {
 
   const handleDeleteMeal = async id => {
     try {
-      await deleteMeal(id, token)
-      dispatch(deleteMealFromList(id))
-
-      console.log('now deleted')
+      await nutritionStore.deleteMeal(id, token)
       setUpdate('true')
     } catch (error) {
       console.log(error)
     }
   }
   const handleUpdate = async (id, updatedData) => {
-    console.log('came to update from home 5454')
     try {
-      await updateCustomFood(id, updatedData, token)
-
-      console.log('now dispatching')
-      dispatch(updateCustomFoodInList(id, updatedData))
-      console.log('now dispatched')
+      await nutritionStore.updateCustomFood(id, updatedData, token)
       setUpdate('true')
     } catch (error) {
       console.log('9090', error)
@@ -211,13 +179,8 @@ const HomeScreen = ({ navigation }) => {
   }
 
   const handleMealUpdate = async (id, updatedData) => {
-    console.log('came to update from home 5454')
     try {
-      await updateMeal(id, updatedData, token)
-
-      console.log('now dispatching')
-      dispatch(updateMealInList(id, updatedData))
-      console.log('now dispatched')
+      await nutritionStore.updateMeal(id, updatedData, token)
       setUpdate('true')
     } catch (error) {
       console.log('9090', error)
@@ -248,10 +211,8 @@ const HomeScreen = ({ navigation }) => {
     setFoodData({ ...foodData, [key]: value })
   }
   const handleSubmit = async () => {
-    console.log('Food Data:', foodData)
     try {
-      const response = await addCustomFood(foodData, token)
-      console.log(response)
+      await nutritionStore.addCustomFood(foodData, token)
       setUpdate('true')
     } catch (error) {
       console.log(error)
@@ -272,8 +233,6 @@ const HomeScreen = ({ navigation }) => {
     })
     setModalVisible(false)
   }
-
-  console.log('loged in', isLoggedIn)
 
   return (
     <View style={{ ...styles.container, backgroundColor: appThemeColors.backgroundBlack }}>
@@ -430,4 +389,4 @@ const styles = StyleSheet.create({
   }
 })
 
-export default HomeScreen
+export default observer(HomeScreen)

@@ -1,14 +1,17 @@
 import React, { useState } from 'react'
 import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
-import AuthService from '../../services/api'
 import Config from 'react-native-config'
+import { observer } from 'mobx-react'
+
+import { useStores } from '../../store/useStores'
 
 const SignupScreen = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
   const navigation = useNavigation()
+  const { userStore } = useStores()
   console.log(Config)
 
   const handleSignup = async () => {
@@ -21,7 +24,7 @@ const SignupScreen = () => {
     }
     console.log('these are the email and password ', email, password)
     try {
-      const response = await AuthService.signup(email, password)
+      const response = await userStore.signup(email, password)
       console.log('signup successful:', response.data)
       navigation.navigate('ConfirmSignup', { email })
     } catch (error) {
@@ -103,4 +106,4 @@ const styles = StyleSheet.create({
   }
 })
 
-export default SignupScreen
+export default observer(SignupScreen)

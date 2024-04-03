@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { Text, TouchableHighlight, Dimensions, View, StyleSheet, ScrollView } from 'react-native'
 import { appThemeColors } from '../theme'
-// import { useSelector } from 'react-redux';
 
 const CategoryFilters = ({ tags, activeCategory, setActiveCategory }) => {
   // const userLang = useSelector((state) => state.mainViewReducer.userLang);

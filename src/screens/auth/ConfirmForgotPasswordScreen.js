@@ -1,19 +1,20 @@
-import { useNavigation, useRoute } from '@react-navigation/native'
+import { useNavigation } from '@react-navigation/native'
 import React, { useState } from 'react'
 import { View, Text, TextInput, Button, StyleSheet } from 'react-native'
-import AuthService from '../../services/api'
+import { observer } from 'mobx-react'
+
+import { useStores } from '../../store/useStores'
+
 
 const ConfirmForgotPasswordScreen = () => {
   const [code, setCode] = useState('')
   const [newPassword, setNewPassword] = useState('')
   const navigation = useNavigation()
-  const route = useRoute()
-  const { email } = route.params
+  const { userStore } = useStores()
 
   const handleConfirmForgotPassword = async () => {
     try {
-      const response = await AuthService.confirmForgotPassword(email, code, newPassword)
-      console.log('signup successful:', response.data)
+      const resp = await userStore.confirmForgotPassword(code, newPassword)
       navigation.navigate('Login')
     } catch (error) {
       console.error('signup error:', error.response.data)

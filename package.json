@@ -21,9 +21,11 @@
     "@react-navigation/native": "^6.1.17",
     "@react-navigation/native-stack": "^6.9.26",
     "@react-navigation/stack": "^6.3.29",
-    "@reduxjs/toolkit": "^2.2.2",
     "@types/react-native-snap-carousel": "^3.8.11",
     "axios": "^1.6.8",
+    "mobx": "^6.12.3",
+    "mobx-persist": "^0.4.1",
+    "mobx-react": "^9.1.1",
     "react": "18.2.0",
     "react-native": "0.73.6",
     "react-native-calendars": "^1.1286.0",
@@ -43,12 +45,12 @@
     "react-native-snap-carousel": "^3.9.1",
     "react-native-svg": "^15.1.0",
     "react-native-tab-view": "^3.5.2",
-    "react-native-vector-icons": "^10.0.3",
-    "react-redux": "^9.1.0",
-    "redux": "^5.0.1"
+    "react-native-vector-icons": "^10.0.3"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
+    "@babel/plugin-proposal-decorators": "^7.24.1",
+    "@babel/plugin-transform-class-static-block": "^7.24.1",
     "@babel/preset-env": "^7.20.0",
     "@babel/runtime": "^7.20.0",
     "@react-native/babel-preset": "0.73.21",

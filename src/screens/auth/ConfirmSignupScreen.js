@@ -1,17 +1,20 @@
 import { useNavigation, useRoute } from '@react-navigation/native'
 import React, { useState } from 'react'
 import { View, Text, TextInput, Button, StyleSheet } from 'react-native'
-import AuthService from '../../services/api'
+import { observer } from 'mobx-react'
+
+import { useStores } from '../../store/useStores'
 
 const ConfirmSignupScreen = () => {
   const [code, setCode] = useState('')
   const navigation = useNavigation()
   const route = useRoute()
   const { email } = route.params
+  const { userStore } = useStores()
 
   const handleConfirmSignup = async () => {
     try {
-      const response = await AuthService.confirmsignup(email, code)
+      const response = await userStore.confirmSignUp(email, code)
       console.log('confirmsignup successful:', response.data)
       navigation.navigate('Login')
     } catch (error) {

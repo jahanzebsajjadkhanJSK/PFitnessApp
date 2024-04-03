@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import {
   View,
   TextInput,
@@ -8,7 +8,7 @@ import {
   ActivityIndicator,
   Dimensions
 } from 'react-native'
-import { fdcApi } from '../services/NutritionApis/FDCapis/FdcApis'
+import { fdcApi } from '../services/FdcApis'
 const screenWidth = Dimensions.get('window').width
 
 const FoodSearch = () => {

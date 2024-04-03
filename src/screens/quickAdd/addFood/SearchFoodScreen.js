@@ -11,34 +11,30 @@ import {
 } from 'react-native'
 import Config from 'react-native-config'
 import { Searchbar, IconButton } from 'react-native-paper'
+import { observer } from 'mobx-react'
+
 import CategoryFilters from '../../../utils/Helpers/CategoryFilters'
 import { appThemeColors } from '../../../utils/theme'
-import { useSelector, useDispatch } from 'react-redux'
-// import { increaseCounter, decreaseCounter } from '../store/counterReducer'; // Adjust path as needed
-import { decrement, increment } from '../../../store/counterReducer'
-import { addNutritionLog } from '../../../services/NutritionApis/NutritionLogApi'
+import { useStores } from '../../../store/useStores'
 
 const SearchFoodScreen = ({ navigation }) => {
-  const [searchQuery, setSearchQuery] = useState('')
-  const token = useSelector(state => state.counter.userToken)
+  const { nutritionStore, userStore: { token } } = useStores()
 
+  const [searchQuery, setSearchQuery] = useState('')
   const [activeCategory, setActiveCategory] = useState('All')
-  const count = useSelector(state => state.counter) // Access state from store
-  const allFood = useSelector(state => state.counter.allFood)
-  console.log('this is all food ===---', allFood)
   const [filteredFood, setFilteredFood] = useState('')
-  const dispatch = useDispatch()
+  const collectNames = {}
 
   function retrieveEntry (selectedId) {
     console.log('i m here', selectedId)
-    const data = allFood
+    const data = nutritionStore.allFood
 
     for (const key in data) {
       if (typeof data[key] === 'object' && data[key] !== null) {
         if (Array.isArray(data[key])) {
           const entry = data[key].find(item => item.id === selectedId)
           if (entry) {
-            if (key == 'customizedFoodList') {
+            if (key === 'customizedFoodList') {
               entry.isCustom = true
             }
             return entry
@@ -66,7 +62,7 @@ const SearchFoodScreen = ({ navigation }) => {
     }
     // console.log(token);
     try {
-      const response = await addNutritionLog(apiData, token)
+      const response = await nutritionStore.addNutritionLog(apiData, token)
       console.log(response)
     } catch (error) {
       console.error(error)
@@ -94,8 +90,8 @@ const SearchFoodScreen = ({ navigation }) => {
         return names
       }
 
-      console.log('these are the names ', nameData(allFood))
-      const filteredFoodData = nameData(allFood).filter(food =>
+      console.log('these are the names ', nameData(nutritionStore.allFood))
+      const filteredFoodData = nameData(nutritionStore.allFood).filter(food =>
         food.name.toLowerCase().startsWith(searchQuery.toLowerCase())
       )
       console.log('8989', filteredFoodData)
@@ -103,12 +99,9 @@ const SearchFoodScreen = ({ navigation }) => {
     }, 0)
 
     return () => clearTimeout(searchTimer) // Clear timer on cleanup
-  }, [searchQuery, allFood])
+  }, [searchQuery, nutritionStore.allFood])
 
   const handleClear = () => {}
-  const myurl = Config.BASE_URL
-  // console.log("this is count value",count)
-  console.log(myurl)
 
   return (
     <View style={styles.container}>
@@ -183,10 +176,10 @@ const SearchFoodScreen = ({ navigation }) => {
 
       <View style={{ flex: 1, justifyContent: 'center' }}>
         <Text style={{ color: 'white' }}>
-          Example for redux implementation = Count: {count.counter}
+          Example for redux implementation = Count: {nutritionStore.count}
         </Text>
-        <Button title="Increase" onPress={() => dispatch(increment())} />
-        <Button title="Decrease" onPress={() => dispatch(decrement())} />
+        <Button title="Increase" onPress={() => nutritionStore.increment()} />
+        <Button title="Decrease" onPress={() => nutritionStore.decrement()} />
       </View>
 
       {/* Rest of the screen content */}
@@ -226,4 +219,4 @@ const styles = StyleSheet.create({
   }
 })
 
-export default SearchFoodScreen
+export default observer(SearchFoodScreen)

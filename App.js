@@ -1,22 +1,19 @@
-import React from 'react'
-// import AuthNavigation from './src/Navigation/AuthNavigation';
+import AuthNavigation from './src/navigation/AuthNavigation'
 import { NavigationContainer } from '@react-navigation/native'
-// import MainTabNavigator from './src/Navigation/MainTabNavigator';
+// import MainTabNavigator from './src/navigation/MainTabNavigator';
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 import AppNavigator from './src/navigation/AppNavigator'
 import { PaperProvider } from 'react-native-paper'
-import { Provider } from 'react-redux'
-import store from './src/store' // Import your store
-import { Text, View } from 'react-native'
+import { Provider, observer } from 'mobx-react'
+import { stores } from './src/store'
 
 const App = () => {
-  // const signedin = false
   return (
-    <Provider store={store}>
+    <Provider store={stores}>
       <PaperProvider>
         <SafeAreaProvider>
           <NavigationContainer>
-            <AppNavigator />
+            {stores.userStore.isAuthenticated ? <AppNavigator /> : <AuthNavigation />}
           </NavigationContainer>
 
         </SafeAreaProvider>
@@ -25,4 +22,4 @@ const App = () => {
   )
 }
 
-export default App
+export default observer(App)

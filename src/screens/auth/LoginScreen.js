@@ -1,26 +1,25 @@
 import React, { useState } from 'react'
 import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
-import AuthService from '../../services/api'
-import { UseDispatch, useDispatch } from 'react-redux'
-import { storeToken } from '../../store/counterReducer'
+import { observer } from 'mobx-react'
+
+import { useStores } from '../../store/useStores'
 
 const LoginScreen = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const navigation = useNavigation()
-  const dispatch = useDispatch()
+  const { userStore } = useStores()
 
   const handleLogin = async () => {
     console.log('these are the email and password ', email, password)
     try {
-      const response = await AuthService.login(email, password)
-      console.log('Login successful:', response.data)
-      const token = response.data.token
-      dispatch(storeToken(token))
-      navigation.navigate('tabNavigation', { screen: 'Home' })
+      const response = await userStore.login(email, password)
+      // const token = response.data.token
+      // dispatch(storeToken(token))
+      navigation.navigate('Home')
     } catch (error) {
-      console.error('Login error:', error.response.data)
+      console.error('Login error:', error)
     }
   }
 
@@ -78,4 +77,4 @@ const styles = StyleSheet.create({
   }
 })
 
-export default LoginScreen
+export default observer(LoginScreen)
