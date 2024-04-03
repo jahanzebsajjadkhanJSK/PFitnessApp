@@ -1,27 +1,26 @@
-import React, { useState } from 'react';
-import { Text, TouchableHighlight, Dimensions, View, StyleSheet } from 'react-native';
-import { ScrollView } from 'react-native';
-import { appThemeColors } from '../theme';
+import React, { useState } from 'react'
+import { Text, TouchableHighlight, Dimensions, View, StyleSheet, ScrollView } from 'react-native'
+import { appThemeColors } from '../theme'
 // import { useSelector } from 'react-redux';
 
 const CategoryFilters = ({ tags, activeCategory, setActiveCategory }) => {
   // const userLang = useSelector((state) => state.mainViewReducer.userLang);
 
   const Button = (props) => {
-    const { title, active } = props;
-    const buttonHeight = Dimensions.get('screen').height * 0.035;
+    const { title, active } = props
+    const buttonHeight = Dimensions.get('screen').height * 0.035
 
     return (
       <TouchableHighlight
         onPress={() => {
-          setActiveCategory(title);
+          setActiveCategory(title)
         }}
         activeOpacity={0.8}
         style={[
           styles.button,
           {
             // backgroundColor: active ? 'green' : '#E6E6E6',
-          },
+          }
         ]}
       >
         <View style={styles.buttonContent}>
@@ -29,8 +28,8 @@ const CategoryFilters = ({ tags, activeCategory, setActiveCategory }) => {
             style={[
               styles.buttonText,
               {
-                color: active ? '#FFFFFF' : 'grey',
-              },
+                color: active ? '#FFFFFF' : 'grey'
+              }
             ]}
           >
             {title}
@@ -38,8 +37,8 @@ const CategoryFilters = ({ tags, activeCategory, setActiveCategory }) => {
           {active && <View style={styles.bottomBar} />}
         </View>
       </TouchableHighlight>
-    );
-  };
+    )
+  }
 
   return (
     <View style={styles.container}>
@@ -57,35 +56,35 @@ const CategoryFilters = ({ tags, activeCategory, setActiveCategory }) => {
         ))}
       </ScrollView>
     </View>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   container: {
     overflow: 'hidden',
-    height: 50,
+    height: 50
   },
   scrollContainer: {
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
     marginTop: 10,
     flexDirection: 'row',
-    backgroundColor: appThemeColors.backgroundGrey,
+    backgroundColor: appThemeColors.backgroundGrey
   },
   button: {
     height: '100%',
     justifyContent: 'center',
     borderRadius: 15,
-    marginHorizontal: 5,
+    marginHorizontal: 5
   },
   buttonContent: {
     flexDirection: 'row',
-    alignItems: 'center',
+    alignItems: 'center'
   },
   buttonText: {
     textAlign: 'center',
     minWidth: 20,
-    marginHorizontal: 10,
+    marginHorizontal: 10
   },
   bottomBar: {
     position: 'absolute',
@@ -93,9 +92,9 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     height: 4,
-    
-    backgroundColor: '#E95A24',
-  },
-});
 
-export default CategoryFilters;
+    backgroundColor: '#E95A24'
+  }
+})
+
+export default CategoryFilters

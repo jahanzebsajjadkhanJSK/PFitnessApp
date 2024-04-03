@@ -1,30 +1,38 @@
-import React, {useRef} from 'react';
+import React, { useRef } from 'react'
 import {
   View,
   TouchableOpacity,
   StyleSheet,
   Text,
   Image,
-  Dimensions,
-} from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import RBSheet from 'react-native-raw-bottom-sheet';
-import { createNavigatorFactory } from '@react-navigation/native';
+  Dimensions
+} from 'react-native'
+import Icon from 'react-native-vector-icons/FontAwesome'
+import RBSheet from 'react-native-raw-bottom-sheet'
+import { createNavigatorFactory } from '@react-navigation/native'
 
-const CustomTabBar = ({state, descriptors, navigation}) => {
+const CustomTabBar = ({ state, descriptors, navigation }) => {
   // console.log('inside customtab bar state', state);
   // console.log('inside customtab bar=, descriptor ', descriptors);
   // console.log('inside customtab bar  navigation', navigation);
-  const refRBSheet = useRef(null);
-  const screenWidth = Dimensions.get('window').width;
+  const refRBSheet = useRef(null)
+  const screenWidth = Dimensions.get('window').width
   const buttonImages = [
     require('../assets/apple.png'),
     require('../assets/apple.png'),
     require('../assets/apple.png'),
     require('../assets/apple.png'),
-		require('../assets/apple.png'),
     require('../assets/apple.png'),
-  ];
+    require('../assets/apple.png')
+  ]
+  const tabImage = {
+    // stretching.png
+    Home: require('../assets/Home_light.png'),
+    'Food Diary': require('../assets/cutlery2.png'),
+    Trends: require('../assets/Line_up_light.png'),
+    'AI Coach': require('../assets/dumble.png')
+
+  }
 
   const onPress = (route, index, isFocused) => {
     // console.log("this is the route and its index" , route,index)
@@ -38,7 +46,7 @@ const CustomTabBar = ({state, descriptors, navigation}) => {
     // 		navigation.navigate(route.name);
     // 	}
     if (route.name === '+') {
-      refRBSheet.current.open();
+      refRBSheet.current.open()
       // Open bottom sheet or perform any action you want
       // alert('Open bottom sheet or perform any action here');xs
     } else {
@@ -46,47 +54,44 @@ const CustomTabBar = ({state, descriptors, navigation}) => {
       navigation.emit({
         type: 'tabPress',
         target: route.key,
-        defaultPrevented: true,
-      });
+        defaultPrevented: true
+      })
 
       // Navigate to the tab screen
-      navigation.navigate(route.name);
+      navigation.navigate(route.name)
     }
-  };
+  }
 
   return (
     <View style={styles.tabBar}>
       {state.routes.map((route, index) => {
-        const {options} = descriptors[route.key];
-        const isFocused = state.index === index;
+        const { options } = descriptors[route.key]
+        const isFocused = state.index === index
 
         console.log(
           'this is the route and its index',
 
           options.iconName,
-          isFocused,
-        );
-        
+          isFocused
+        )
+
         return (
           <TouchableOpacity
             key={index}
             style={{
               ...styles.tabItem,
-              backgroundColor: route.name === '+' ? '#ff6833' : '#272a3b',
+              backgroundColor: 'black'
+
             }}
             onPress={() => {
-              onPress(route, index, isFocused);
+              onPress(route, index, isFocused)
             }}>
-            {!(route.name === "+") && <Text style={{color: isFocused ? '#ff6833' : 'grey'}}>
+            <Image source={tabImage[route.name]} style={{ ...styles.buttonImage, tintColor: isFocused ? '#0679ff' : 'grey' }} />
+            {!(route.name === '+') && <Text style={{ color: isFocused ? '#0679ff' : 'grey' }}>
               {route.name}
             </Text>}
-            <Icon
-              name={options.iconName}
-              size={25}
-              color={isFocused ? '#ff6833' :route.name === "+" ? "black" :  'grey'}
-            />
           </TouchableOpacity>
-        );
+        )
       })}
       {/* <TouchableOpacity
         style={styles.addButton}
@@ -100,32 +105,32 @@ const CustomTabBar = ({state, descriptors, navigation}) => {
         ref={refRBSheet}
         customStyles={{
           wrapper: {
-            backgroundColor: 'transparent',
+            backgroundColor: 'transparent'
           },
           draggableIcon: {
-            backgroundColor: '#000',
-          },
+            backgroundColor: '#000'
+          }
         }}
         customModalProps={{
           animationType: 'slide',
-          statusBarTranslucent: true,
+          statusBarTranslucent: true
         }}
         customAvoidingViewProps={{
-          enabled: false,
+          enabled: false
         }}>
         {/* Content of the bottom sheet */}
         <View
           style={[
             styles.bottomSheetContent,
-            {flexWrap: 'wrap', flexDirection: 'row', backgroundColor:"#272a3c"},
+            { flexWrap: 'wrap', flexDirection: 'row', backgroundColor: '#272a3c' }
           ]}>
           {buttonImages.map((imageSource, index) => (
             <TouchableOpacity
               key={index}
-              onPress={()=>{navigation.navigate('searchFoodScreen')}}
+              onPress={() => { navigation.navigate('searchFoodScreen') }}
               style={[
                 styles.buttonContainer,
-                {width: screenWidth * 0.33, height: screenWidth * 0.33 ,borderWidth:2 ,borderRadius:100},
+                { width: screenWidth * 0.33, height: screenWidth * 0.33, borderWidth: 2, borderRadius: 100 }
               ]} // Adjust width and height for desired sizing
             >
               <Image source={imageSource} style={styles.buttonImage} />
@@ -135,22 +140,24 @@ const CustomTabBar = ({state, descriptors, navigation}) => {
         </View>
       </RBSheet>
     </View>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   tabBar: {
     flexDirection: 'row',
-    height: 60,
+    height: 79,
     backgroundColor: '#fff',
     borderTopWidth: 1,
     borderTopColor: '#ccc',
-    elevation: 2,
+    alignItems: 'flex-end'
+
   },
   tabItem: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    height: 79
   },
   addButton: {
     position: 'absolute',
@@ -162,19 +169,19 @@ const styles = StyleSheet.create({
     borderRadius: 30,
     backgroundColor: '#fff',
     elevation: 4,
-    zIndex: 100,
+    zIndex: 100
   },
   bottomSheetContent: {
     alignItems: 'center',
     padding: 20,
     flexDirection: 'row',
-		backgroundColor:"#272a3c"
+    backgroundColor: '#272a3c'
   },
   bottomSheetContent: {
     flexDirection: 'row',
     alignItems: 'center', // Center buttons horizontally (optional)
-    justifyContent: 'space-around', // Distribute buttons evenly (optional)
-		
+    justifyContent: 'space-around' // Distribute buttons evenly (optional)
+
   },
   buttonContainer: {
     // borderRadius: width * 0.1, // Set borderRadius to 10% of screen width for circular shape
@@ -182,14 +189,17 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     shadowColor: '#000',
-    shadowOffset: {width: 0, height: 2},
+    shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.25,
-    shadowRadius: 4, // Add optional shadow for depth
+    shadowRadius: 4 // Add optional shadow for depth
   },
   buttonImage: {
     width: '40%', // Fill button container with image
     height: '40%',
-  },
-});
+    resizeMode: 'contain',
+    marginTop: 30,
+    padding: 10
+  }
+})
 
-export default CustomTabBar;
+export default CustomTabBar

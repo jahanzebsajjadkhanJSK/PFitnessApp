@@ -1,13 +1,13 @@
-import React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import SignupScreen from '../screens/auth/SignupScreen';
-import LoginScreen from '../screens/auth/LoginScreen';
-import ConfirmSignupScreen from '../screens/auth/ConfirmSignupScreen';
-import ForgotPasswordScreen from '../screens/auth/ForgotPasswordScreen';
-import ConfirmForgotPasswordScreen from '../screens/auth/ConfirmForgotPasswordScreen';
+import React from 'react'
+import { NavigationContainer } from '@react-navigation/native'
+import { createStackNavigator } from '@react-navigation/stack'
+import SignupScreen from '../screens/auth/SignupScreen'
+import LoginScreen from '../screens/auth/LoginScreen'
+import ConfirmSignupScreen from '../screens/auth/ConfirmSignupScreen'
+import ForgotPasswordScreen from '../screens/auth/ForgotPasswordScreen'
+import ConfirmForgotPasswordScreen from '../screens/auth/ConfirmForgotPasswordScreen'
 
-const Stack = createStackNavigator();
+const Stack = createStackNavigator()
 
 const AuthNavigation = () => {
   return (
@@ -18,7 +18,7 @@ const AuthNavigation = () => {
         <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen} />
         <Stack.Screen name="ConfirmForgotPassword" component={ConfirmForgotPasswordScreen} />
       </Stack.Navigator>
-  );
-};
+  )
+}
 
-export default AuthNavigation;
+export default AuthNavigation
