@@ -36,7 +36,6 @@ const DiaryScreen = () => {
       style={{
         flex: 1,
         backgroundColor: appThemeColors.backgroundPrimary,
-        paddingTop: 20
       }}>
       <StatusBar
         backgroundColor={appThemeColors.backgroundSecondary}
@@ -57,22 +56,24 @@ const DiaryScreen = () => {
         <View
           style={{
             backgroundColor: appThemeColors.backgroundSecondary,
-            flex: 2,
+            flex: 2.5,
             borderBottomLeftRadius: 20,
-            borderBottomRightRadius: 20
+            borderBottomRightRadius: 20,
+            paddingTop:50
           }}>
-          <View style={{ flex: 1 }}>
+          <View style={{ }}>
             <Text
               style={{
                 fontSize: 24,
                 color: 'white',
                 alignSelf: 'center',
-                fontWeight: '600'
+                fontWeight: '600',
+                
               }}>
               Food Log
             </Text>
           </View>
-          <View style={{ flex: 0.7 }}>
+          <View style={{ paddingTop:35 }}>
             <Text
               style={{
                 fontSize: 16,
@@ -88,7 +89,8 @@ const DiaryScreen = () => {
           <View
             style={{
               flex: 2.5,
-              flexDirection: 'row'
+              flexDirection: 'row',
+              paddingTop:34,
             }}>
             <View
               style={{
@@ -150,7 +152,7 @@ const DiaryScreen = () => {
                   flex: 1,
                   justifyContent: 'center',
                   position: 'absolute',
-                  top: 40
+                  top: 33
                 }}>
                 <Text
                   style={{
@@ -205,7 +207,9 @@ const DiaryScreen = () => {
           <View
             style={{
               flex: 1,
-              flexDirection: 'row'
+              flexDirection: 'row',
+              paddingTop:30,
+             
             }}>
             <View
               style={{
@@ -314,7 +318,7 @@ const DiaryScreen = () => {
           {/* this is the END OF  flat progress area */}
 
           {/* this is the Gradient button  area */}
-          <View style={{ flex: 1, marginVertical: 15 }}>
+          <View style={{ flex: 1.3, marginVertical: 15 }}>
             <View style={{ width: 318, alignSelf: 'center', borderRadius: 16 }}>
               <GradientButton
                 onPress={buttonpressed}

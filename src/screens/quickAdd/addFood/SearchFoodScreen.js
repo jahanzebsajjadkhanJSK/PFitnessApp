@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect,useCallback,useMemo,useRef} from 'react';
 import {
   View,
   Text,
@@ -9,6 +9,11 @@ import {
   FlatList,
   Alert,
 } from 'react-native';
+import {
+  BottomSheetModal,
+  BottomSheetView,
+  BottomSheetModalProvider,
+} from '@gorhom/bottom-sheet';
 import Config from 'react-native-config';
 import {Searchbar, IconButton} from 'react-native-paper';
 import {observer} from 'mobx-react';
@@ -17,6 +22,7 @@ import CategoryFilters from '../../../utils/Helpers/CategoryFilters';
 import {appThemeColors} from '../../../utils/theme';
 import {useStores} from '../../../store/useStores';
 import SearchListView from '../../../components/SearchListView';
+import FoodLogModal from '../../../components/FoodLogModal';
 
 const SearchFoodScreen = ({navigation}) => {
   const {
@@ -30,6 +36,7 @@ const SearchFoodScreen = ({navigation}) => {
   const [filteredFood, setFilteredFood] = useState(allFood);
   const [showAllData, setShowAllData] = useState(true);
   const [allFoodArray, setAllFoodArray] = useState({});
+  const [modalVisible, setModalVisible] = useState(false);
   const collectNames = {};
   const dataBySelectedCategory = {
     Search: allFoodArray,
@@ -39,6 +46,20 @@ const SearchFoodScreen = ({navigation}) => {
     'Quick Add': '',
     Brands: '',
   };
+  ////////////////////
+  const bottomSheetModalRef = useRef(null);
+
+  // variables
+  const snapPoints = useMemo(() => ['25%', '90%'], []);
+
+  // callbacks
+  const handlePresentModalPress = useCallback(() => {
+    bottomSheetModalRef.current?.present();
+  }, []);
+  const handleSheetChanges = useCallback((index: number) => {
+    console.log('handleSheetChanges', index);
+  }, []);
+  ///////////////////
 
   function retrieveEntry(selectedId) {
     console.log('i m here', selectedId);
@@ -167,14 +188,29 @@ const SearchFoodScreen = ({navigation}) => {
       {filteredFood && (
       SearchListView(searchQuery , filteredFood , dataBySelectedCategory[activeCategory])
       )}
+      <Button title='open modal' onPress={handlePresentModalPress}/>
 
-      <View style={{flex: 1, justifyContent: 'center'}}>
-        <Text style={{color: 'white'}}>
-          Example for redux implementation = Count: {nutritionStore.count}
-        </Text>
-        <Button title="Increase" onPress={() => nutritionStore.increment()} />
-        <Button title="Decrease" onPress={() => nutritionStore.decrement()} />
+      <BottomSheetModalProvider>
+      <View style={styles.container}>
+        <Button
+          onPress={handlePresentModalPress}
+          title="Present Modal"
+          color="black"
+        />
+        <BottomSheetModal
+          ref={bottomSheetModalRef}
+          index={1}
+          snapPoints={snapPoints}
+          onChange={handleSheetChanges}
+        >
+         {FoodLogModal()}
+        </BottomSheetModal>
       </View>
+    </BottomSheetModalProvider>
+
+      {/* <View style={{flex: 1, justifyContent: 'center'}}>
+       {FoodLogModal(modalVisible,setModalVisible)}
+      </View> */}
 
       {/* Rest of the screen content */}
       {/* ... */}
