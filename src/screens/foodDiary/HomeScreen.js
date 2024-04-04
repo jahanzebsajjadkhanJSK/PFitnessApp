@@ -43,7 +43,7 @@ const HomeScreen = ({ navigation }) => {
   })
 
   const renderFoodItems = (foodList, meal) => {
-    console.log('this is the object for flat lisht', foodList)
+    console.log('this is the object for flatlist ', foodList)
     return (
       <FlatList
         data={foodList}
@@ -149,7 +149,7 @@ const HomeScreen = ({ navigation }) => {
     try {
       await nutritionStore.getAllFoods(token)
     } catch (error) {
-      console.error(error)
+      console.error(error.response.data)
     }
   }
   const handleDelete = async id => {
@@ -261,80 +261,6 @@ const HomeScreen = ({ navigation }) => {
 
       <Modal visible={modalVisible} animationType="slide">
         <View style={styles.modalContainer}>
-          {/* <ScrollView contentContainerStyle={styles.scrollViewContent}>
-            <TextInput
-              style={styles.input}
-              placeholder="Food Name"
-              onChangeText={value => handleInputChange('name', value)}
-              value={foodData.name}
-            />
-            <TextInput
-              style={styles.input}
-              placeholder="Quantity"
-              onChangeText={value => handleInputChange('quantity', value)}
-              value={foodData.quantity}
-            />
-            <TextInput
-              style={styles.input}
-              placeholder="Energy"
-              onChangeText={value => handleInputChange('energy_kcal', value)}
-              value={foodData.energy_kcal}
-            />
-            <TextInput
-              style={styles.input}
-              placeholder="Glucose"
-              onChangeText={value => handleInputChange('glucose', value)}
-              value={foodData.glucose}
-            />
-            <TextInput
-              style={styles.input}
-              placeholder="Fructose"
-              onChangeText={value => handleInputChange('fructose', value)}
-              value={foodData.fructose}
-            />
-            <TextInput
-              style={styles.input}
-              placeholder="Fibre"
-              onChangeText={value => handleInputChange('fibre', value)}
-              value={foodData.fibre}
-            />
-            <TextInput
-              style={styles.input}
-              placeholder="Protien"
-              onChangeText={value => handleInputChange('protein_g', value)}
-              value={foodData.protein_g}
-            />
-            <TextInput
-              style={styles.input}
-              placeholder="Unsaturated Fat"
-              onChangeText={value =>
-                handleInputChange('unsaturated_fat_g', value)
-              }
-              value={foodData.unsaturated_fat_g}
-            />
-            <TextInput
-              style={styles.input}
-              placeholder="Polyunsaturated Fat"
-              onChangeText={value =>
-                handleInputChange('polyunsaturated_fat_g', value)
-              }
-              value={foodData.polyunsaturated_fat_g}
-            />
-            <TextInput
-              style={styles.input}
-              placeholder="Saturated Fat"
-              onChangeText={value =>
-                handleInputChange('saturated_fat_g', value)
-              }
-              value={foodData.saturated_fat_g}
-            />
-            <TextInput
-              style={styles.input}
-              placeholder="Cholestrol"
-              onChangeText={value => handleInputChange('cholesterol_mg', value)}
-              value={foodData.cholesterol_mg}
-            />
-          </ScrollView> */}
           {modalListComponent(customFoodModaldata)}
           <Button title="Submit" onPress={handleSubmit} />
           <Button title="Cancel" onPress={() => setModalVisible(false)} />

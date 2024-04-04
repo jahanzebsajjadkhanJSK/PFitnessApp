@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
@@ -7,101 +7,132 @@ import {
   StyleSheet,
   Button,
   FlatList,
-  Alert
-} from 'react-native'
-import Config from 'react-native-config'
-import { Searchbar, IconButton } from 'react-native-paper'
-import { observer } from 'mobx-react'
+  Alert,
+} from 'react-native';
+import Config from 'react-native-config';
+import {Searchbar, IconButton} from 'react-native-paper';
+import {observer} from 'mobx-react';
 
-import CategoryFilters from '../../../utils/Helpers/CategoryFilters'
-import { appThemeColors } from '../../../utils/theme'
-import { useStores } from '../../../store/useStores'
+import CategoryFilters from '../../../utils/Helpers/CategoryFilters';
+import {appThemeColors} from '../../../utils/theme';
+import {useStores} from '../../../store/useStores';
+import SearchListView from '../../../components/SearchListView';
 
-const SearchFoodScreen = ({ navigation }) => {
-  const { nutritionStore, userStore: { token } } = useStores()
+const SearchFoodScreen = ({navigation}) => {
+  const {
+    nutritionStore,
+    userStore: {token},
+  } = useStores();
+  const allFood = nutritionStore.allFood;
 
-  const [searchQuery, setSearchQuery] = useState('')
-  const [activeCategory, setActiveCategory] = useState('All')
-  const [filteredFood, setFilteredFood] = useState('')
-  const collectNames = {}
+  const [searchQuery, setSearchQuery] = useState('');
+  const [activeCategory, setActiveCategory] = useState('Search');
+  const [filteredFood, setFilteredFood] = useState(allFood);
+  const [showAllData, setShowAllData] = useState(true);
+  const [allFoodArray, setAllFoodArray] = useState({});
+  const collectNames = {};
+  const dataBySelectedCategory = {
+    Search: allFoodArray,
+    Barcode: '',
+    'Custom Foods': allFood.customizedFoodList,
+    Favourites: '',
+    'Quick Add': '',
+    Brands: '',
+  };
 
-  function retrieveEntry (selectedId) {
-    console.log('i m here', selectedId)
-    const data = nutritionStore.allFood
+  function retrieveEntry(selectedId) {
+    console.log('i m here', selectedId);
+    const data = nutritionStore.allFood;
 
     for (const key in data) {
       if (typeof data[key] === 'object' && data[key] !== null) {
         if (Array.isArray(data[key])) {
-          const entry = data[key].find(item => item.id === selectedId)
+          const entry = data[key].find(item => item.id === selectedId);
           if (entry) {
             if (key === 'customizedFoodList') {
-              entry.isCustom = true
+              entry.isCustom = true;
             }
-            return entry
+            return entry;
           }
         } else {
-          const entry = retrieveEntry(selectedId, data[key])
+          const entry = retrieveEntry(selectedId, data[key]);
           if (entry) {
-            return entry
+            return entry;
           }
         }
       }
     }
 
-    return null
+    return null;
   }
 
   const addLog = async selectedId => {
-    const selectedFoodObject = retrieveEntry(selectedId)
+    const selectedFoodObject = retrieveEntry(selectedId);
     const apiData = {
       foodId: selectedFoodObject.id,
       consumedAt: new Date(),
       quantity: 3,
       isCustom: selectedFoodObject.isCustom,
-      isMeal: false
-    }
+      isMeal: false,
+    };
     // console.log(token);
     try {
-      const response = await nutritionStore.addNutritionLog(apiData, token)
-      console.log(response)
+      const response = await nutritionStore.addNutritionLog(apiData, token);
+      console.log(response);
     } catch (error) {
-      console.error(error)
+      console.error(error);
+    }
+  };
+
+  async function fetchAllFoods() {
+    console.log('getting all food');
+    try {
+      await nutritionStore.getAllFoods(token);
+    } catch (error) {
+      console.log(error.response.data);
     }
   }
 
   useEffect(() => {
+    if (Object.keys(allFood).length === 0) {
+      fetchAllFoods();
+    }
     const searchTimer = setTimeout(() => {
       const nameData = obj => {
-        const names = []
+        const names = [];
         for (const key in obj) {
           if (typeof obj[key] === 'object' && obj[key] !== null) {
             if (Array.isArray(obj[key])) {
               obj[key].forEach(item => {
-                if (item.name) {
-                  names.push({ name: item.name, id: item.id })
+                if (item.id) {
+                  names.push(item);
                 }
-              })
+              });
             } else {
-              names.push(...collectNames(obj[key]))
+              console.log('this is form collect names,1212');
+
+              names.push(...nameData(obj[key]));
             }
           }
         }
+        console.log('3323', names);
 
-        return names
-      }
+        return names;
+      };
 
-      console.log('these are the names ', nameData(nutritionStore.allFood))
+      setAllFoodArray(nameData(nutritionStore.allFood));
+      console.log('these are the names ', nameData(nutritionStore.allFood));
       const filteredFoodData = nameData(nutritionStore.allFood).filter(food =>
-        food.name.toLowerCase().startsWith(searchQuery.toLowerCase())
-      )
-      console.log('8989', filteredFoodData)
-      setFilteredFood(filteredFoodData)
-    }, 0)
+        food.name?.toLowerCase().startsWith(searchQuery.toLowerCase()),
+      );
+      console.log('8989', filteredFoodData);
+      setFilteredFood(filteredFoodData);
+    }, 0);
 
-    return () => clearTimeout(searchTimer) // Clear timer on cleanup
-  }, [searchQuery, nutritionStore.allFood])
+    return () => clearTimeout(searchTimer); // Clear timer on cleanup
+  }, [searchQuery, nutritionStore.allFood]);
 
-  const handleClear = () => {}
+  const handleClear = () => {};
 
   return (
     <View style={styles.container}>
@@ -109,10 +140,10 @@ const SearchFoodScreen = ({ navigation }) => {
       {/* ... */}
 
       {/* Header */}
-      <View style={{ ...styles.header }}>
+      <View style={{...styles.header}}>
         <Searchbar
-          placeholder="Search"
-          style={{ backgroundColor: 'grey' }}
+          placeholder="Search all foods..."
+          style={{backgroundColor: '#303944'}}
           onChangeText={setSearchQuery}
           value={searchQuery}
           placeholderTextColor={'white'}
@@ -120,62 +151,25 @@ const SearchFoodScreen = ({ navigation }) => {
 
         <CategoryFilters
           tags={[
-            'All',
-            'Favourite',
-            'Custom',
-            'Commom',
-            'Supliments',
-            'Brands'
+            'Search',
+            'Barcode',
+            'Custom Foods',
+            'Favourites',
+            'Quick Add',
+            'Brands',
           ]}
           activeCategory={activeCategory}
           setActiveCategory={val => {
-            setActiveCategory(val)
+            setActiveCategory(val);
           }}
         />
       </View>
       {filteredFood && (
-        <FlatList
-          data={filteredFood}
-          renderItem={({ item }) => (
-            <TouchableOpacity
-              style={{
-                backgroundColor: 'white',
-                borderBottomWidth: 2,
-                height: 50,
-                borderBottomColor: 'grey'
-              }}
-              onPress={() => {
-                Alert.alert(
-                  'Confirmation',
-                  `Are you sure you want to select "${item.name}"?`,
-                  [
-                    { text: 'Cancel', style: 'cancel' },
-                    {
-                      text: 'OK',
-                      onPress: () => {
-                        addLog(item.id)
-                      }
-                    }
-                  ]
-                )
-              }}>
-              <View
-                style={{
-                  flex: 1,
-                  backgroundColor: appThemeColors.backgroundGrey,
-                  alignItems: 'center',
-                  justifyContent: 'center'
-                }}>
-                <Text style={{ color: 'white' }}>{item.name}</Text>
-              </View>
-            </TouchableOpacity>
-          )}
-          keyExtractor={item => item.id} // Assuming each food item has a unique ID
-        />
+      SearchListView(searchQuery , filteredFood , dataBySelectedCategory[activeCategory])
       )}
 
-      <View style={{ flex: 1, justifyContent: 'center' }}>
-        <Text style={{ color: 'white' }}>
+      <View style={{flex: 1, justifyContent: 'center'}}>
+        <Text style={{color: 'white'}}>
           Example for redux implementation = Count: {nutritionStore.count}
         </Text>
         <Button title="Increase" onPress={() => nutritionStore.increment()} />
@@ -185,13 +179,13 @@ const SearchFoodScreen = ({ navigation }) => {
       {/* Rest of the screen content */}
       {/* ... */}
     </View>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: appThemeColors.backgroundBlack
+    backgroundColor: appThemeColors.backgroundBlack,
   },
   header: {
     paddingHorizontal: 16,
@@ -200,23 +194,23 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomRightRadius: 20,
     borderBottomLeftRadius: 20,
-    backgroundColor: appThemeColors.backgroundGrey
+    backgroundColor: appThemeColors.backgroundTertiary,
     // borderBottomColor: "grey" ,
   },
   categoryContainer: {
     flexDirection: 'row',
-    marginTop: 8
+    marginTop: 8,
   },
   categoryTag: {
     backgroundColor: '#e3e3e3',
     borderRadius: 12,
     paddingHorizontal: 12,
     paddingVertical: 6,
-    marginRight: 8
+    marginRight: 8,
   },
   categoryText: {
-    color: '#333'
-  }
-})
+    color: '#333',
+  },
+});
 
-export default observer(SearchFoodScreen)
+export default observer(SearchFoodScreen);

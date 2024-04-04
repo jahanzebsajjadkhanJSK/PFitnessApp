@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
     marginTop: 10,
     flexDirection: 'row',
-    backgroundColor: appThemeColors.backgroundGrey
+    backgroundColor: appThemeColors.backgroundTertiary
   },
   button: {
     height: '100%',
@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
     right: 0,
     height: 4,
 
-    backgroundColor: '#E95A24'
+    backgroundColor: '#519CF3'
   }
 })
 

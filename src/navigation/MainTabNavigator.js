@@ -2,7 +2,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
 import DiaryScreen from '../screens/trends'
-import HomeScreen from '../screens/home'
+// import HomeScreen from '../screens/home'
 import MoreScreen from '../screens/aiCoach/MoreScreen'
 import FoodScreen from '../screens/foodDiary/FoodScreen'
 import WorkoutScreen from '../screens/workoutDiary'
@@ -12,6 +12,7 @@ import WorkoutGroupScreen from '../screens/workoutDiary/workoutGroup'
 import EditWorkoutScreen from '../screens/workoutDiary/editWorkout'
 import SearchFoodScreen from '../screens/quickAdd/addFood/SearchFoodScreen'
 import CustomSplitScreen from '../screens/workoutBuilder/customSplit'
+import HomeScreen from '../screens/foodDiary/HomeScreen'
 
 const Tab = createBottomTabNavigator()
 
@@ -71,7 +72,7 @@ const MainTabNavigator = () => {
   return (
     <Tab.Navigator
       initialRouteName="Workout Diary"
-      screenOptions={{ useNativeDriver: false }}
+      screenOptions={{ useNativeDriver: false, headerShown: false}}
     >
       <Tab.Screen
         name="Workout Diary"
@@ -79,8 +80,8 @@ const MainTabNavigator = () => {
         options={{ iconName: 'workout', headerShown: false }}
       />
       <Tab.Screen
-        name="Food"
-        component={FoodStackGroup}
+        name="Food Diary"
+        component={DiaryScreen}
         options={{ iconName: 'cutlery' }}
       />
       <Tab.Screen
@@ -90,7 +91,7 @@ const MainTabNavigator = () => {
       />
       <Tab.Screen
         name="Trends"
-        component={DiaryScreen}
+        component={FoodStackGroup}
         options={{ iconName: 'book' }}
       />
 

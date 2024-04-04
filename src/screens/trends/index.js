@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { View, Text, StyleSheet, Dimensions, StatusBar } from 'react-native'
+import { View, Text, StyleSheet, Dimensions, StatusBar, Image } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import Carousel from 'react-native-snap-carousel'
 import ProgressRingLayout from '../../components/ProgressRingLayout'
@@ -7,18 +7,23 @@ import { appThemeColors } from '../../utils/theme'
 import * as Progress from 'react-native-progress'
 import { AnimatedCircularProgress } from 'react-native-circular-progress'
 import GradientButton from '../../utils/GradientButton'
-import { FAB } from 'react-native-paper'
 import FabGroup from '../../components/FabGroup'
+import { FAB, Portal, PaperProvider } from 'react-native-paper';
+import { BlurView } from "@react-native-community/blur";
+import { useNavigation } from '@react-navigation/native'
+
+
 const DiaryScreen = () => {
   const screenWidth = Dimensions.get('window').width
   const [activeIndex, setActiveIndex] = useState(0)
-  const carouselItems = [
-    { component: <ProgressRingLayout />, id: '1' },
-    { component: <ProgressRingLayout />, id: '2' },
-    { component: <ProgressRingLayout />, id: '3' },
-    { component: <ProgressRingLayout />, id: '4' }
-  ]
+  const [state, setState] = React.useState({ open: false });
+  const navigation = useNavigation()
 
+  const onStateChange = ({ open }) => setState({ open });
+
+  const { open } = state;
+
+ 
   const _renderItem = ({ item }) => {
     return item.component
   }
@@ -327,6 +332,121 @@ const DiaryScreen = () => {
           onPress={() => console.log('Pressed')}
         /> */}
         {/* <FabGroup/> */}
+        <Portal>
+        {open && (
+          <BlurView
+            style={styles.absolute}
+            blurType="dark"
+            blurAmount={5}
+            reducedTransparencyFallbackColor="white"
+          />
+        )}
+        <FAB.Group
+          open={open}
+          visible
+          fabStyle={{backgroundColor:'white', borderRadius:40,marginBottom:87 }}
+          backdropColor="transparent"
+          
+          icon={'plus'}
+          actions={[
+            {
+              icon:  () => (
+                <Image
+                  source={require('../../assets/fab_icons/Favorites_duotone_line.png')}
+                  style={{ width: 24, height: 24 }}
+                />
+              ),
+              label: 'Custom Foods',
+              labelTextColor:'white',
+              style:{backgroundColor:'white' ,borderRadius:40,width: 32, height: 32 ,justifyContent: 'center',
+              alignItems: 'center', },
+              containerStyle:{color:'white'},
+              onPress: () => console.log('Pressed email'),
+            },
+            {
+              icon: () => (
+                <Image
+                  source={require('../../assets/fab_icons/Favorites_duotone_line.png')}
+                  style={{ width: 24, height: 24 }}
+                />
+              ),
+              label: 'Log Weight',
+              labelTextColor:'white',
+              style:{backgroundColor:'white' ,borderRadius:40,width: 32, height: 32 ,justifyContent: 'center',
+              alignItems: 'center' },
+              color:"green",
+              onPress: () => console.log('Pressed star'),
+            },
+            {
+              icon:  () => (
+                <Image
+                  source={require('../../assets/fab_icons/Orange_light.png')}
+                  style={{ width: 24, height: 24 }}
+                />
+              ),
+              label: 'Add Food',
+              labelTextColor:'white',
+
+              style:{backgroundColor:'white' ,borderRadius:40,width: 32, height: 32 ,justifyContent: 'center',
+              alignItems: 'center' },
+              containerStyle:{color:'white'},
+              onPress: () => navigation.navigate('Trends', { screen: 'searchFoodScreen' }),
+            },
+            {
+              icon:  () => (
+                <Image
+                  source={require('../../assets/fab_icons/Add_ring_light.png')}
+                  style={{ width: 24, height: 24 }}
+                />
+              ),
+              label: 'Add Bodyfat',
+              labelTextColor:'white',
+
+              style:{backgroundColor:'white' ,borderRadius:40,width: 32, height: 32 ,justifyContent: 'center',
+              alignItems: 'center' },
+              containerStyle:{color:'white'},
+              onPress: () => console.log('Pressed email'),
+            },
+            {
+              icon:  () => (
+                <Image
+                  source={require('../../assets/fab_icons/View_alt_light.png')}
+                  style={{ width: 24, height: 24 }}
+                />
+              ),
+              label: 'Barcode Scan',
+              labelTextColor:'white',
+
+              style:{backgroundColor:'white' ,borderRadius:40,width: 32, height: 32 ,justifyContent: 'center',
+              alignItems: 'center' },
+              containerStyle:{color:'white'},
+              onPress: () => console.log('Pressed email'),
+            },
+            {
+              icon:  () => (
+                <Image
+                  source={require('../../assets/fab_icons/comment_duotone_line.png')}
+                  style={{  resizeMode:'contain' }}
+                />
+              ),
+              label: 'New Chat',
+              labelTextColor:'white',
+              style:{backgroundColor:'white' ,borderRadius:40,width: 32, height: 32 ,justifyContent: 'center',
+              alignItems: 'center' },
+
+              onPress: () => console.log('Pressed notifications'),
+            },
+          ]}
+          
+          onStateChange={onStateChange}
+          onPress={() => {
+            if (open) {
+              // do something if the speed dial is open
+            }
+          }}
+          
+        />
+      </Portal>
       </View>
     </SafeAreaView>
   )
@@ -344,6 +464,13 @@ const styles = StyleSheet.create({
     right: 0,
     bottom: 0,
     borderRadius: 40
+  },
+  absolute: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    bottom: 0,
+    right: 0
   }
 })
 

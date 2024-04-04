@@ -38,11 +38,11 @@ export class UserStore {
     try {
       const resp = await apiCaller().post('/signup', { email, password })
       this.email = email;
-      this.isAuthenticated = false;
-      this.error = null;
+    
     } catch (error) {
       this.isAuthenticated = false;
       this.error = error.response.data.message;
+      console.log(error.response.data)
     }
   }
 

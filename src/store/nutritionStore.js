@@ -67,7 +67,7 @@ export class NutritionStore {
     try {
       const resp = await apiCaller(token).post('/nutrition/food', apiData);
       if(resp.status === 200){
-        this.allFood.customizedFoodList.push(response.data);
+        this.allFood.customizedFoodList.push(resp.data);
       }
     } catch (error) {
       console.error('Error adding custom food:', error);
