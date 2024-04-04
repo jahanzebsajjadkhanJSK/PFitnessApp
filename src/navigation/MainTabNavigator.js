@@ -23,7 +23,7 @@ const WorkoutStack = createNativeStackNavigator()
 const WorkoutStackGroup = () => {
   return (
     <WorkoutStack.Navigator initialRouteName='WorkoutScreen'>
-      <WorkoutStack.Screen name="WorkoutScreen" component={WorkoutScreen} />
+      <WorkoutStack.Screen name="WorkoutScreen" component={WorkoutScreen} options={{ headerShown: false }} />
       <WorkoutStack.Screen name="StartCustomWorkoutScreen" component={StartCustomWorkoutScreen}
         options={{
           headerShown: true,
