@@ -2,7 +2,7 @@ import { View, Text, TouchableOpacity, StyleSheet } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 
 const Header = ({
-  heading
+  heading = '',
 }) => {
   const navigation = useNavigation()
 
@@ -19,7 +19,9 @@ const Header = ({
       <TouchableOpacity onPress={handleHamburgerClick} style={styles.hamburgerIcon}>
         <Text style={styles.iconText}>☰</Text>
       </TouchableOpacity>
-      <Text style={styles.text}>{heading}</Text>
+      {heading.length > 0 && (
+        <Text style={styles.text}>{heading}</Text>
+      )}
       <TouchableOpacity onPress={handleChatClick} style={styles.chatIcon}>
         <Text style={styles.iconText}>💬</Text>
       </TouchableOpacity>

@@ -38,8 +38,7 @@ const WorkoutStackGroup = () => {
         }} />
       <WorkoutStack.Screen name="WorkoutGroupScreen" component={WorkoutGroupScreen}
         options={{
-          headerShown: true,
-          headerTitleStyle: { display: 'none' }
+          headerShown: false,
         }} />
       <WorkoutStack.Screen name="EditWorkoutScreen" component={EditWorkoutScreen}
         options={{

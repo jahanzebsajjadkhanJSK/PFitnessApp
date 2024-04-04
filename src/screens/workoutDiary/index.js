@@ -20,7 +20,6 @@ const WorkoutScreen = () => {
     const getExercises = async () => {
       setIsLoading(true)
       await exerciseStore.getAllExercises(userStore.token)
-      console.log(exerciseStore.exerciseList)
       setIsLoading(false)
     }
 
@@ -35,8 +34,8 @@ const WorkoutScreen = () => {
     navigation.navigate('WorkoutHistoryScreen')
   }
 
-  const handleNavigateWorkoutGroup = () => {
-    navigation.navigate('WorkoutGroupScreen')
+  const handleNavigateWorkoutGroup = (activeGroup) => {
+    navigation.navigate('WorkoutGroupScreen', { activeGroup })
   }
 
   const handleNavigateEdit = () => {
@@ -68,26 +67,28 @@ const WorkoutScreen = () => {
         </TouchableOpacity>
 
         <View>
-          <TouchableOpacity onPress={handleNavigateWorkoutGroup} style={styles.exerciseGroup}>
-            <Text style={styles.exerciseGroupText}>Chest, Triceps, Shoulders</Text>
-            <View style={styles.exerciseGroupActionContainer}>
-              <Text style={styles.exerciseGroupActionContainer.text}>3 Exercises</Text>
-              <View style={{ flexDirection: 'row' }}>
-                <TouchableOpacity onPress={handleNavigateEdit} style={styles.exerciseGroupActionContainer.editBtn}>
-                  <Text style={styles.exerciseGroupActionContainer.editBtn.text}>Edit</Text>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={startWorkout} style={styles.exerciseGroupActionContainer.startBtn}>
-                  <GradientButton
-                    colors={['#0779FF', '#044999']}
-                    start={{ x: 0, y: 0 }}
-                    end={{ x: 1, y: 0 }}
-                    style={styles.exerciseGroupActionContainer.startBtn}
-                    title={'Start'}
-                  />
-                </TouchableOpacity>
-              </View>
-            </View>
-          </TouchableOpacity>
+          {exerciseStore.exerciseGroups.length > 0 && exerciseStore.exerciseGroups.map((group) => {
+            return (
+              <TouchableOpacity key={group.id} onPress={() => handleNavigateWorkoutGroup(group)} style={styles.exerciseGroup}>
+                <Text style={styles.exerciseGroupText}>{group.name}</Text>
+                <View style={styles.exerciseGroupActionContainer}>
+                  <Text style={styles.exerciseGroupActionContainer.text}>{`${group.exerciseList.length} exercises`}</Text>
+                  <View style={{ flexDirection: 'row' }}>
+                    <TouchableOpacity onPress={handleNavigateEdit} style={styles.exerciseGroupActionContainer.editBtn}>
+                      <Text style={styles.exerciseGroupActionContainer.editBtn.text}>Edit</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={startWorkout} style={styles.exerciseGroupActionContainer.startBtn}>
+                      <GradientButton
+                        colors={['#0779FF', '#044999']}
+                        style={styles.exerciseGroupActionContainer.startBtn}
+                        title={'Start'}
+                      />
+                    </TouchableOpacity>
+                  </View>
+                </View>
+              </TouchableOpacity>
+            )
+          })}
         </View>
       </View>
     </SafeAreaView>

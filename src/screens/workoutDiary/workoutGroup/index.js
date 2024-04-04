@@ -1,67 +1,160 @@
 import { useState } from 'react'
+import { useRoute } from '@react-navigation/native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native'
+import { observer } from 'mobx-react'
+
 import ExerciseDetailsScreen from '../exerciseDetails'
+import { useStores } from '../../../store/useStores'
+import GradientButton from '../../../utils/GradientButton'
+import ImageCycler from '../imageCycler'
 
 const WorkoutGroupScreen = ({ navigation }) => {
+  const route = useRoute()
+  const { exerciseStore } = useStores()
+  const { activeGroup } = route.params
+
   const [isModalVisible, setIsModalVisible] = useState(false)
 
+  const handleClose = () => {
+    navigation.goBack()
+  }
+
   return (
-    <View style={{ height: '100%' }}>
+    <View style={{ height: '100%', backgroundColor: '#010A18' }}>
+
       <View style={styles.header}>
-        <Text style={styles.header.text}>Chest, Triceps, Shoulders</Text>
-        <TouchableOpacity style={styles.header.button}>
-          <Text>Start</Text>
-        </TouchableOpacity>
+        <View style={styles.header.topRow}>
+          <Text style={styles.header.topRow.closeBtn} onPress={handleClose}>Close</Text>
+        </View>
+        <Text style={styles.header.text}>{activeGroup.name}</Text>
+        <GradientButton
+          title="Start"
+          colors={['#0779FF', '#044999']}
+          style={styles.header.button}
+        />
       </View>
 
-      <TouchableOpacity onPress={() => setIsModalVisible(true)}>
-        <View style={styles.card}>
-          <View style={styles.card.img}></View>
-          <View style={styles.card.column}>
-            <Text>Bench Press</Text>
-            <Text>Barbell</Text>
+      {activeGroup.exerciseList.length > 0 && activeGroup.exerciseList.map((exercise) => {
+
+        const parsed = JSON.parse(exercise.images);
+        return (
+          <View key={exercise.id}>
+            <TouchableOpacity onPress={() => setIsModalVisible(true)}>
+              <View style={styles.card}>
+                <ImageCycler
+                  firstImageUrl={parsed[0]}
+                  secondImageUrl={parsed[1]}
+                  style={styles.card.img}
+                />
+                <View style={styles.card.column}>
+                  <Text style={styles.card.column.name}>{exercise.name}</Text>
+                  <Text style={styles.card.column.equipment}>{exercise.equipment}</Text>
+                </View>
+              </View>
+            </TouchableOpacity>
+            <ExerciseDetailsScreen visible={isModalVisible} onClose={setIsModalVisible} />
           </View>
-        </View>
-      </TouchableOpacity>
-      <ExerciseDetailsScreen visible={isModalVisible} onClose={setIsModalVisible} />
+        )
+      })}
     </View>
   )
 }
 
+// ["https://prana-fitos-backend-images.s3.amazonaws.com/Dumbbell_Shrug/0.jpg" "https://prana-fitos-backend-images.s3.amazonaws.com/Dumbbell_Shrug/1.jpg"]
+
 const styles = StyleSheet.create({
   header: {
+    topRow: {
+      flexDirection: 'row-reverse',
+      width: '100%',
+      marginLeft: 16,
+      closeBtn: {
+        color: '#0779FF',
+        textAlign: 'right',
+        fontFamily: 'Poppins',
+        fontSize: 16,
+        fontStyle: 'normal',
+        fontWeight: '500',
+        lineHeight: 'normal',
+        letterSpacing: -0.165,
+      }
+    },
     paddingBottom: 20,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'grey',
+    backgroundColor: '#1C242D',
     height: '30%',
-    borderBottomLeftRadius: 15,
-    borderBottomRightRadius: 15,
+    borderBottomLeftRadius: 16,
+    borderBottomRightRadius: 16,
     text: {
-      fontSize: 25,
-      marginBottom: 15
+      color: '#FFF',
+      textAlign: 'center',
+      fontFamily: 'Poppins',
+      fontSize: 24,
+      fontStyle: 'normal',
+      fontWeight: '600',
+      lineHeight: 'normal',
+      letterSpacing: -0.165,
     },
     button: {
-      backgroundColor: '#0779FF',
-      padding: 20,
-      borderRadius: 10
+      width: 118,
+      padding: 8,
+      borderRadius: 10,
+      marginTop: 17,
+      alignItems: 'center'
     }
   },
   card: {
     flexDirection: 'row',
-    backgroundColor: '#73789c',
-    margin: 10,
-    padding: 20,
+    marginTop: 22,
+    marginRight: 15,
+    marginLeft: 15,
+    paddingTop: 13,
+    paddingRight: 16,
+
+    borderRadius: 16,
+    backgroundColor: '#121A24',
+    height: 76,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 4,
+
     img: {
-      padding: 20,
-      backgroundColor: 'grey'
+      backgroundColor: '#656565',
+      width: 71,
+      height: 40,
+      borderRadius: 8,
+      marginLeft: 16
     },
     column: {
       flexDirection: 'column',
-      marginLeft: 20
+      marginLeft: 20,
+      name: {
+        color: '#FFF',
+        fontFamily: 'Poppins',
+        fontSize: 16,
+        fontStyle: 'normal',
+        fontWeight: '500',
+        lineHeight: 'normal',
+        letterSpacing: -0.165,
+      },
+      equipment: {
+        color: '#D9D9D9',
+        fontFamily: 'Poppins',
+        fontSize: 16,
+        fontStyle: 'normal',
+        fontWeight: '400',
+        lineHeight: 'normal',
+        letterSpacing: -0.165,
+      }
     }
   }
 })
 
-export default WorkoutGroupScreen
+export default observer(WorkoutGroupScreen)
