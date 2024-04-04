@@ -44,7 +44,6 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontStyle: 'normal',
     fontWeight: '500',
-    lineHeight: 'normal',
     letterSpacing: -0.165
   },
   hamburgerIcon: {

@@ -138,7 +138,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontStyle: 'normal',
     fontWeight: '500',
-    lineHeight: 'normal',
     letterSpacing: -0.165,
     marginLeft: 8
   },
@@ -166,7 +165,6 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontStyle: 'normal',
     fontWeight: '500',
-    lineHeight: 'normal',
     letterSpacing: -0.165,
     paddingTop: 15,
     paddingBottom: 9
@@ -182,7 +180,6 @@ const styles = StyleSheet.create({
       fontSize: 16,
       fontStyle: 'normal',
       fontWeight: '400',
-      lineHeight: 'normal',
       letterSpacing: -0.165,
     },
     editBtn: {
@@ -207,7 +204,6 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontStyle: 'normal',
         fontWeight: '400',
-        lineHeight: 'normal',
         letterSpacing: -0.165,
       }
     },

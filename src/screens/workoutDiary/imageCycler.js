@@ -4,8 +4,6 @@ import { Image } from 'react-native';
 const ImageCycler = ({ firstImageUrl, secondImageUrl, style }) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
-  console.log(firstImageUrl, secondImageUrl);
-
   const images = [firstImageUrl, secondImageUrl];
 
   const randomNumber = Math.floor(Math.random() * (1400 - 700 + 1)) + 700;

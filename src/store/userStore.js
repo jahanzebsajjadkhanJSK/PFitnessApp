@@ -26,6 +26,7 @@ export class UserStore {
       this.token = resp.data.token;
       this.isAuthenticated = resp.data.isVerified;
       this.error = null;
+      console.log(resp.data.token)
     } catch (error) {
       console.log('store error', error);
       this.isAuthenticated = false;

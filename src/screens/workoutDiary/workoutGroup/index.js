@@ -1,23 +1,26 @@
 import { useState } from 'react'
 import { useRoute } from '@react-navigation/native'
-import { SafeAreaView } from 'react-native-safe-area-context'
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native'
 import { observer } from 'mobx-react'
 
 import ExerciseDetailsScreen from '../exerciseDetails'
-import { useStores } from '../../../store/useStores'
 import GradientButton from '../../../utils/GradientButton'
 import ImageCycler from '../imageCycler'
 
 const WorkoutGroupScreen = ({ navigation }) => {
   const route = useRoute()
-  const { exerciseStore } = useStores()
   const { activeGroup } = route.params
 
   const [isModalVisible, setIsModalVisible] = useState(false)
+  const [activeExercise, setActiveExercise] = useState({})
 
   const handleClose = () => {
     navigation.goBack()
+  }
+
+  const handleExerciseClick = (exercise) => {
+    setActiveExercise(exercise)
+    setIsModalVisible(true)
   }
 
   return (
@@ -36,11 +39,11 @@ const WorkoutGroupScreen = ({ navigation }) => {
       </View>
 
       {activeGroup.exerciseList.length > 0 && activeGroup.exerciseList.map((exercise) => {
-
+        // Parse the images in backend
         const parsed = JSON.parse(exercise.images);
         return (
           <View key={exercise.id}>
-            <TouchableOpacity onPress={() => setIsModalVisible(true)}>
+            <TouchableOpacity onPress={() => handleExerciseClick(exercise)}>
               <View style={styles.card}>
                 <ImageCycler
                   firstImageUrl={parsed[0]}
@@ -53,15 +56,13 @@ const WorkoutGroupScreen = ({ navigation }) => {
                 </View>
               </View>
             </TouchableOpacity>
-            <ExerciseDetailsScreen visible={isModalVisible} onClose={setIsModalVisible} />
+            <ExerciseDetailsScreen activeExercise={activeExercise} visible={isModalVisible} onClose={setIsModalVisible} />
           </View>
         )
       })}
     </View>
   )
 }
-
-// ["https://prana-fitos-backend-images.s3.amazonaws.com/Dumbbell_Shrug/0.jpg" "https://prana-fitos-backend-images.s3.amazonaws.com/Dumbbell_Shrug/1.jpg"]
 
 const styles = StyleSheet.create({
   header: {
@@ -76,7 +77,6 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontStyle: 'normal',
         fontWeight: '500',
-        lineHeight: 'normal',
         letterSpacing: -0.165,
       }
     },
@@ -94,7 +94,6 @@ const styles = StyleSheet.create({
       fontSize: 24,
       fontStyle: 'normal',
       fontWeight: '600',
-      lineHeight: 'normal',
       letterSpacing: -0.165,
     },
     button: {
@@ -141,7 +140,6 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontStyle: 'normal',
         fontWeight: '500',
-        lineHeight: 'normal',
         letterSpacing: -0.165,
       },
       equipment: {
@@ -150,7 +148,6 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontStyle: 'normal',
         fontWeight: '400',
-        lineHeight: 'normal',
         letterSpacing: -0.165,
       }
     }
