@@ -10,7 +10,19 @@ import {
 const FoodLogModal = () => {
   return (
     <BottomSheetView style={styles.contentContainer}>
-      <Text>Awesome 🎉</Text>
+      <Text style={{color:'white'}}>Awesome 🎉</Text>
+      <View>
+      <View> </View>
+
+      
+      <View></View>
+      <View></View>
+      <View></View>
+      <View></View>
+      <View></View>
+
+
+      </View>
     </BottomSheetView>
   );
 };

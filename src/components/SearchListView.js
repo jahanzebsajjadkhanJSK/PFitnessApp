@@ -2,7 +2,7 @@ import { StyleSheet, Text, View ,FlatList, Alert, TouchableOpacity  } from 'reac
 import React from 'react'
 import { appThemeColors } from '../utils/theme'
 
-const SearchListView = (searchQuery,filteredFood ,displayData) => {
+const SearchListView = (searchQuery,filteredFood ,displayData,handlePresentModalPress) => {
   return (
     <FlatList
     data={
@@ -26,7 +26,7 @@ const SearchListView = (searchQuery,filteredFood ,displayData) => {
               {
                 text: 'OK',
                 onPress: () => {
-                  addLog(item.id);
+                  handlePresentModalPress(item.id);
                 },
               },
             ],

@@ -6,18 +6,25 @@ import AppNavigator from './src/navigation/AppNavigator'
 import { PaperProvider } from 'react-native-paper'
 import { Provider, observer } from 'mobx-react'
 import { stores } from './src/store'
+import { BottomSheetModalProvider } from '@gorhom/bottom-sheet'
+import { GestureHandlerRootView } from 'react-native-gesture-handler'
 
 const App = () => {
   return (
     <Provider store={stores}>
+      <GestureHandlerRootView>
       <PaperProvider>
+      <BottomSheetModalProvider>
         <SafeAreaProvider>
           <NavigationContainer>
             {stores.userStore.isAuthenticated ? <AppNavigator /> : <AuthNavigation />}
           </NavigationContainer>
 
         </SafeAreaProvider>
+        </BottomSheetModalProvider>
       </PaperProvider>
+      </GestureHandlerRootView>
+
     </Provider>
   )
 }

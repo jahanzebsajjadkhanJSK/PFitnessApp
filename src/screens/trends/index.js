@@ -362,9 +362,9 @@ const DiaryScreen = () => {
               ),
               label: 'Custom Foods',
               labelTextColor:'white',
-              style:{backgroundColor:'white' ,borderRadius:40,width: 32, height: 32 ,justifyContent: 'center',
+              style:{marginBottom:-30,backgroundColor:'white' ,borderRadius:40,width: 32, height: 32 ,justifyContent: 'center',
               alignItems: 'center', },
-              containerStyle:{color:'white'},
+              containerStyle:{  marginBottom:-20},
               onPress: () => console.log('Pressed email'),
             },
             {
@@ -376,8 +376,9 @@ const DiaryScreen = () => {
               ),
               label: 'Log Weight',
               labelTextColor:'white',
-              style:{backgroundColor:'white' ,borderRadius:40,width: 32, height: 32 ,justifyContent: 'center',
+              style:{marginBottom:-30,backgroundColor:'white' ,borderRadius:40,width: 32, height: 32 ,justifyContent: 'center',
               alignItems: 'center' },
+              containerStyle:{marginBottom:-20},
               color:"green",
               onPress: () => console.log('Pressed star'),
             },
@@ -390,10 +391,11 @@ const DiaryScreen = () => {
               ),
               label: 'Add Food',
               labelTextColor:'white',
-
-              style:{backgroundColor:'white' ,borderRadius:40,width: 32, height: 32 ,justifyContent: 'center',
+                
+              style:{marginBottom:-30,backgroundColor:'white' ,borderRadius:40,width: 32, height: 32 ,justifyContent: 'center',
               alignItems: 'center' },
-              containerStyle:{color:'white'},
+              containerStyle:{ marginBottom:-20},
+
               onPress: () => navigation.navigate('Trends', { screen: 'searchFoodScreen' }),
             },
             {
@@ -406,9 +408,10 @@ const DiaryScreen = () => {
               label: 'Add Bodyfat',
               labelTextColor:'white',
 
-              style:{backgroundColor:'white' ,borderRadius:40,width: 32, height: 32 ,justifyContent: 'center',
+              style:{marginBottom:-30,backgroundColor:'white' ,borderRadius:40,width: 32, height: 32 ,justifyContent: 'center',
               alignItems: 'center' },
-              containerStyle:{color:'white'},
+              containerStyle:{ marginBottom:-20},
+
               onPress: () => console.log('Pressed email'),
             },
             {
@@ -421,9 +424,10 @@ const DiaryScreen = () => {
               label: 'Barcode Scan',
               labelTextColor:'white',
 
-              style:{backgroundColor:'white' ,borderRadius:40,width: 32, height: 32 ,justifyContent: 'center',
+              style:{marginBottom:-30,backgroundColor:'white' ,borderRadius:40,width: 32, height: 32 ,justifyContent: 'center',
               alignItems: 'center' },
-              containerStyle:{color:'white'},
+              containerStyle:{ marginBottom:-20},
+
               onPress: () => console.log('Pressed email'),
             },
             {
@@ -436,7 +440,11 @@ const DiaryScreen = () => {
               label: 'New Chat',
               labelTextColor:'white',
               style:{backgroundColor:'white' ,borderRadius:40,width: 32, height: 32 ,justifyContent: 'center',
-              alignItems: 'center' },
+              
+              alignItems: 'center', marginBottom:-30 },
+              containerStyle:{ marginBottom:-20},
+
+              
 
               onPress: () => console.log('Pressed notifications'),
             },
