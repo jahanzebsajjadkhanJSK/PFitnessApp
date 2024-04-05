@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { View, Text, StyleSheet, Dimensions, StatusBar } from 'react-native'
+import { View, Text, StyleSheet, Dimensions, StatusBar, Image } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import Carousel from 'react-native-snap-carousel'
 import ProgressRingLayout from '../../components/ProgressRingLayout'
