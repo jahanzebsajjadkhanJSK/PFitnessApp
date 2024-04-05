@@ -38,8 +38,8 @@ const WorkoutScreen = () => {
     navigation.navigate('WorkoutGroupScreen', { activeGroup })
   }
 
-  const handleNavigateEdit = () => {
-    navigation.navigate('EditWorkoutScreen')
+  const handleNavigateEdit = (activeGroup) => {
+    navigation.navigate('EditWorkoutScreen', { activeGroup })
   }
 
   const startWorkout = () => {
@@ -74,7 +74,7 @@ const WorkoutScreen = () => {
                 <View style={styles.exerciseGroupActionContainer}>
                   <Text style={styles.exerciseGroupActionContainer.text}>{`${group.exerciseList.length} exercises`}</Text>
                   <View style={{ flexDirection: 'row' }}>
-                    <TouchableOpacity onPress={handleNavigateEdit} style={styles.exerciseGroupActionContainer.editBtn}>
+                    <TouchableOpacity onPress={() => handleNavigateEdit(group)} style={styles.exerciseGroupActionContainer.editBtn}>
                       <Text style={styles.exerciseGroupActionContainer.editBtn.text}>Edit</Text>
                     </TouchableOpacity>
                     <TouchableOpacity onPress={startWorkout} style={styles.exerciseGroupActionContainer.startBtn}>

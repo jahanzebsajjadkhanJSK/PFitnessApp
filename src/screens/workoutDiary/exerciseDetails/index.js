@@ -65,7 +65,7 @@ const ExerciseDetailsScreen = ({ visible, onClose, activeExercise }) => {
         <View style={styles.modalContent}>
           <View style={styles.topRow}>
             <TouchableOpacity onPress={onClose}>
-              <Image style={styles.topRow.closeBtn} source={CloseIcon} />
+              <Image source={CloseIcon} />
             </TouchableOpacity>
           </View>
           <TabView
@@ -83,6 +83,24 @@ const ExerciseDetailsScreen = ({ visible, onClose, activeExercise }) => {
 }
 
 const styles = StyleSheet.create({
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'flex-end',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)'
+  },
+  modalContent: {
+    height: windowHeight * 0.85,
+    backgroundColor: '#121A24',
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    padding: 16
+  },
+  topRow: {
+    flexDirection: 'row-reverse',
+    width: '100%',
+    marginLeft: 16,
+    marginBottom: 20
+  },
   headerContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -106,24 +124,6 @@ const styles = StyleSheet.create({
     fontStyle: 'normal',
     fontWeight: '500',
     letterSpacing: -0.165,
-  },
-  modalContainer: {
-    flex: 1,
-    justifyContent: 'flex-end',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)'
-  },
-  modalContent: {
-    height: windowHeight * 0.85,
-    backgroundColor: '#121A24',
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
-    padding: 16
-  },
-  topRow: {
-    flexDirection: 'row-reverse',
-    width: '100%',
-    marginLeft: 16,
-    marginBottom: 20
   },
   tabBar: {
     flexDirection: 'row',

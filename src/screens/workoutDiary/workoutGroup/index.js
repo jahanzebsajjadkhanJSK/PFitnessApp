@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
       marginLeft: 16,
       closeBtn: {
         color: '#0779FF',
-        textAlign: 'right',
+
         fontFamily: 'Poppins',
         fontSize: 16,
         fontStyle: 'normal',

@@ -40,12 +40,7 @@ const WorkoutStackGroup = () => {
         options={{
           headerShown: false,
         }} />
-      <WorkoutStack.Screen name="EditWorkoutScreen" component={EditWorkoutScreen}
-        options={{
-          headerShown: true,
-          animationEnabled: true,
-          headerBackTitle: 'Back'
-        }} />
+      <WorkoutStack.Screen name="EditWorkoutScreen" component={EditWorkoutScreen} options={{ headerShown: false}} />
       <WorkoutStack.Screen name="CustomSplitScreen" component={CustomSplitScreen}
         options={{
           headerShown: true,
