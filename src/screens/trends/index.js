@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState , useEffect} from 'react'
 import { View, Text, StyleSheet, Dimensions, StatusBar, Image } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import Carousel from 'react-native-snap-carousel'
@@ -17,11 +17,129 @@ const DiaryScreen = () => {
   const screenWidth = Dimensions.get('window').width
   const [activeIndex, setActiveIndex] = useState(0)
   const [state, setState] = React.useState({ open: false });
+  const [screenInFocus,setScreenInFocus]= useState(false)
   const navigation = useNavigation()
 
-  const onStateChange = ({ open }) => setState({ open });
+  const onStateChange = ({ open }) => {
+    console.log('this is state chanfe',open)
+    setState({ open })};
+    useEffect(() => {
+      const unsubscribeFocus = navigation.addListener('focus', () => {
+        // Perform actions on focus (optional)
+       setScreenInFocus(true)
+      });
+  
+      const unsubscribeBlur = navigation.addListener('blur', () => {
+        setScreenInFocus(false)
+      });
+  
+      return () => {
+        unsubscribeFocus();
+        unsubscribeBlur();
+        isMounted.current = false; // Flag to prevent further actions after unmount
+      };
+    }, [navigation]);
+  
 
   const { open } = state;
+
+  const actionItems = [
+    {
+      icon:  () => (
+        <Image
+          source={require('../../assets/fab_icons/Favorites_duotone_line.png')}
+          style={{ width: 24, height: 24 }}
+        />
+      ),
+      label: 'Custom Foods',
+      labelTextColor:'white',
+      style:{marginBottom:-30,backgroundColor:'white' ,borderRadius:40,width: 32, height: 32 ,justifyContent: 'center',
+      alignItems: 'center', },
+      containerStyle:{  marginBottom:-20},
+      onPress: () => console.log('Pressed email'),
+    },
+    {
+      icon: () => (
+        <Image
+          source={require('../../assets/fab_icons/Favorites_duotone_line.png')}
+          style={{ width: 24, height: 24 }}
+        />
+      ),
+      label: 'Log Weight',
+      labelTextColor:'white',
+      style:{marginBottom:-30,backgroundColor:'white' ,borderRadius:40,width: 32, height: 32 ,justifyContent: 'center',
+      alignItems: 'center' },
+      containerStyle:{marginBottom:-20},
+      color:"green",
+      onPress: () => console.log('Pressed star'),
+    },
+    {
+      icon:  () => (
+        <Image
+          source={require('../../assets/fab_icons/Orange_light.png')}
+          style={{ width: 24, height: 24 }}
+        />
+      ),
+      label: 'Add Food',
+      labelTextColor:'white',
+        
+      style:{marginBottom:-30,backgroundColor:'white' ,borderRadius:40,width: 32, height: 32 ,justifyContent: 'center',
+      alignItems: 'center' },
+      containerStyle:{ marginBottom:-20},
+
+      onPress: () => navigation.navigate('Trends', { screen: 'searchFoodScreen' }),
+    },
+    {
+      icon:  () => (
+        <Image
+          source={require('../../assets/fab_icons/Add_ring_light.png')}
+          style={{ width: 24, height: 24 }}
+        />
+      ),
+      label: 'Add Bodyfat',
+      labelTextColor:'white',
+
+      style:{marginBottom:-30,backgroundColor:'white' ,borderRadius:40,width: 32, height: 32 ,justifyContent: 'center',
+      alignItems: 'center' },
+      containerStyle:{ marginBottom:-20},
+
+      onPress: () => console.log('Pressed email'),
+    },
+    {
+      icon:  () => (
+        <Image
+          source={require('../../assets/fab_icons/View_alt_light.png')}
+          style={{ width: 24, height: 24 }}
+        />
+      ),
+      label: 'Barcode Scan',
+      labelTextColor:'white',
+
+      style:{marginBottom:-30,backgroundColor:'white' ,borderRadius:40,width: 32, height: 32 ,justifyContent: 'center',
+      alignItems: 'center' },
+      containerStyle:{ marginBottom:-20},
+
+      onPress: () => console.log('Pressed email'),
+    },
+    {
+      icon:  () => (
+        <Image
+          source={require('../../assets/fab_icons/comment_duotone_line.png')}
+          style={{  resizeMode:'contain' }}
+        />
+      ),
+      label: 'New Chat',
+      labelTextColor:'white',
+      style:{backgroundColor:'white' ,borderRadius:40,width: 32, height: 32 ,justifyContent: 'center',
+      
+      alignItems: 'center', marginBottom:-30 },
+      containerStyle:{ marginBottom:-20},
+
+      
+
+      onPress: () => console.log('Pressed notifications'),
+    },
+  ]
 
  
   const _renderItem = ({ item }) => {
@@ -345,110 +463,14 @@ const DiaryScreen = () => {
             reducedTransparencyFallbackColor="white"
           />
         )}
-        <FAB.Group
+        {screenInFocus && <FAB.Group
           open={open}
           visible
           fabStyle={{backgroundColor:'white', borderRadius:40,marginBottom:87 }}
           backdropColor="transparent"
           
           icon={'plus'}
-          actions={[
-            {
-              icon:  () => (
-                <Image
-                  source={require('../../assets/fab_icons/Favorites_duotone_line.png')}
-                  style={{ width: 24, height: 24 }}
-                />
-              ),
-              label: 'Custom Foods',
-              labelTextColor:'white',
-              style:{marginBottom:-30,backgroundColor:'white' ,borderRadius:40,width: 32, height: 32 ,justifyContent: 'center',
-              alignItems: 'center', },
-              containerStyle:{  marginBottom:-20},
-              onPress: () => console.log('Pressed email'),
-            },
-            {
-              icon: () => (
-                <Image
-                  source={require('../../assets/fab_icons/Favorites_duotone_line.png')}
-                  style={{ width: 24, height: 24 }}
-                />
-              ),
-              label: 'Log Weight',
-              labelTextColor:'white',
-              style:{marginBottom:-30,backgroundColor:'white' ,borderRadius:40,width: 32, height: 32 ,justifyContent: 'center',
-              alignItems: 'center' },
-              containerStyle:{marginBottom:-20},
-              color:"green",
-              onPress: () => console.log('Pressed star'),
-            },
-            {
-              icon:  () => (
-                <Image
-                  source={require('../../assets/fab_icons/Orange_light.png')}
-                  style={{ width: 24, height: 24 }}
-                />
-              ),
-              label: 'Add Food',
-              labelTextColor:'white',
-                
-              style:{marginBottom:-30,backgroundColor:'white' ,borderRadius:40,width: 32, height: 32 ,justifyContent: 'center',
-              alignItems: 'center' },
-              containerStyle:{ marginBottom:-20},
-
-              onPress: () => navigation.navigate('Trends', { screen: 'searchFoodScreen' }),
-            },
-            {
-              icon:  () => (
-                <Image
-                  source={require('../../assets/fab_icons/Add_ring_light.png')}
-                  style={{ width: 24, height: 24 }}
-                />
-              ),
-              label: 'Add Bodyfat',
-              labelTextColor:'white',
-
-              style:{marginBottom:-30,backgroundColor:'white' ,borderRadius:40,width: 32, height: 32 ,justifyContent: 'center',
-              alignItems: 'center' },
-              containerStyle:{ marginBottom:-20},
-
-              onPress: () => console.log('Pressed email'),
-            },
-            {
-              icon:  () => (
-                <Image
-                  source={require('../../assets/fab_icons/View_alt_light.png')}
-                  style={{ width: 24, height: 24 }}
-                />
-              ),
-              label: 'Barcode Scan',
-              labelTextColor:'white',
-
-              style:{marginBottom:-30,backgroundColor:'white' ,borderRadius:40,width: 32, height: 32 ,justifyContent: 'center',
-              alignItems: 'center' },
-              containerStyle:{ marginBottom:-20},
-
-              onPress: () => console.log('Pressed email'),
-            },
-            {
-              icon:  () => (
-                <Image
-                  source={require('../../assets/fab_icons/comment_duotone_line.png')}
-                  style={{  resizeMode:'contain' }}
-                />
-              ),
-              label: 'New Chat',
-              labelTextColor:'white',
-              style:{backgroundColor:'white' ,borderRadius:40,width: 32, height: 32 ,justifyContent: 'center',
-              
-              alignItems: 'center', marginBottom:-30 },
-              containerStyle:{ marginBottom:-20},
-
-              
-
-              onPress: () => console.log('Pressed notifications'),
-            },
-          ]}
+          actions={actionItems}
           
           onStateChange={onStateChange}
           onPress={() => {
@@ -458,6 +480,7 @@ const DiaryScreen = () => {
           }}
           
         />
+}
       </Portal>
       </View>
     </SafeAreaView>
