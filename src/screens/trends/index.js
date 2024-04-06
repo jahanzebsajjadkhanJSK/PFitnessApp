@@ -1,153 +1,197 @@
-import React, { useState , useEffect} from 'react'
-import { View, Text, StyleSheet, Dimensions, StatusBar, Image } from 'react-native'
-import { SafeAreaView } from 'react-native-safe-area-context'
-import Carousel from 'react-native-snap-carousel'
-import ProgressRingLayout from '../../components/ProgressRingLayout'
-import { appThemeColors } from '../../utils/theme'
-import * as Progress from 'react-native-progress'
-import { AnimatedCircularProgress } from 'react-native-circular-progress'
-import GradientButton from '../../utils/GradientButton'
-import FabGroup from '../../components/FabGroup'
-import { FAB, Portal, PaperProvider } from 'react-native-paper';
-import { BlurView } from "@react-native-community/blur";
-import { useNavigation } from '@react-navigation/native'
-
+import React, {useState, useEffect} from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Dimensions,
+  StatusBar,
+  Image,
+} from 'react-native';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import Carousel from 'react-native-snap-carousel';
+import ProgressRingLayout from '../../components/ProgressRingLayout';
+import {appThemeColors} from '../../utils/theme';
+import * as Progress from 'react-native-progress';
+import {AnimatedCircularProgress} from 'react-native-circular-progress';
+import GradientButton from '../../utils/GradientButton';
+import FabGroup from '../../components/FabGroup';
+import {FAB, Portal, PaperProvider} from 'react-native-paper';
+import {BlurView} from '@react-native-community/blur';
+import {useNavigation} from '@react-navigation/native';
 
 const DiaryScreen = () => {
-  const screenWidth = Dimensions.get('window').width
-  const [activeIndex, setActiveIndex] = useState(0)
-  const [state, setState] = React.useState({ open: false });
-  const [screenInFocus,setScreenInFocus]= useState(false)
-  const navigation = useNavigation()
+  const screenWidth = Dimensions.get('window').width;
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [state, setState] = React.useState({open: false});
+  const [screenInFocus, setScreenInFocus] = useState(false);
+  const navigation = useNavigation();
 
-  const onStateChange = ({ open }) => {
-    console.log('this is state chanfe',open)
-    setState({ open })};
-    useEffect(() => {
-      const unsubscribeFocus = navigation.addListener('focus', () => {
-        // Perform actions on focus (optional)
-       setScreenInFocus(true)
-      });
-  
-      const unsubscribeBlur = navigation.addListener('blur', () => {
-        setScreenInFocus(false)
-      });
-  
-      return () => {
-        unsubscribeFocus();
-        unsubscribeBlur();
-        isMounted.current = false; // Flag to prevent further actions after unmount
-      };
-    }, [navigation]);
-  
+  const onStateChange = ({open}) => {
+    console.log('this is state chanfe', open);
+    setState({open});
+  };
+  useEffect(() => {
+    const unsubscribeFocus = navigation.addListener('focus', () => {
+      setScreenInFocus(true);
+    });
 
-  const { open } = state;
+    const unsubscribeBlur = navigation.addListener('blur', () => {
+      setScreenInFocus(false);
+    });
+
+    return () => {
+      unsubscribeFocus();
+      unsubscribeBlur();
+    };
+  }, [navigation]);
+
+  const {open} = state;
 
   const actionItems = [
     {
-      icon:  () => (
+      icon: () => (
         <Image
           source={require('../../assets/fab_icons/Favorites_duotone_line.png')}
-          style={{ width: 24, height: 24 }}
+          style={{width: 24, height: 24}}
         />
       ),
       label: 'Custom Foods',
-      labelTextColor:'white',
-      style:{marginBottom:-30,backgroundColor:'white' ,borderRadius:40,width: 32, height: 32 ,justifyContent: 'center',
-      alignItems: 'center', },
-      containerStyle:{  marginBottom:-20},
+      labelTextColor: 'white',
+      style: {
+        marginBottom: -30,
+        backgroundColor: 'white',
+        borderRadius: 40,
+        width: 32,
+        height: 32,
+        justifyContent: 'center',
+        alignItems: 'center',
+      },
+      containerStyle: {marginBottom: -20},
       onPress: () => console.log('Pressed email'),
     },
     {
       icon: () => (
         <Image
           source={require('../../assets/fab_icons/Favorites_duotone_line.png')}
-          style={{ width: 24, height: 24 }}
+          style={{width: 24, height: 24}}
         />
       ),
       label: 'Log Weight',
-      labelTextColor:'white',
-      style:{marginBottom:-30,backgroundColor:'white' ,borderRadius:40,width: 32, height: 32 ,justifyContent: 'center',
-      alignItems: 'center' },
-      containerStyle:{marginBottom:-20},
-      color:"green",
+      labelTextColor: 'white',
+      style: {
+        marginBottom: -30,
+        backgroundColor: 'white',
+        borderRadius: 40,
+        width: 32,
+        height: 32,
+        justifyContent: 'center',
+        alignItems: 'center',
+      },
+      containerStyle: {marginBottom: -20},
+      color: 'green',
       onPress: () => console.log('Pressed star'),
     },
     {
-      icon:  () => (
+      icon: () => (
         <Image
           source={require('../../assets/fab_icons/Orange_light.png')}
-          style={{ width: 24, height: 24 }}
+          style={{width: 24, height: 24}}
         />
       ),
       label: 'Add Food',
-      labelTextColor:'white',
-        
-      style:{marginBottom:-30,backgroundColor:'white' ,borderRadius:40,width: 32, height: 32 ,justifyContent: 'center',
-      alignItems: 'center' },
-      containerStyle:{ marginBottom:-20},
+      labelTextColor: 'white',
 
-      onPress: () => navigation.navigate('Trends', { screen: 'searchFoodScreen' }),
+      style: {
+        marginBottom: -30,
+        backgroundColor: 'white',
+        borderRadius: 40,
+        width: 32,
+        height: 32,
+        justifyContent: 'center',
+        alignItems: 'center',
+      },
+      containerStyle: {marginBottom: -20},
+
+      onPress: () =>
+        navigation.navigate('Trends', {screen: 'searchFoodScreen'}),
     },
     {
-      icon:  () => (
+      icon: () => (
         <Image
           source={require('../../assets/fab_icons/Add_ring_light.png')}
-          style={{ width: 24, height: 24 }}
+          style={{width: 24, height: 24}}
         />
       ),
       label: 'Add Bodyfat',
-      labelTextColor:'white',
+      labelTextColor: 'white',
 
-      style:{marginBottom:-30,backgroundColor:'white' ,borderRadius:40,width: 32, height: 32 ,justifyContent: 'center',
-      alignItems: 'center' },
-      containerStyle:{ marginBottom:-20},
+      style: {
+        marginBottom: -30,
+        backgroundColor: 'white',
+        borderRadius: 40,
+        width: 32,
+        height: 32,
+        justifyContent: 'center',
+        alignItems: 'center',
+      },
+      containerStyle: {marginBottom: -20},
 
       onPress: () => console.log('Pressed email'),
     },
     {
-      icon:  () => (
+      icon: () => (
         <Image
           source={require('../../assets/fab_icons/View_alt_light.png')}
-          style={{ width: 24, height: 24 }}
+          style={{width: 24, height: 24}}
         />
       ),
       label: 'Barcode Scan',
-      labelTextColor:'white',
+      labelTextColor: 'white',
 
-      style:{marginBottom:-30,backgroundColor:'white' ,borderRadius:40,width: 32, height: 32 ,justifyContent: 'center',
-      alignItems: 'center' },
-      containerStyle:{ marginBottom:-20},
+      style: {
+        marginBottom: -30,
+        backgroundColor: 'white',
+        borderRadius: 40,
+        width: 32,
+        height: 32,
+        justifyContent: 'center',
+        alignItems: 'center',
+      },
+      containerStyle: {marginBottom: -20},
 
       onPress: () => console.log('Pressed email'),
     },
     {
-      icon:  () => (
+      icon: () => (
         <Image
           source={require('../../assets/fab_icons/comment_duotone_line.png')}
-          style={{  resizeMode:'contain' }}
+          style={{resizeMode: 'contain'}}
         />
       ),
       label: 'New Chat',
-      labelTextColor:'white',
-      style:{backgroundColor:'white' ,borderRadius:40,width: 32, height: 32 ,justifyContent: 'center',
-      
-      alignItems: 'center', marginBottom:-30 },
-      containerStyle:{ marginBottom:-20},
+      labelTextColor: 'white',
+      style: {
+        backgroundColor: 'white',
+        borderRadius: 40,
+        width: 32,
+        height: 32,
+        justifyContent: 'center',
 
-      
+        alignItems: 'center',
+        marginBottom: -30,
+      },
+      containerStyle: {marginBottom: -20},
 
       onPress: () => console.log('Pressed notifications'),
     },
-  ]
+  ];
 
- 
-  const _renderItem = ({ item }) => {
-    return item.component
-  }
+  const _renderItem = ({item}) => {
+    return item.component;
+  };
   const buttonpressed = () => {
-    console.log('button pressed ')
-  }
+    console.log('button pressed ');
+  };
 
   return (
     <SafeAreaView
@@ -170,35 +214,34 @@ const DiaryScreen = () => {
         />
       </View> */}
 
-      <View style={{ flex: 1 }}>
+      <View style={{flex: 1}}>
         <View
           style={{
             backgroundColor: appThemeColors.backgroundSecondary,
             flex: 2.5,
             borderBottomLeftRadius: 20,
             borderBottomRightRadius: 20,
-            paddingTop:50
+            paddingTop: 50,
           }}>
-          <View style={{ }}>
+          <View style={{}}>
             <Text
               style={{
                 fontSize: 24,
                 color: 'white',
                 alignSelf: 'center',
                 fontWeight: '600',
-                
               }}>
               Food Log
             </Text>
           </View>
-          <View style={{ paddingTop:35 }}>
+          <View style={{paddingTop: 35}}>
             <Text
               style={{
                 fontSize: 16,
                 color: 'white',
                 alignSelf: 'center',
                 fontWeight: 'bold',
-                letterSpacing: -0.17
+                letterSpacing: -0.17,
               }}>
               {' '}
               \-- March 7, 2024 --/
@@ -208,19 +251,19 @@ const DiaryScreen = () => {
             style={{
               flex: 2.5,
               flexDirection: 'row',
-              paddingTop:34,
+              paddingTop: 34,
             }}>
             <View
               style={{
                 flex: 1,
-                justifyContent: 'center'
+                justifyContent: 'center',
               }}>
               <Text
                 style={{
                   fontSize: 24,
                   color: 'white',
                   alignSelf: 'center',
-                  fontWeight: '300'
+                  fontWeight: '300',
                 }}>
                 810
               </Text>
@@ -230,7 +273,7 @@ const DiaryScreen = () => {
                   color: appThemeColors.textColorGrey,
                   alignSelf: 'center',
                   fontWeight: '500',
-                  letterSpacing: 0.17
+                  letterSpacing: 0.17,
                 }}>
                 Remaining
               </Text>
@@ -241,7 +284,7 @@ const DiaryScreen = () => {
                 alignItems: 'center',
                 justifyContent: 'center',
                 // marginTop:20,
-                position: 'relative'
+                position: 'relative',
               }}>
               {/* <Progress.Circle
                 style={{margin:10}}
@@ -270,14 +313,14 @@ const DiaryScreen = () => {
                   flex: 1,
                   justifyContent: 'center',
                   position: 'absolute',
-                  top: 33
+                  top: 33,
                 }}>
                 <Text
                   style={{
                     fontSize: 24,
                     color: 'white',
                     alignSelf: 'center',
-                    fontWeight: '300'
+                    fontWeight: '300',
                   }}>
                   810
                 </Text>
@@ -287,24 +330,24 @@ const DiaryScreen = () => {
                     color: appThemeColors.textColorGrey,
                     alignSelf: 'center',
                     fontWeight: '500',
-                    letterSpacing: 0.17
+                    letterSpacing: 0.17,
                   }}>
                   Consumed
                 </Text>
               </View>
             </View>
-            <View style={{ flex: 1 }}>
+            <View style={{flex: 1}}>
               <View
                 style={{
                   flex: 1,
-                  justifyContent: 'center'
+                  justifyContent: 'center',
                 }}>
                 <Text
                   style={{
                     fontSize: 24,
                     color: 'white',
                     alignSelf: 'center',
-                    fontWeight: '300'
+                    fontWeight: '300',
                   }}>
                   810
                 </Text>
@@ -313,7 +356,7 @@ const DiaryScreen = () => {
                     fontSize: 12,
                     color: appThemeColors.textColorGrey,
                     alignSelf: 'center',
-                    fontWeight: '500'
+                    fontWeight: '500',
                   }}>
                   Target
                 </Text>
@@ -326,22 +369,21 @@ const DiaryScreen = () => {
             style={{
               flex: 1,
               flexDirection: 'row',
-              paddingTop:30,
-             
+              paddingTop: 30,
             }}>
             <View
               style={{
                 flex: 1,
                 justifyContent: 'center',
                 alignItems: 'flex-start',
-                paddingLeft: 29
+                paddingLeft: 29,
               }}>
               <Text
                 style={{
                   fontSize: 12,
                   color: 'white',
 
-                  fontWeight: '600'
+                  fontWeight: '600',
                 }}>
                 Protein
               </Text>
@@ -351,7 +393,7 @@ const DiaryScreen = () => {
                   color: appThemeColors.textColorGrey,
                   fontWeight: '400',
                   letterSpacing: 0.17,
-                  marginBottom: 5
+                  marginBottom: 5,
                 }}>
                 12g
               </Text>
@@ -369,14 +411,14 @@ const DiaryScreen = () => {
                 flex: 1,
                 justifyContent: 'center',
                 alignItems: 'flex-start',
-                paddingLeft: 29
+                paddingLeft: 29,
               }}>
               <Text
                 style={{
                   fontSize: 12,
                   color: 'white',
 
-                  fontWeight: '600'
+                  fontWeight: '600',
                 }}>
                 Fats
               </Text>
@@ -386,7 +428,7 @@ const DiaryScreen = () => {
                   color: appThemeColors.textColorGrey,
                   fontWeight: '400',
                   letterSpacing: 0.17,
-                  marginBottom: 5
+                  marginBottom: 5,
                 }}>
                 12g
               </Text>
@@ -404,14 +446,14 @@ const DiaryScreen = () => {
                 flex: 1,
                 justifyContent: 'center',
                 alignItems: 'flex-start',
-                paddingLeft: 29
+                paddingLeft: 29,
               }}>
               <Text
                 style={{
                   fontSize: 12,
                   color: 'white',
 
-                  fontWeight: '600'
+                  fontWeight: '600',
                 }}>
                 Carbs
               </Text>
@@ -421,7 +463,7 @@ const DiaryScreen = () => {
                   color: appThemeColors.textColorGrey,
                   fontWeight: '400',
                   letterSpacing: 0.17,
-                  marginBottom: 5
+                  marginBottom: 5,
                 }}>
                 12g
               </Text>
@@ -436,8 +478,8 @@ const DiaryScreen = () => {
           {/* this is the END OF  flat progress area */}
 
           {/* this is the Gradient button  area */}
-          <View style={{ flex: 1.3, marginVertical: 15 }}>
-            <View style={{ width: 318, alignSelf: 'center', borderRadius: 16 }}>
+          <View style={{flex: 1.3, marginVertical: 15}}>
+            <View style={{width: 318, alignSelf: 'center', borderRadius: 16}}>
               <GradientButton
                 onPress={buttonpressed}
                 colors={['#012D61', '#0158BF']}
@@ -447,7 +489,7 @@ const DiaryScreen = () => {
           </View>
           {/* this is the END OF Gradient button  area */}
         </View>
-        <View style={{ flex: 1 }}></View>
+        <View style={{flex: 1}}></View>
         {/* <FAB
           icon="plus"
           style={styles.fab}
@@ -455,58 +497,59 @@ const DiaryScreen = () => {
         /> */}
         {/* <FabGroup/> */}
         <Portal>
-        {open && (
-          <BlurView
-            style={styles.absolute}
-            blurType="dark"
-            blurAmount={5}
-            reducedTransparencyFallbackColor="white"
-          />
-        )}
-        {screenInFocus && <FAB.Group
-          open={open}
-          visible
-          fabStyle={{backgroundColor:'white', borderRadius:40,marginBottom:87 }}
-          backdropColor="transparent"
-          
-          icon={'plus'}
-          actions={actionItems}
-          
-          onStateChange={onStateChange}
-          onPress={() => {
-            if (open) {
-              // do something if the speed dial is open
-            }
-          }}
-          
-        />
-}
-      </Portal>
+          {open && (
+            <BlurView
+              style={styles.absolute}
+              blurType="dark"
+              blurAmount={5}
+              reducedTransparencyFallbackColor="white"
+            />
+          )}
+          {screenInFocus && (
+            <FAB.Group
+              open={open}
+              visible
+              fabStyle={{
+                backgroundColor: 'white',
+                borderRadius: 40,
+                marginBottom: 87,
+              }}
+              backdropColor="transparent"
+              icon={'plus'}
+              actions={actionItems}
+              onStateChange={onStateChange}
+              onPress={() => {
+                if (open) {
+                }
+              }}
+            />
+          )}
+        </Portal>
       </View>
     </SafeAreaView>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   fab: {
     position: 'absolute',
     margin: 16,
     right: 0,
     bottom: 0,
-    borderRadius: 40
+    borderRadius: 40,
   },
   absolute: {
-    position: "absolute",
+    position: 'absolute',
     top: 0,
     left: 0,
     bottom: 0,
-    right: 0
-  }
-})
+    right: 0,
+  },
+});
 
-export default DiaryScreen
+export default DiaryScreen;
