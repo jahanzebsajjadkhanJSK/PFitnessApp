@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet } from 'react-native'
 
 export const typography = StyleSheet.create({
   mainNavButtonText: {
@@ -7,7 +7,7 @@ export const typography = StyleSheet.create({
     fontSize: 16,
     fontStyle: 'normal',
     fontWeight: '500',
-    letterSpacing: -0.165,
+    letterSpacing: -0.165
   },
   normal: (fontSize, fontWeight, color = '#FFF', wrap = 'no-wrap') => ({
     color,
@@ -16,6 +16,6 @@ export const typography = StyleSheet.create({
     fontStyle: 'normal',
     fontWeight,
     letterSpacing: -0.165,
-    wrap,
-  }),
+    wrap
+  })
 })

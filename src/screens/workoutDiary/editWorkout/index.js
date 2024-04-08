@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { View, Text, TouchableOpacity, StyleSheet, Dimensions } from 'react-native'
 import { observer } from 'mobx-react'
 import Icon from 'react-native-vector-icons/Ionicons'
@@ -10,13 +10,26 @@ import { typography } from '../styles'
 import { AddExercise } from './addExercise'
 import GradientButton from '../../../utils/GradientButton'
 
-const windowWidth = Dimensions.get('window').width;
+const windowWidth = Dimensions.get('window').width
 
-const EditWorkoutScreen = ({ navigation }) => {
+const EditWorkoutScreen = ({ navigation, hideSubmitButton = false, draftGroup = {} }) => {
   const route = useRoute()
-  const { activeGroup } = route.params
-
+  const [activeGroup, setActiveGroup] = useState(Object.keys(draftGroup) > 0 ? draftGroup : route.params?.activeGroup)
   const [isModalVisible, setIsModalVisible] = useState(false)
+
+  useEffect(() => {
+    if (Object.keys(draftGroup).length > 0) {
+      setActiveGroup(draftGroup)
+    }
+  }, [Object.keys(draftGroup).length])
+
+  if (!activeGroup) {
+    return (
+      <SafeAreaView style={{ height: '100%', backgroundColor: '#010A18', paddingHorizontal: 15 }}>
+        <Text>No exercises selected</Text>
+      </SafeAreaView>
+    )
+  }
 
   const handleClose = () => {
     navigation.goBack()
@@ -31,10 +44,12 @@ const EditWorkoutScreen = ({ navigation }) => {
   }
 
   return (
-    <SafeAreaView style={{ height: '100%', backgroundColor: '#010A18', paddingHorizontal: 15 }}>
-      <View style={styles.navRow}>
-        <Text style={typography.mainNavButtonText} onPress={handleClose}>Back</Text>
-      </View>
+    <SafeAreaView style={{  backgroundColor: '#010A18', paddingHorizontal: 15 }}>
+      {!hideSubmitButton && (
+        <View style={styles.navRow}>
+          <Text style={typography.mainNavButtonText} onPress={handleClose}>Back</Text>
+        </View>
+      )}
 
       <View style={styles.headingContainer}>
         <Text style={typography.normal(24, 500)}>Edit Split</Text>
@@ -43,9 +58,9 @@ const EditWorkoutScreen = ({ navigation }) => {
         {activeGroup.exerciseList.length > 0 && activeGroup.exerciseList.map((exercise, index) => {
           const parsed = JSON.parse(exercise.images)
           const cardTop = index * 80
-          {index === 0 && (<View style={{ height: 30 }}>
+          { index === 0 && (<View style={{ height: 30 }}>
             <Text style={typography.normal(16, 500, '#D9D9D9')}>{activeGroup.name}</Text>
-          </View>)}
+          </View>) }
           return (
             // <View key={exercise.id} style={[styles.card, { top: cardTop + 30 }]}>
             <View key={exercise.id} style={[styles.card]}>
@@ -56,22 +71,28 @@ const EditWorkoutScreen = ({ navigation }) => {
                   style={styles.cardImage}
                 />
                 <View style={styles.cardColumn}>
-                  <Text numberOfLines={2} ellipsizeMode='tail' style={[typography.normal(16, 500,'#FFF','wrap')]}>{exercise.name}</Text>
+                  <Text numberOfLines={2} ellipsizeMode='tail' style={[typography.normal(16, 500, '#FFF', 'wrap')]}>{exercise.name}</Text>
                   <Text style={typography.normal(16, 400, '#D9D9D9')}>{exercise.equipment}</Text>
                 </View>
               </View>
-              <TouchableOpacity style={styles.cardRemove} onPress={() => handleRemoveExercise(exercise)}>
-                <Icon name="remove-circle-outline" size={18} color="#EA4335" />
-              </TouchableOpacity>
+              {!hideSubmitButton && (
+
+                <TouchableOpacity style={styles.cardRemove} onPress={() => handleRemoveExercise(exercise)}>
+                  <Icon name="remove-circle-outline" size={18} color="#EA4335" />
+                </TouchableOpacity>
+              )}
             </View>
           )
         })}
-        <GradientButton 
-          title="Add Exercises"
-          colors={['#0779FF', '#044999']}
-          style={styles.gradientBtn}
-          onPress={handleAddExercises}
-        />
+
+        {!hideSubmitButton && (
+          <GradientButton
+            title="Add Exercises"
+            colors={['#0779FF', '#044999']}
+            style={styles.gradientBtn}
+            onPress={handleAddExercises}
+          />
+        )}
       </View>
       <AddExercise visible={isModalVisible} onClose={setIsModalVisible} activeGroup={activeGroup} />
     </SafeAreaView>
@@ -89,7 +110,7 @@ const styles = StyleSheet.create({
   },
   exerciseContainer: {
     // position: 'relative',
-    alignItems: 'center',
+    alignItems: 'center'
     // backgroundColor: 'yellow'
   },
   card: {
@@ -108,14 +129,14 @@ const styles = StyleSheet.create({
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
-      height: 4,
+      height: 4
     },
     shadowOpacity: 0.25,
     shadowRadius: 14,
-    elevation: 14,
+    elevation: 14
   },
   cardContent: {
-    flexDirection: 'row',
+    flexDirection: 'row'
   },
   cardImage: {
     backgroundColor: '#656565',
@@ -127,12 +148,12 @@ const styles = StyleSheet.create({
   cardColumn: {
     flexDirection: 'column',
     marginLeft: 20,
-    flex: 0.9,
+    flex: 0.9
   },
   gradientBtn: {
     width: '100%',
     padding: 9,
-    borderRadius: 8,
+    borderRadius: 8
   }
 })
 

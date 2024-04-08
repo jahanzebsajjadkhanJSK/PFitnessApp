@@ -4,12 +4,14 @@ import LinearGradient from 'react-native-linear-gradient'
 
 const GradientButton = ({ onPress = () => { }, title, colors, children, style }) => {
   return (
-    <TouchableOpacity onPress={onPress}>
+    // TODO: fix the styles.
+    <TouchableOpacity onPress={onPress} style={[{ margin: 0, padding: 0, flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }]}>
       <LinearGradient
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 0 }}
         colors={colors}
-        style={style}>
+        style={style}
+      >
         <Text style={{ color: '#fff', fontSize: 16, fontWeight: '500', letterSpacing: 0.17 }}>{title}</Text>
         {children}
       </LinearGradient>

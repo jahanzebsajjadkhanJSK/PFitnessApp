@@ -4,16 +4,12 @@ import { Image } from 'react-native';
 
 import DiaryScreen from '../screens/trends'
 // import HomeScreen from '../screens/home'
+import HomeScreen from '../screens/foodDiary/HomeScreen'
 import MoreScreen from '../screens/aiCoach/MoreScreen'
 import FoodScreen from '../screens/foodDiary/FoodScreen'
-import WorkoutScreen from '../screens/workoutDiary'
-import StartCustomWorkoutScreen from '../screens/workoutDiary/customWorkout'
-import WorkoutHistoryScreen from '../screens/workoutDiary/workoutHistory'
-import WorkoutGroupScreen from '../screens/workoutDiary/workoutGroup'
-import EditWorkoutScreen from '../screens/workoutDiary/editWorkout'
 import SearchFoodScreen from '../screens/quickAdd/addFood/SearchFoodScreen'
-import CustomSplitScreen from '../screens/workoutBuilder/customSplit'
-import HomeScreen from '../screens/foodDiary/HomeScreen'
+
+import { WorkoutStackGroup } from '../screens/workoutDiary/workoutNavigator'
 import stretchingIcon from '../assets/stretching.png'
 import stretchingActiveIcon from '../assets/stretching_active.png'
 import foodDiaryIcon from '../assets/foodDiary.png'
@@ -28,38 +24,6 @@ const Tab = createBottomTabNavigator()
 
 const customNavigationOptions = {
   headerShown: false
-}
-
-const WorkoutStack = createNativeStackNavigator()
-const WorkoutStackGroup = () => {
-  return (
-    <WorkoutStack.Navigator initialRouteName='WorkoutScreen'>
-      <WorkoutStack.Screen name="WorkoutScreen" component={WorkoutScreen} options={{ headerShown: false }} />
-      <WorkoutStack.Screen name="StartCustomWorkoutScreen" component={StartCustomWorkoutScreen}
-        options={{
-          headerShown: true,
-          animationEnabled: true
-        }} />
-      <WorkoutStack.Screen name="WorkoutHistoryScreen" component={WorkoutHistoryScreen}
-        options={{
-          headerShown: true,
-          headerTitleStyle: { display: 'none' },
-          animationEnabled: true,
-          headerBackTitle: 'Workout Log'
-        }} />
-      <WorkoutStack.Screen name="WorkoutGroupScreen" component={WorkoutGroupScreen}
-        options={{
-          headerShown: false,
-        }} />
-      <WorkoutStack.Screen name="EditWorkoutScreen" component={EditWorkoutScreen} options={{ headerShown: false}} />
-      <WorkoutStack.Screen name="CustomSplitScreen" component={CustomSplitScreen}
-        options={{
-          headerShown: true,
-          animationEnabled: true,
-          headerBackTitle: 'Back'
-        }} />
-    </WorkoutStack.Navigator>
-  )
 }
 
 const FoodStack = createNativeStackNavigator()
