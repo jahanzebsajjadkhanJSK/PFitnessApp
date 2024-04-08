@@ -9,7 +9,7 @@ import { useStores } from '../../store/useStores'
 import DumbleBlueIcon from '../../assets/dumble_blue.png'
 import RightArrowIcon from '../../assets/right_arrow.png'
 import CalendarIcon from '../../assets/calendar.png'
-import GradientButton from '../../utils/GradientButton'
+import GradientButton from '../../components/GradientButton'
 
 const WorkoutScreen = () => {
   const navigation = useNavigation()

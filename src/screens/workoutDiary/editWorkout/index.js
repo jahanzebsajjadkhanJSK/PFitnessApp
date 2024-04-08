@@ -8,7 +8,7 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import ImageCycler from '../imageCycler'
 import { typography } from '../styles'
 import { AddExercise } from './addExercise'
-import GradientButton from '../../../utils/GradientButton'
+import GradientButton from '../../../components/GradientButton'
 
 const windowWidth = Dimensions.get('window').width
 

@@ -4,7 +4,7 @@ import { View, Text, TouchableOpacity, StyleSheet } from 'react-native'
 import { observer } from 'mobx-react'
 
 import ExerciseDetailsScreen from '../exerciseDetails'
-import GradientButton from '../../../utils/GradientButton'
+import GradientButton from '../../../components/GradientButton'
 import ImageCycler from '../imageCycler'
 
 const WorkoutGroupScreen = ({ navigation }) => {

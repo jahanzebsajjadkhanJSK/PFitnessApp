@@ -4,7 +4,7 @@ import Ionicon from 'react-native-vector-icons/Ionicons'
 import { observer } from 'mobx-react'
 
 import { typography } from '../../workoutDiary/styles'
-import GradientButton from '../../../utils/GradientButton'
+import GradientButton from '../../../components/GradientButton'
 import { useStores } from '../../../store/useStores'
 import ImageCycler from '../../workoutDiary/imageCycler'
 

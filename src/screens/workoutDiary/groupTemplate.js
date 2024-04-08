@@ -8,7 +8,7 @@ import Header from './header'
 import DumbleBlueIcon from '../../assets/dumble_blue.png'
 import RightArrowIcon from '../../assets/right_arrow.png'
 import CalendarIcon from '../../assets/calendar.png'
-import GradientButton from '../../utils/GradientButton'
+import GradientButton from '../../components/GradientButton'
 
 export const GroupTemplate = observer(({ 
   heading,  

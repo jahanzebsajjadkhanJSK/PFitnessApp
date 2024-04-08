@@ -7,7 +7,7 @@ import { useStores } from '../../../../store/useStores'
 import CloseIcon from '../../../../assets/close.png'
 import { typography } from '../../styles'
 import ImageCycler from '../../imageCycler'
-import GradientButton from '../../../../utils/GradientButton'
+import GradientButton from '../../../../components/GradientButton'
 
 const windowHeight = Dimensions.get('window').height
 const windowWidth = Dimensions.get('window').width

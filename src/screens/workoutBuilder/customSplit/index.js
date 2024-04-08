@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react'
 import { observer } from 'mobx-react'
 
 import { useStores } from '../../../store/useStores'
-import GradientButton from '../../../utils/GradientButton'
+import GradientButton from '../../../components/GradientButton'
 import { Container } from '../../workoutDiary/emptyContainer'
 import { ProgressBar } from './progressBar'
 import Step1 from './step1'
