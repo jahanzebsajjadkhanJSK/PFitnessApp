@@ -484,7 +484,14 @@ const DiaryScreen = () => {
                 onPress={buttonpressed}
                 colors={['#012D61', '#0158BF']}
                 title="See Your Trends "
-              />
+                style={{ padding: 15, alignItems: 'center', borderRadius: 16, flexDirection: 'row', justifyContent: 'space-between' }}
+              >
+                <Image
+                  source={require('../../assets/shivronRight.png')}
+                  style={{ width: 20, height: 20 }}
+                />
+
+              </GradientButton>
             </View>
           </View>
           {/* this is the END OF Gradient button  area */}

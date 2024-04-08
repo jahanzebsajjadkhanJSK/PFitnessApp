@@ -1,5 +1,6 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
+import { Image } from 'react-native';
 
 import DiaryScreen from '../screens/trends'
 // import HomeScreen from '../screens/home'
@@ -13,6 +14,15 @@ import EditWorkoutScreen from '../screens/workoutDiary/editWorkout'
 import SearchFoodScreen from '../screens/quickAdd/addFood/SearchFoodScreen'
 import CustomSplitScreen from '../screens/workoutBuilder/customSplit'
 import HomeScreen from '../screens/foodDiary/HomeScreen'
+import stretchingIcon from '../assets/stretching.png'
+import stretchingActiveIcon from '../assets/stretching_active.png'
+import foodDiaryIcon from '../assets/foodDiary.png'
+import foodDiaryActiveIcon from '../assets/foodDiary_active.png'
+import homeIcon from '../assets/home.png'
+import homeActiveIcon from '../assets/home_active.png'
+import trendsIcon from '../assets/trends.png'
+import commentIcon from '../assets/comment.png'
+
 
 const Tab = createBottomTabNavigator()
 
@@ -24,7 +34,7 @@ const WorkoutStack = createNativeStackNavigator()
 const WorkoutStackGroup = () => {
   return (
     <WorkoutStack.Navigator initialRouteName='WorkoutScreen'>
-      <WorkoutStack.Screen name="WorkoutScreen" component={WorkoutScreen} />
+      <WorkoutStack.Screen name="WorkoutScreen" component={WorkoutScreen} options={{ headerShown: false }} />
       <WorkoutStack.Screen name="StartCustomWorkoutScreen" component={StartCustomWorkoutScreen}
         options={{
           headerShown: true,
@@ -39,15 +49,9 @@ const WorkoutStackGroup = () => {
         }} />
       <WorkoutStack.Screen name="WorkoutGroupScreen" component={WorkoutGroupScreen}
         options={{
-          headerShown: true,
-          headerTitleStyle: { display: 'none' }
+          headerShown: false,
         }} />
-      <WorkoutStack.Screen name="EditWorkoutScreen" component={EditWorkoutScreen}
-        options={{
-          headerShown: true,
-          animationEnabled: true,
-          headerBackTitle: 'Back'
-        }} />
+      <WorkoutStack.Screen name="EditWorkoutScreen" component={EditWorkoutScreen} options={{ headerShown: false}} />
       <WorkoutStack.Screen name="CustomSplitScreen" component={CustomSplitScreen}
         options={{
           headerShown: true,
@@ -72,33 +76,55 @@ const MainTabNavigator = () => {
   return (
     <Tab.Navigator
       initialRouteName="Workout Diary"
-      screenOptions={{ useNativeDriver: false, headerShown: false}}
+      screenOptions={({ route }) => ({
+        useNativeDriver: false,
+        headerShown: false,
+        tabBarStyle: {
+          backgroundColor: 'black',
+          borderTopColor: 'black'
+        },
+        tabBarIcon: ({ focused, color, size }) => {
+          let iconName;
+
+          if (route.name === 'Workout Diary') {
+            iconName = focused ? stretchingActiveIcon : stretchingIcon ;
+          } else if (route.name === 'Food Diary') {
+            iconName = focused ? foodDiaryActiveIcon : foodDiaryIcon;
+          } else if (route.name === 'Home') {
+            iconName = focused ? homeActiveIcon : homeIcon;
+          } else if (route.name === 'Trends') {
+            iconName = focused ? trendsIcon : trendsIcon;
+          } else if (route.name === 'More') {
+            iconName = focused ? commentIcon : commentIcon;
+          }
+          return <Image source={iconName} style={{ width: 32, height: 32 }} />;
+        },
+      })}
+      tabBarActiveTintColor="#0779FF"
+      tabBarInactiveTintColor="#D9D9D9"
     >
       <Tab.Screen
         name="Workout Diary"
         component={WorkoutStackGroup}
-        options={{ iconName: 'workout', headerShown: false }}
+        options={{ headerShown: false }}
       />
       <Tab.Screen
         name="Food Diary"
         component={DiaryScreen}
-        options={{ iconName: 'cutlery' }}
+
       />
       <Tab.Screen
         name="Home"
         component={HomeScreen}
-        options={{ iconName: 'plus' }}
       />
       <Tab.Screen
         name="Trends"
         component={FoodStackGroup}
-        options={{ iconName: 'book' }}
       />
 
       <Tab.Screen
         name="More"
         component={MoreScreen}
-        options={{ iconName: 'cog' }}
       />
     </Tab.Navigator>
   )

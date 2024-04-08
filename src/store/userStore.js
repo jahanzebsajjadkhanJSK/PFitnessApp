@@ -21,11 +21,12 @@ export class UserStore {
   async login(email, password) {
     try {
       const resp = await apiCaller().post('/login', { email: "sampathvinayak1453@gmail.com", password: "Sampath@123" });
-      console.log('Login successful:', resp.data);
+      console.log('Login successful');
       this.email = resp.data.email;
       this.token = resp.data.token;
       this.isAuthenticated = resp.data.isVerified;
       this.error = null;
+      console.log(resp.data.token)
     } catch (error) {
       console.log('store error', error);
       this.isAuthenticated = false;
