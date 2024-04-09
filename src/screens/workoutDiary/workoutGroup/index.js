@@ -5,7 +5,7 @@ import { observer } from 'mobx-react'
 
 import ExerciseDetailsScreen from '../exerciseDetails'
 import GradientButton from '../../../components/GradientButton'
-import ImageCycler from '../imageCycler'
+import ImageCycler from '../components/imageCycler'
 
 const WorkoutGroupScreen = ({ navigation }) => {
   const route = useRoute()

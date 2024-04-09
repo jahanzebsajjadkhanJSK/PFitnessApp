@@ -6,7 +6,7 @@ import { observer } from 'mobx-react'
 import { typography } from '../../workoutDiary/styles'
 import GradientButton from '../../../components/GradientButton'
 import { useStores } from '../../../store/useStores'
-import ImageCycler from '../../workoutDiary/imageCycler'
+import ImageCycler from '../../workoutDiary/components/imageCycler'
 
 const tabs = {
   push: 'Push',

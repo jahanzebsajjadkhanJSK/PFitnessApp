@@ -1,7 +1,7 @@
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 
-import { typography } from './styles'
+import { typography } from '../styles'
 
 const Header = ({
   heading = '',

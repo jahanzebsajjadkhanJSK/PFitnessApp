@@ -5,7 +5,7 @@ import Icon from 'react-native-vector-icons/Ionicons'
 import { useRoute } from '@react-navigation/native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
-import ImageCycler from '../imageCycler'
+import ImageCycler from '../components/imageCycler'
 import { typography } from '../styles'
 import { AddExercise } from './addExercise'
 import GradientButton from '../../../components/GradientButton'

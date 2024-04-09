@@ -4,7 +4,7 @@ import { useNavigation } from '@react-navigation/native'
 import { useEffect, useState } from 'react'
 import { observer } from 'mobx-react'
 
-import Header from './header'
+import Header from './components/header'
 import { useStores } from '../../store/useStores'
 import DumbleBlueIcon from '../../assets/dumble_blue.png'
 import RightArrowIcon from '../../assets/right_arrow.png'

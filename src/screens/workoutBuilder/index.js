@@ -4,7 +4,7 @@ import { useNavigation, useRoute } from '@react-navigation/native'
 import { observer } from 'mobx-react'
 import { useEffect, useState } from 'react'
 
-import { GroupTemplate } from '../workoutDiary/groupTemplate'
+import { GroupTemplate } from '../workoutDiary/components/groupTemplate'
 import CalendarIcon from '../../assets/calendar.png'
 import { useStores } from '../../store/useStores'
 

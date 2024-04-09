@@ -19,3 +19,51 @@ export const typography = StyleSheet.create({
     wrap
   })
 })
+
+export const margin = StyleSheet.create({
+  top: (value) => ({
+    marginTop: value
+  }),
+  bottom: (value) => ({
+    marginBottom: value
+  }),
+  left: (value) => ({
+    marginLeft: value
+  }),
+  right: (value) => ({
+    marginRight: value
+  }),
+  horizontal: (value) => ({
+    marginHorizontal: value
+  }),
+  vertical: (value) => ({
+    marginVertical: value
+  }),
+  all: (value) => ({
+    margin: value
+  })
+})
+
+export const padding = StyleSheet.create({
+  top: (value) => ({
+    paddingTop: value
+  }),
+  bottom: (value) => ({
+    paddingBottom: value
+  }),
+  left: (value) => ({
+    paddingLeft: value
+  }),
+  right: (value) => ({
+    paddingRight: value
+  }),
+  horizontal: (value) => ({
+    paddingHorizontal: value
+  }),
+  vertical: (value) => ({
+    paddingVertical: value
+  }),
+  all: (value) => ({
+    margin: value
+  })
+})

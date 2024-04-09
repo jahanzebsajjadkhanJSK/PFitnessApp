@@ -5,22 +5,22 @@ import { useEffect, useState } from 'react'
 import { observer } from 'mobx-react'
 
 import Header from './header'
-import DumbleBlueIcon from '../../assets/dumble_blue.png'
-import RightArrowIcon from '../../assets/right_arrow.png'
-import CalendarIcon from '../../assets/calendar.png'
-import GradientButton from '../../components/GradientButton'
+import DumbleBlueIcon from '../../../assets/dumble_blue.png'
+import RightArrowIcon from '../../../assets/right_arrow.png'
+import CalendarIcon from '../../../assets/calendar.png'
+import GradientButton from '../../../components/GradientButton'
 
-export const GroupTemplate = observer(({ 
-  heading,  
+export const GroupTemplate = observer(({
+  heading,
   actionCardsTitle = '',
   actionCards = {
     card1: {
       icon: '',
       title: '',
-      action: () => {}
+      action: () => { }
     }
   },
-  exerciseGroups = [],
+  exerciseGroups = []
 }) => {
   const navigation = useNavigation()
 
@@ -35,51 +35,51 @@ export const GroupTemplate = observer(({
   const startWorkout = () => {
     console.log('start workout')
   }
-  
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#010A18' }}>
-    <Header heading={heading} />
-    <Text style={styles.startWorkout}>{actionCardsTitle}</Text>
-    <View style={{ flexDirection: 'column' }}>
-      {Object.keys(actionCards).map((key) => {
-        return (
-          <TouchableOpacity onPress={actionCards[key].action} style={styles.workoutActions}>
-            <View style={styles.workoutActionsTextGroup}>
-              <Image source={actionCards[key].icon} />
-              <Text style={styles.workoutActionsText}>{actionCards[key].title}</Text>
-            </View>
-            <Image source={RightArrowIcon} />
-          </TouchableOpacity>
-        )
-      })}
-
-      <View>
-        {exerciseGroups.length > 0 && exerciseGroups.map((group) => {
+      <Header heading={heading} />
+      <Text style={styles.startWorkout}>{actionCardsTitle}</Text>
+      <View style={{ flexDirection: 'column' }}>
+        {Object.keys(actionCards).map((key) => {
           return (
-            <TouchableOpacity key={group.id} onPress={() => handleNavigateWorkoutGroup(group)} style={styles.exerciseGroup}>
-              <Text style={styles.exerciseGroupText}>{group.name}</Text>
-              <View style={styles.exerciseGroupActionContainer}>
-                <Text style={styles.exerciseGroupActionContainer.text}>{`${group.exerciseList.length} exercises`}</Text>
-                <View style={{ flexDirection: 'row' }}>
-                  <TouchableOpacity onPress={() => handleNavigateEdit(group)} style={styles.exerciseGroupActionContainer.editBtn}>
-                    <Text style={styles.exerciseGroupActionContainer.editBtn.text}>Edit</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity onPress={startWorkout} style={styles.exerciseGroupActionContainer.startBtn}>
-                    <GradientButton
-                      colors={['#0779FF', '#044999']}
-                      style={styles.exerciseGroupActionContainer.startBtn}
-                      title={'Start'}
-                    />
-                  </TouchableOpacity>
-                </View>
+            <TouchableOpacity onPress={actionCards[key].action} style={styles.workoutActions}>
+              <View style={styles.workoutActionsTextGroup}>
+                <Image source={actionCards[key].icon} />
+                <Text style={styles.workoutActionsText}>{actionCards[key].title}</Text>
               </View>
+              <Image source={RightArrowIcon} />
             </TouchableOpacity>
           )
         })}
+
+        <View>
+          {exerciseGroups.length > 0 && exerciseGroups.map((group) => {
+            return (
+              <TouchableOpacity key={group.id} onPress={() => handleNavigateWorkoutGroup(group)} style={styles.exerciseGroup}>
+                <Text style={styles.exerciseGroupText}>{group.name}</Text>
+                <View style={styles.exerciseGroupActionContainer}>
+                  <Text style={styles.exerciseGroupActionContainer.text}>{`${group.exerciseList.length} exercises`}</Text>
+                  <View style={{ flexDirection: 'row' }}>
+                    <TouchableOpacity onPress={() => handleNavigateEdit(group)} style={styles.exerciseGroupActionContainer.editBtn}>
+                      <Text style={styles.exerciseGroupActionContainer.editBtn.text}>Edit</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={startWorkout} style={styles.exerciseGroupActionContainer.startBtn}>
+                      <GradientButton
+                        colors={['#0779FF', '#044999']}
+                        style={styles.exerciseGroupActionContainer.startBtn}
+                        title={'Start'}
+                      />
+                    </TouchableOpacity>
+                  </View>
+                </View>
+              </TouchableOpacity>
+            )
+          })}
+        </View>
       </View>
-    </View>
-  </SafeAreaView>
-    
+    </SafeAreaView>
+
   )
 })
 
@@ -137,7 +137,7 @@ const styles = StyleSheet.create({
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
-      height: 4,
+      height: 4
     },
     shadowOpacity: 0.25,
     shadowRadius: 4,
@@ -168,7 +168,7 @@ const styles = StyleSheet.create({
       fontSize: 16,
       fontStyle: 'normal',
       fontWeight: '400',
-      letterSpacing: -0.165,
+      letterSpacing: -0.165
     },
     editBtn: {
       width: 87,
@@ -178,7 +178,7 @@ const styles = StyleSheet.create({
       shadowColor: '#000',
       shadowOffset: {
         width: 0,
-        height: 4,
+        height: 4
       },
       shadowOpacity: 0.25,
       shadowRadius: 4,
@@ -192,7 +192,7 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontStyle: 'normal',
         fontWeight: '400',
-        letterSpacing: -0.165,
+        letterSpacing: -0.165
       }
     },
     startBtn: {
@@ -202,7 +202,7 @@ const styles = StyleSheet.create({
       shadowColor: '#000',
       shadowOffset: {
         width: 0,
-        height: 4,
+        height: 4
       },
       shadowOpacity: 0.25,
       shadowRadius: 4,

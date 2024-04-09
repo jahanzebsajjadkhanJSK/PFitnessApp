@@ -6,7 +6,7 @@ import Icon from 'react-native-vector-icons/Ionicons'
 import { useStores } from '../../../../store/useStores'
 import CloseIcon from '../../../../assets/close.png'
 import { typography } from '../../styles'
-import ImageCycler from '../../imageCycler'
+import ImageCycler from '../../components/imageCycler'
 import GradientButton from '../../../../components/GradientButton'
 
 const windowHeight = Dimensions.get('window').height

@@ -4,7 +4,7 @@ import { observer } from 'mobx-react'
 
 import { useStores } from '../../../store/useStores'
 import GradientButton from '../../../components/GradientButton'
-import { Container } from '../../workoutDiary/emptyContainer'
+import { Container } from '../../workoutDiary/components/emptyContainer'
 import { ProgressBar } from './progressBar'
 import Step1 from './step1'
 import Step2 from './step2'
