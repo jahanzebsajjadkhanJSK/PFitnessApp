@@ -18,3 +18,57 @@ export const appThemeColors = {
   backgroundList:'#494848'
   // Add more color values as needed
 }
+
+
+ export const fontStyles = {
+  poppinsNormal24300: {
+    fontFamily: 'Poppins-Light',
+    fontSize: 24,
+    color: 'white',
+  },
+  poppinsNormal16300: {
+    fontFamily: 'Poppins-Regular',
+    fontSize: 16,
+    color: 'white',
+  },
+  poppinsNormal12600: {
+    fontFamily: 'Poppins-Regular',
+    fontSize: 16,
+    color: 'white',
+  },
+  poppinsRegular12400: {
+    fontFamily: 'Poppins-Regular',
+    fontSize: 12,
+    color: 'white',
+  },
+  poppinsRegular14: {
+    fontFamily: 'Poppins-Regular',
+    fontSize: 14,
+    color: 'white',
+  },
+  poppinsSemiBold24: {
+    fontFamily: 'Poppins-SemiBold',
+    fontSize: 24,
+    color: 'white',
+
+  },
+  poppinsBold24: {
+    fontFamily: 'Poppins-Medium',
+    fontSize: 24,
+    color: 'white',
+
+  },
+  poppinsBold24600: {
+    fontFamily: 'Poppins-Medium',
+    fontSize: 24,
+    color: 'white',
+
+  },
+  poppinsMedium12500: {
+    fontFamily: 'Poppins-Medium',
+    fontSize: 12,
+    color: '#B0B0B0',
+  },
+}
+
+

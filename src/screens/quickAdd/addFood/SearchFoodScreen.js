@@ -8,6 +8,7 @@ import {
   Button,
   FlatList,
   Dropdown,
+  ScrollView,
   Alert,
 } from 'react-native';
 import {AnimatedCircularProgress} from 'react-native-circular-progress';
@@ -16,6 +17,7 @@ import {
   BottomSheetModal,
   BottomSheetView,
   BottomSheetModalProvider,
+  BottomSheetScrollView,
 } from '@gorhom/bottom-sheet';
 import * as Progress from 'react-native-progress';
 import Config from 'react-native-config';
@@ -29,6 +31,7 @@ import {useStores} from '../../../store/useStores';
 import SearchListView from '../../../components/SearchListView';
 import FoodLogModal from '../../../components/FoodLogModal';
 import GradientButton from '../../../utils/GradientButton';
+import {fontStyles} from '../../../utils/theme';
 
 const SearchFoodScreen = ({navigation}) => {
   const {
@@ -62,24 +65,24 @@ const SearchFoodScreen = ({navigation}) => {
   const snapPoints = useMemo(() => ['25%', '97%'], []);
 
   // callbacks
-  const handlePresentModalPress = (itemId)=> {
+  const handlePresentModalPress = itemId => {
     bottomSheetModalRef.current?.present();
-    setLogData (retrieveEntry(itemId))
-    console.log("this is the logged item0909", logData)
-  }
-  const handleCloseModalPress = (itemId)=> {
+    setLogData(retrieveEntry(itemId));
+    console.log('this is the logged item0909', logData);
+  };
+  const handleCloseModalPress = itemId => {
     bottomSheetModalRef.current?.dismiss();
-    console.log("this is close bottom sheet ")
-    navigation.navigate('Food Diary')
-  }
-  const handleSheetChanges = useCallback((index) => {
+    console.log('this is close bottom sheet ');
+    navigation.navigate('Food Diary');
+  };
+  const handleSheetChanges = useCallback(index => {
     console.log('handleSheetChanges', index);
   }, []);
 
   const [amount, setAmount] = useState(0); // Initial amount
   const [servingSize, setServingSize] = useState(''); // Initial serving size
   const [dropdownData, setDropdownData] = useState([]); // Data for dropdown
-  const [logData,setLogData] = useState('')
+  const [logData, setLogData] = useState('');
   // Get dropdown data (replace with your actual data fetching logic)
   useEffect(() => {
     const servingSizeData = [
@@ -133,7 +136,7 @@ const SearchFoodScreen = ({navigation}) => {
 
   const addLog = async selectedId => {
     const selectedFoodObject = retrieveEntry(selectedId);
-    console.log("this is the selected food id", selectedFoodObject)
+    console.log('this is the selected food id', selectedFoodObject);
     const apiData = {
       foodId: selectedFoodObject.id,
       consumedAt: new Date(),
@@ -235,366 +238,362 @@ const SearchFoodScreen = ({navigation}) => {
           searchQuery,
           filteredFood,
           dataBySelectedCategory[activeCategory],
-          handlePresentModalPress
+          handlePresentModalPress,
         )}
 
-       
-        <BottomSheetModal
-          ref={bottomSheetModalRef}
-          index={1}
-          snapPoints={snapPoints}
-          onChange={handleSheetChanges}>
-          <BottomSheetView style={styles.contentContainer}>
+      <BottomSheetModal
+        ref={bottomSheetModalRef}
+        index={1}
+        snapPoints={snapPoints}
+        onChange={handleSheetChanges}>
+        <BottomSheetScrollView style={styles.contentContainer}>
+          <View>
             <View>
-              <View>
-                <Text style={styles.description}>
-                  {logData.foodDescription}
+              <Text style={styles.description}>{logData.foodDescription}</Text>
+            </View>
+          </View>
+
+          <View
+            style={{
+              ...styles.container,
+              borderColor: '#344760',
+              borderWidth: 1,
+              borderTopRightRadius: 8,
+              borderTopLeftRadius: 8,
+              borderBottomLeftRadius: 16,
+              borderBottomRightRadius: 16,
+            }}>
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                borderColor: '#344760',
+                borderBottomWidth: 1,
+                paddingTop: 10,
+
+                paddingLeft: 22,
+              }}>
+              <Text style={{...styles.text, paddingBottom: 10}}>Amount:</Text>
+              <TextInput
+                style={styles.input}
+                keyboardType="numeric"
+                value={amount.toString()}
+                onChangeText={handleAmountChange}
+              />
+            </View>
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                borderColor: '#344760',
+                borderWidth: 1,
+                paddingTop: 10,
+                paddingLeft: 22,
+                paddingBottom: 10,
+              }}>
+              <Text style={styles.text}>Serving Size:</Text>
+
+              <View
+                style={{
+                  backgroundColor: 'red',
+                  width: 72,
+                  height: 21,
+                  marginRight: 34,
+                }}></View>
+            </View>
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                paddingHorizontal: 22,
+                paddingVertical: 14,
+              }}>
+              <Text style={styles.text}>Timestamp:</Text>
+              <Text style={styles.text}>{currentDate}</Text>
+            </View>
+          </View>
+
+          <View
+            style={{
+              paddingTop: 10,
+              paddingBottom: 15,
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
+            <Text style={{color: 'white'}}>
+              Nutritional Information per [INSERT SERVING]
+            </Text>
+
+            <Text style={{color: 'white'}}>Data Source: [SOURCE DATABASE]</Text>
+          </View>
+
+          <View
+            style={{
+              borderWidth: 1,
+              borderColor: '#344760',
+              borderRadius: 15,
+              paddingBottom: 27,
+            }}>
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                paddingHorizontal: 17,
+                paddingTop: 14,
+                borderWidth: 1,
+              }}>
+              <Text style={{color: 'white'}}>Energy Summary</Text>
+              <Text style={{color: 'white'}}>^</Text>
+            </View>
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-around',
+                borderWidth: 1,
+                paddingTop: 17,
+              }}>
+              <View style={{alignItems: 'center', position: 'relative'}}>
+                <Text style={{color: 'white', paddingBottom: 9}}>proteins</Text>
+                <AnimatedCircularProgress
+                  size={70}
+                  width={5}
+                  fill={70}
+                  tintColor={appThemeColors.progressBarGreen}
+                  rotation={220}
+                  lineCap="round"
+                  arcSweepAngle={280}
+                  backgroundColor="grey"
+                  onAnimationComplete={() => console.log('onAnimationComplete')}
+                />
+                <View
+                  style={{
+                    flex: 1,
+                    justifyContent: 'center',
+                    position: 'absolute',
+                    bottom: 18,
+                  }}>
+                  <Text
+                    style={{
+                      fontSize: 14,
+                      color: 'white',
+                      alignSelf: 'center',
+                      fontWeight: '300',
+                    }}>
+                    810
+                  </Text>
+                  <Text
+                    style={{
+                      fontSize: 12,
+                      color: appThemeColors.textColorGrey,
+                      alignSelf: 'center',
+                      fontWeight: '500',
+                      letterSpacing: 0.17,
+                    }}>
+                    cal
+                  </Text>
+                </View>
+              </View>
+
+              <View style={{alignItems: 'center', position: 'relative'}}>
+                <Text style={{color: 'white', paddingBottom: 9}}>carbs</Text>
+                <AnimatedCircularProgress
+                  size={70}
+                  width={5}
+                  fill={70}
+                  tintColor={appThemeColors.progressBarOrange}
+                  rotation={220}
+                  lineCap="round"
+                  arcSweepAngle={280}
+                  backgroundColor="grey"
+                  onAnimationComplete={() => console.log('onAnimationComplete')}
+                />
+                <View
+                  style={{
+                    flex: 1,
+                    justifyContent: 'center',
+                    position: 'absolute',
+                    bottom: 18,
+                  }}>
+                  <Text
+                    style={{
+                      fontSize: 14,
+                      color: 'white',
+                      alignSelf: 'center',
+                      fontWeight: '300',
+                    }}>
+                    810
+                  </Text>
+                  <Text
+                    style={{
+                      fontSize: 12,
+                      color: appThemeColors.textColorGrey,
+                      alignSelf: 'center',
+                      fontWeight: '500',
+                      letterSpacing: 0.17,
+                    }}>
+                    cal
+                  </Text>
+                </View>
+              </View>
+
+              <View style={{alignItems: 'center', position: 'relative'}}>
+                <Text style={{color: 'white', paddingBottom: 9}}>Fats</Text>
+                <AnimatedCircularProgress
+                  size={70}
+                  width={5}
+                  fill={70}
+                  tintColor={appThemeColors.progressBarYellow}
+                  rotation={220}
+                  lineCap="round"
+                  arcSweepAngle={280}
+                  backgroundColor="grey"
+                  onAnimationComplete={() => console.log('onAnimationComplete')}
+                />
+                <View
+                  style={{
+                    flex: 1,
+                    justifyContent: 'center',
+                    position: 'absolute',
+                    bottom: 18,
+                  }}>
+                  <Text
+                    style={{
+                      fontSize: 14,
+                      color: 'white',
+                      alignSelf: 'center',
+                      fontWeight: '300',
+                    }}>
+                    810
+                  </Text>
+                  <Text
+                    style={{
+                      fontSize: 12,
+                      color: appThemeColors.textColorGrey,
+                      alignSelf: 'center',
+                      fontWeight: '500',
+                      letterSpacing: 0.17,
+                    }}>
+                    cal
+                  </Text>
+                </View>
+              </View>
+            </View>
+          </View>
+
+          <View
+            style={{
+              borderWidth: 1,
+              borderColor: '#344760',
+              paddingTop: 12,
+              borderRadius: 15,
+            }}>
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                paddingHorizontal: 15,
+                paddingTop: 7,
+              }}>
+              <Text style={{color: 'white'}}>Macronutrient Targets</Text>
+              <Text style={{color: 'white'}}>^</Text>
+            </View>
+
+            <View style={{paddingBottom: 5, paddingTop: 16, borderWidth: 1}}>
+              <View
+                style={{
+                  paddingHorizontal: 18,
+                }}>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                  }}>
+                  <Text
+                    style={{
+                      ...fontStyles.poppinsRegular12400,
+                    }}>
+                    Energy - 230.0 / 2100.0 kcal
+                  </Text>
+                  <Text
+                    style={{
+                      ...fontStyles.poppinsRegular12400,
+                    }}>
+                    11%
+                  </Text>
+                </View>
+                <View style={{}}>
+                  <Progress.Bar
+                    progress={0.3}
+                    width={380}
+                    color={appThemeColors.progressBarWhite}
+                    unfilledColor="#333333"
+                    borderWidth={0}
+                    height={10}
+                  />
+                </View>
+              </View>
+              <View
+                style={{
+                  paddingHorizontal: 18,
+                  paddingTop: 12,
+                }}>
+                <Text
+                  style={{
+                    ...fontStyles.poppinsRegular12400,
+                  }}>
+                  Energy - 230.0 / 2100.0 kcal
                 </Text>
-              </View>
-            </View>
-
-            <View
-              style={{
-                ...styles.container,
-                borderColor: '#344760',
-                borderWidth: 1,
-                borderTopRightRadius: 8,
-                borderTopLeftRadius: 8,
-                borderBottomLeftRadius: 16,
-                borderBottomRightRadius: 16,
-              }}>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
-                  borderColor: '#344760',
-                  borderBottomWidth: 1,
-                  paddingTop: 10,
-
-                  paddingLeft: 22,
-                }}>
-                <Text style={{...styles.text, paddingBottom: 10}}>Amount:</Text>
-                <TextInput
-                  style={styles.input}
-                  keyboardType="numeric"
-                  value={amount.toString()}
-                  onChangeText={handleAmountChange}
-                />
-              </View>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
-                  borderColor: '#344760',
-                  borderWidth: 1,
-                  paddingTop: 10,
-                  paddingLeft: 22,
-                  paddingBottom: 10,
-                }}>
-                <Text style={styles.text}>Serving Size:</Text>
-
-                <View
-                  style={{
-                    backgroundColor: 'red',
-                    width: 72,
-                    height: 21,
-                    marginRight: 34,
-                  }}></View>
-              </View>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
-                  paddingHorizontal: 22,
-                  paddingVertical: 5,
-                }}>
-                <Text style={styles.text}>Timestamp:</Text>
-                <Text style={styles.text}>{currentDate}</Text>
-              </View>
-            </View>
-
-            <View
-              style={{
-                paddingVertical: 10,
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}>
-              <Text style={{color: 'white'}}>
-                Nutritional Information per [INSERT SERVING]
-              </Text>
-
-              <Text style={{color: 'white'}}>
-                Data Source: [SOURCE DATABASE]
-              </Text>
-            </View>
-
-            <View
-              style={{
-                borderWidth: 1,
-                borderColor: '#344760',
-                borderRadius: 15,
-              }}>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
-                  paddingHorizontal: 17,
-                  paddingTop: 14,
-                }}>
-                <Text style={{color: 'white'}}>Energy Summary</Text>
-                <Text style={{color: 'white'}}>^</Text>
-              </View>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  justifyContent: 'space-around',
-                }}>
-                <View style={{alignItems: 'center', position: 'relative'}}>
-                  <Text style={{color: 'white'}}>proteins</Text>
-                  <AnimatedCircularProgress
-                    size={70}
-                    width={5}
-                    fill={70}
-                    tintColor={appThemeColors.progressBarGreen}
-                    rotation={220}
-                    lineCap="round"
-                    arcSweepAngle={280}
-                    backgroundColor="grey"
-                    onAnimationComplete={() =>
-                      console.log('onAnimationComplete')
-                    }
+                <View style={{}}>
+                  <Progress.Bar
+                    progress={0.3}
+                    width={380}
+                    color={appThemeColors.progressBarBlue}
+                    unfilledColor="#333333"
+                    borderWidth={0}
+                    height={10}
                   />
-                  <View
-                    style={{
-                      flex: 1,
-                      justifyContent: 'center',
-                      position: 'absolute',
-                      bottom: 18,
-                    }}>
-                    <Text
-                      style={{
-                        fontSize: 14,
-                        color: 'white',
-                        alignSelf: 'center',
-                        fontWeight: '300',
-                      }}>
-                      810
-                    </Text>
-                    <Text
-                      style={{
-                        fontSize: 12,
-                        color: appThemeColors.textColorGrey,
-                        alignSelf: 'center',
-                        fontWeight: '500',
-                        letterSpacing: 0.17,
-                      }}>
-                      cal
-                    </Text>
-                  </View>
-                </View>
-
-                <View style={{alignItems: 'center', position: 'relative'}}>
-                  <Text style={{color: 'white'}}>carbs</Text>
-                  <AnimatedCircularProgress
-                    size={70}
-                    width={5}
-                    fill={70}
-                    tintColor={appThemeColors.progressBarOrange}
-                    rotation={220}
-                    lineCap="round"
-                    arcSweepAngle={280}
-                    backgroundColor="grey"
-                    onAnimationComplete={() =>
-                      console.log('onAnimationComplete')
-                    }
-                  />
-                  <View
-                    style={{
-                      flex: 1,
-                      justifyContent: 'center',
-                      position: 'absolute',
-                      bottom: 18,
-                    }}>
-                    <Text
-                      style={{
-                        fontSize: 14,
-                        color: 'white',
-                        alignSelf: 'center',
-                        fontWeight: '300',
-                      }}>
-                      810
-                    </Text>
-                    <Text
-                      style={{
-                        fontSize: 12,
-                        color: appThemeColors.textColorGrey,
-                        alignSelf: 'center',
-                        fontWeight: '500',
-                        letterSpacing: 0.17,
-                      }}>
-                      cal
-                    </Text>
-                  </View>
-                </View>
-
-                <View style={{alignItems: 'center', position: 'relative'}}>
-                  <Text style={{color: 'white'}}>Fats</Text>
-                  <AnimatedCircularProgress
-                    size={70}
-                    width={5}
-                    fill={70}
-                    tintColor={appThemeColors.progressBarYellow}
-                    rotation={220}
-                    lineCap="round"
-                    arcSweepAngle={280}
-                    backgroundColor="grey"
-                    onAnimationComplete={() =>
-                      console.log('onAnimationComplete')
-                    }
-                  />
-                  <View
-                    style={{
-                      flex: 1,
-                      justifyContent: 'center',
-                      position: 'absolute',
-                      bottom: 18,
-                    }}>
-                    <Text
-                      style={{
-                        fontSize: 14,
-                        color: 'white',
-                        alignSelf: 'center',
-                        fontWeight: '300',
-                      }}>
-                      810
-                    </Text>
-                    <Text
-                      style={{
-                        fontSize: 12,
-                        color: appThemeColors.textColorGrey,
-                        alignSelf: 'center',
-                        fontWeight: '500',
-                        letterSpacing: 0.17,
-                      }}>
-                      cal
-                    </Text>
-                  </View>
                 </View>
               </View>
-            </View>
-
-            <View
-              style={{
-                borderWidth: 1,
-                borderColor: '#344760',
-                marginTop: 3,
-                borderRadius: 15,
-              }}>
               <View
                 style={{
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
-                  paddingHorizontal: 15,
-                  paddingTop: 7,
+                  paddingHorizontal: 18,
+                  paddingTop: 12,
                 }}>
-                <Text style={{color: 'white'}}>Macronutrient Targets</Text>
-                <Text style={{color: 'white'}}>^</Text>
-              </View>
-
-              <View style={{paddingBottom: 5}}>
-                <View
+                <Text
                   style={{
-                    paddingHorizontal: 18,
+                    ...fontStyles.poppinsRegular12400,
                   }}>
-                  <Text
-                    style={{
-                      fontSize: 10,
-                      color: appThemeColors.textColorGrey,
-                      fontWeight: '400',
-                      letterSpacing: 0.17,
-                      marginBottom: 5,
-                    }}>
-                    Energy - 230.0 / 2100.0 kcal
-                  </Text>
-                  <View style={{}}>
-                    <Progress.Bar
-                      progress={0.3}
-                      width={380}
-                      color={appThemeColors.progressBarWhite}
-                      unfilledColor="#333333"
-                      borderWidth={0}
-                      height={10}
-                    />
-                  </View>
-                </View>
-                <View
-                  style={{
-                    paddingHorizontal: 18,
-                  }}>
-                  <Text
-                    style={{
-                      fontSize: 10,
-                      color: appThemeColors.textColorGrey,
-                      fontWeight: '400',
-                      letterSpacing: 0.17,
-                      marginBottom: 5,
-                    }}>
-                    Energy - 230.0 / 2100.0 kcal
-                  </Text>
-                  <View style={{}}>
-                    <Progress.Bar
-                      progress={0.3}
-                      width={380}
-                      color={appThemeColors.progressBarBlue}
-                      unfilledColor="#333333"
-                      borderWidth={0}
-                      height={10}
-                    />
-                  </View>
-                </View>
-                <View
-                  style={{
-                    paddingHorizontal: 18,
-                  }}>
-                  <Text
-                    style={{
-                      fontSize: 10,
-                      color: appThemeColors.textColorGrey,
-                      fontWeight: '400',
-                      letterSpacing: 0.17,
-                      marginBottom: 5,
-                    }}>
-                    Energy - 230.0 / 2100.0 kcal
-                  </Text>
-                  <View style={{}}>
-                    <Progress.Bar
-                      progress={0.3}
-                      height={10}
-                      width={380}
-                      color={appThemeColors.progressBarRed}
-                      unfilledColor="#333333"
-                      borderWidth={0}
-                    />
-                  </View>
+                  Energy - 230.0 / 2100.0 kcal
+                </Text>
+                <View style={{}}>
+                  <Progress.Bar
+                    progress={0.3}
+                    height={10}
+                    width={380}
+                    color={appThemeColors.progressBarRed}
+                    unfilledColor="#333333"
+                    borderWidth={0}
+                  />
                 </View>
               </View>
             </View>
+          </View>
 
-            <View style={{justifyContent: 'center', alignItems: 'center'}}>
-              <View style={{width: 318, height: 47, marginTop: 25,marginBottom:30}}>
-                <GradientButton
-                  onPress={()=>{
-
-                    addLog(logData.id)
-                    handleCloseModalPress()
-                  }}
-                  colors={['#012D61', '#0158BF']}
-                  title="Add to Diary "
-                />
-              </View>
+          <View style={{justifyContent: 'center', alignItems: 'center'}}>
+            <View
+              style={{width: 318, height: 47, marginTop: 25, marginBottom: 30}}>
+              <GradientButton
+                onPress={() => {
+                  addLog(logData.id);
+                  handleCloseModalPress();
+                }}
+                colors={['#012D61', '#0158BF']}
+                title="Add to Diary "
+              />
             </View>
-          </BottomSheetView>
-        </BottomSheetModal>
+          </View>
+        </BottomSheetScrollView>
+      </BottomSheetModal>
 
       {/* <View style={{flex: 1, justifyContent: 'center'}}>
        {FoodLogModal(modalVisible,setModalVisible)}
@@ -611,7 +610,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 16,
     fontWeight: '600',
-    paddingTop: 30,
+    paddingTop: 49,
     paddingBottom: 15,
     paddingHorizontal: 53,
     color: 'white',
@@ -635,7 +634,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#344760',
     padding: 5,
-    marginBottom: 8,
+    marginBottom: 7,
     marginRight: 24,
     width: 136,
     height: 34,
@@ -649,7 +648,7 @@ const styles = StyleSheet.create({
     backgroundColor: appThemeColors.backgroundSecondary,
   },
   container: {
-    flex:1,
+    flex: 1,
     backgroundColor: appThemeColors.backgroundSecondary,
   },
   header: {
