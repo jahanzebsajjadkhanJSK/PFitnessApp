@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text, TouchableOpacity, Image } from 'react-native'
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native'
 import LinearGradient from 'react-native-linear-gradient'
 
 const GradientButton = ({ onPress = () => { }, title, colors, children, style }) => {
@@ -10,11 +10,20 @@ const GradientButton = ({ onPress = () => { }, title, colors, children, style })
         end={{ x: 1, y: 0 }}
         colors={colors}
         style={style}>
-        <Text style={{ color: '#fff', fontSize: 16, fontWeight: '500', letterSpacing: 0.17 }}>{title}</Text>
+        <Text style={styles.text}>{title}</Text>
         {children}
       </LinearGradient>
     </TouchableOpacity>
   )
 }
+
+const styles = StyleSheet.create({
+  text: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: '500',
+    letterSpacing: 0.17,
+  },
+});
 
 export default GradientButton
