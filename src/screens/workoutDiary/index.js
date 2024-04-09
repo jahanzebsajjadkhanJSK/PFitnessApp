@@ -42,8 +42,8 @@ const WorkoutScreen = () => {
     navigation.navigate('EditWorkoutScreen', { activeGroup })
   }
 
-  const startWorkout = () => {
-    console.log('start workout')
+  const handleStartWorkout = (activeGroup) => {
+    navigation.navigate('StartWorkoutScreen', { activeGroup })
   }
 
   return (
@@ -77,13 +77,12 @@ const WorkoutScreen = () => {
                     <TouchableOpacity onPress={() => handleNavigateEdit(group)} style={styles.exerciseGroupActionContainer.editBtn}>
                       <Text style={styles.exerciseGroupActionContainer.editBtn.text}>Edit</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={startWorkout} style={styles.exerciseGroupActionContainer.startBtn}>
                       <GradientButton
                         colors={['#0779FF', '#044999']}
                         style={styles.exerciseGroupActionContainer.startBtn}
                         title={'Start'}
+                        onPress={() => handleStartWorkout(group)}
                       />
-                    </TouchableOpacity>
                   </View>
                 </View>
               </TouchableOpacity>
@@ -149,7 +148,7 @@ const styles = StyleSheet.create({
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
-      height: 4,
+      height: 4
     },
     shadowOpacity: 0.25,
     shadowRadius: 4,
@@ -180,7 +179,7 @@ const styles = StyleSheet.create({
       fontSize: 16,
       fontStyle: 'normal',
       fontWeight: '400',
-      letterSpacing: -0.165,
+      letterSpacing: -0.165
     },
     editBtn: {
       width: 87,
@@ -190,7 +189,7 @@ const styles = StyleSheet.create({
       shadowColor: '#000',
       shadowOffset: {
         width: 0,
-        height: 4,
+        height: 4
       },
       shadowOpacity: 0.25,
       shadowRadius: 4,
@@ -204,7 +203,7 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontStyle: 'normal',
         fontWeight: '400',
-        letterSpacing: -0.165,
+        letterSpacing: -0.165
       }
     },
     startBtn: {
@@ -214,7 +213,7 @@ const styles = StyleSheet.create({
       shadowColor: '#000',
       shadowOffset: {
         width: 0,
-        height: 4,
+        height: 4
       },
       shadowOpacity: 0.25,
       shadowRadius: 4,

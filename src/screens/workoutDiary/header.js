@@ -6,7 +6,8 @@ import { typography } from './styles'
 const Header = ({
   heading = '',
   showOnlyBackButton = false,
-  goBack
+  goBack,
+  backButtonTextStyle
 }) => {
   const navigation = useNavigation()
 
@@ -26,7 +27,13 @@ const Header = ({
     <View style={styles.header}>
       {showOnlyBackButton && (
         <TouchableOpacity onPress={handleHamburgerClick} style={styles.hamburgerIcon}>
-          <Text style={typography.normal(16, 500, '#0779FF')} >Back</Text>
+          <Text
+            style={
+              backButtonTextStyle ? { ...typography.normal(16, 500, '#0779FF'), ...backButtonTextStyle } : typography.normal(16, 500, '#0779FF')
+            }
+          >
+            Back
+          </Text>
         </TouchableOpacity>
       )}
 

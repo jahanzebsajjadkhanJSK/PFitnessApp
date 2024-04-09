@@ -9,12 +9,18 @@ import Header from './header'
 export const Container = ({
   heading = '',
   showOnlyBackButton = false,
+  backButtonTextStyle,
   goBack,
   children
 }) => {
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: '#010A18', padding: 10  }}>
-      <Header goBack={goBack} heading={heading} showOnlyBackButton />
+    <SafeAreaView style={{ flex: 1, backgroundColor: '#010A18', padding: 10 }}>
+      <Header
+        backButtonTextStyle={backButtonTextStyle}
+        goBack={goBack}
+        heading={heading}
+        showOnlyBackButton
+      />
       {children}
     </SafeAreaView>
   )

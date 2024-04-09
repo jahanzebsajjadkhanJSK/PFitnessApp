@@ -7,6 +7,7 @@ import WorkoutGroupScreen from './workoutGroup'
 import EditWorkoutScreen from './editWorkout'
 import WorkoutBuilderScreen from '../workoutBuilder'
 import CustomSplitScreen from '../workoutBuilder/customSplit'
+import StartWorkout from './startWorkout'
 
 const WorkoutStack = createNativeStackNavigator()
 export const WorkoutStackGroup = () => {
@@ -27,11 +28,12 @@ export const WorkoutStackGroup = () => {
         }} />
       <WorkoutStack.Screen name="WorkoutGroupScreen" component={WorkoutGroupScreen}
         options={{
-          headerShown: false,
+          headerShown: false
         }} />
-      <WorkoutStack.Screen name="EditWorkoutScreen" component={EditWorkoutScreen} options={{ headerShown: false}} />
-      <WorkoutStack.Screen name="WorkoutBuilder" component={WorkoutBuilderScreen} options={{ headerShown: false}} />
-      <WorkoutStack.Screen name="CustomSplitScreen" component={CustomSplitScreen} options={{ headerShown: false, navigationBarHidden: true}}/>
+      <WorkoutStack.Screen name="EditWorkoutScreen" component={EditWorkoutScreen} options={{ headerShown: false }} />
+      <WorkoutStack.Screen name="StartWorkoutScreen" component={StartWorkout} options={{ headerShown: false }} />
+      <WorkoutStack.Screen name="WorkoutBuilder" component={WorkoutBuilderScreen} options={{ headerShown: false }} />
+      <WorkoutStack.Screen name="CustomSplitScreen" component={CustomSplitScreen} options={{ headerShown: false, navigationBarHidden: true }}/>
     </WorkoutStack.Navigator>
   )
 }
