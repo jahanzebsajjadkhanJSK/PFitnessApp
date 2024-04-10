@@ -10,6 +10,7 @@ import {
   Dropdown,
   ScrollView,
   Alert,
+  Image,
 } from 'react-native';
 import {AnimatedCircularProgress} from 'react-native-circular-progress';
 import SelectDropdown from 'react-native-select-dropdown';
@@ -94,7 +95,13 @@ const SearchFoodScreen = ({navigation}) => {
   }, []);
 
   // Get current date
-  const currentDate = new Date().toLocaleString();
+
+  const currentTime = new Date();
+  const formattedTime = currentTime.toLocaleTimeString('en-US', {
+    hour: 'numeric',
+    minute: '2-digit',
+    hour12: true,
+  });
 
   const handleAmountChange = text => {
     const parsedAmount = parseFloat(text);
@@ -275,7 +282,7 @@ const SearchFoodScreen = ({navigation}) => {
               }}>
               <Text style={{...styles.text, paddingBottom: 10}}>Amount:</Text>
               <TextInput
-                style={styles.input}
+                style={{...styles.input,textAlign:'right'}}
                 keyboardType="numeric"
                 value={amount.toString()}
                 onChangeText={handleAmountChange}
@@ -295,11 +302,15 @@ const SearchFoodScreen = ({navigation}) => {
 
               <View
                 style={{
-                  backgroundColor: 'red',
                   width: 72,
                   height: 21,
                   marginRight: 34,
-                }}></View>
+                }}>
+                  <View style={{flexDirection:'row'}}>
+                  <Text style={{...fontStyles.poppinsNormal12300,color:'#B0B0B0'}}> bar-60g </Text>
+                  <Image source={require('../../../assets/Arrow_drop_down_big.png')}/>
+                  </View>
+                </View>
             </View>
             <View
               style={{
@@ -309,7 +320,21 @@ const SearchFoodScreen = ({navigation}) => {
                 paddingVertical: 14,
               }}>
               <Text style={styles.text}>Timestamp:</Text>
-              <Text style={styles.text}>{currentDate}</Text>
+              <View style={{flexDirection: 'row'}}>
+                <View
+                  style={{
+                    paddingTop: 2,
+                    paddingHorizontal: 5,
+                    backgroundColor: appThemeColors.backgroundInput,
+                    borderRadius: 4,
+                  }}>
+                  <Text style={styles.text}>{formattedTime}</Text>
+                </View>
+                <Image
+                  source={require('../../../assets/Check_fill.png')}
+                  style={{width: 24, height: 24}}
+                />
+              </View>
             </View>
           </View>
 
@@ -340,7 +365,6 @@ const SearchFoodScreen = ({navigation}) => {
                 justifyContent: 'space-between',
                 paddingHorizontal: 17,
                 paddingTop: 14,
-                borderWidth: 1,
               }}>
               <Text style={{color: 'white'}}>Energy Summary</Text>
               <Text style={{color: 'white'}}>^</Text>
@@ -349,7 +373,6 @@ const SearchFoodScreen = ({navigation}) => {
               style={{
                 flexDirection: 'row',
                 justifyContent: 'space-around',
-                borderWidth: 1,
                 paddingTop: 17,
               }}>
               <View style={{alignItems: 'center', position: 'relative'}}>
@@ -379,7 +402,7 @@ const SearchFoodScreen = ({navigation}) => {
                       alignSelf: 'center',
                       fontWeight: '300',
                     }}>
-                    810
+                    {(logData.protein_g*1000)}
                   </Text>
                   <Text
                     style={{
@@ -537,12 +560,24 @@ const SearchFoodScreen = ({navigation}) => {
                   paddingHorizontal: 18,
                   paddingTop: 12,
                 }}>
+                    <View
+                  style={{
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                  }}>
                 <Text
                   style={{
                     ...fontStyles.poppinsRegular12400,
                   }}>
-                  Energy - 230.0 / 2100.0 kcal
+                  Protien - 20.0 / 150.0 kcal
                 </Text>
+                <Text
+                    style={{
+                      ...fontStyles.poppinsRegular12400,
+                    }}>
+                    12%
+                  </Text>
+                  </View>
                 <View style={{}}>
                   <Progress.Bar
                     progress={0.3}
@@ -559,12 +594,25 @@ const SearchFoodScreen = ({navigation}) => {
                   paddingHorizontal: 18,
                   paddingTop: 12,
                 }}>
+                   <View
+                  style={{
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                  }}>
+                  
                 <Text
                   style={{
                     ...fontStyles.poppinsRegular12400,
                   }}>
-                  Energy - 230.0 / 2100.0 kcal
+                  Protien - 20.0 / 150.0 kcal
                 </Text>
+                <Text
+                    style={{
+                      ...fontStyles.poppinsRegular12400,
+                    }}>
+                    100%
+                  </Text>
+                  </View>
                 <View style={{}}>
                   <Progress.Bar
                     progress={0.3}
@@ -581,15 +629,22 @@ const SearchFoodScreen = ({navigation}) => {
 
           <View style={{justifyContent: 'center', alignItems: 'center'}}>
             <View
-              style={{width: 318, height: 47, marginTop: 25, marginBottom: 30}}>
-              <GradientButton
-                onPress={() => {
-                  addLog(logData.id);
-                  handleCloseModalPress();
-                }}
-                colors={['#012D61', '#0158BF']}
-                title="Add to Diary "
-              />
+              style={{width: 318,paddingVertical:19}}>
+            
+               <GradientButton
+                  onPress={() => {
+                    addLog(logData.id);
+                    handleCloseModalPress();
+                  }}
+                  colors={['#012D61', '#0158BF']}
+                  title="Add to Diary "
+                  style={{
+                    padding: 15,
+                    alignItems: 'center',
+                    borderRadius: 16,
+                    flexDirection: 'row',
+                    justifyContent: 'center',
+                  }}></GradientButton>
             </View>
           </View>
         </BottomSheetScrollView>
@@ -638,7 +693,7 @@ const styles = StyleSheet.create({
     marginRight: 24,
     width: 136,
     height: 34,
-    color:'white'
+    color: 'white',
   },
   dropdown: {
     marginBottom: 10,

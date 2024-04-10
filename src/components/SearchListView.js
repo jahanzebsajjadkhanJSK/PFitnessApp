@@ -18,19 +18,7 @@ const SearchListView = (searchQuery,filteredFood ,displayData,handlePresentModal
           height: 84,
         }}
         onPress={() => {
-          Alert.alert(
-            'Confirmation',
-            `Are you sure you want to select "${item?.id}"?`,
-            [
-              {text: 'Cancel', style: 'cancel'},
-              {
-                text: 'OK',
-                onPress: () => {
-                  handlePresentModalPress(item.id);
-                },
-              },
-            ],
-          );
+          handlePresentModalPress(item.id);
         }}>
         <View
           style={{

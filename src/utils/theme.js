@@ -15,7 +15,8 @@ export const appThemeColors = {
   progressBarRed: '#C91818',
   progressBarWhite: 'white',
   textColorGrey: '#B0B0B0',
-  backgroundList:'#494848'
+  backgroundList:'#494848',
+  backgroundInput:'#4C4C4C',
   // Add more color values as needed
 }
 
@@ -31,9 +32,9 @@ export const appThemeColors = {
     fontSize: 16,
     color: 'white',
   },
-  poppinsNormal12600: {
+  poppinsNormal12300: {
     fontFamily: 'Poppins-Regular',
-    fontSize: 16,
+    fontSize: 12,
     color: 'white',
   },
   poppinsRegular12400: {
@@ -54,6 +55,12 @@ export const appThemeColors = {
   poppinsSemiBold24: {
     fontFamily: 'Poppins-SemiBold',
     fontSize: 24,
+    color: 'white',
+
+  },
+  poppinsSemiBold12600: {
+    fontFamily: 'Poppins-SemiBold',
+    fontSize: 12,
     color: 'white',
 
   },

@@ -433,7 +433,7 @@ const DiaryScreen = () => {
                 }}>
                 <Text
                   style={{
-                    ...fontStyles.poppinsNormal12600,
+                    ...fontStyles.poppinsSemiBold12600,
                     lineHeight: 20,
                   }}>
                   Protein
@@ -468,7 +468,7 @@ const DiaryScreen = () => {
                 }}>
                 <Text
                   style={{
-                    ...fontStyles.poppinsNormal12600,
+                    ...fontStyles.poppinsSemiBold12600,
                     lineHeight: 20,
                   }}>
                   Fats
@@ -503,7 +503,7 @@ const DiaryScreen = () => {
                 }}>
                 <Text
                   style={{
-                    ...fontStyles.poppinsNormal12600,
+                    ...fontStyles.poppinsSemiBold12600,
                     lineHeight: 20,
                   }}>
                   Carbs
@@ -556,7 +556,7 @@ const DiaryScreen = () => {
           <View style={{flex: 1, paddingTop: 8}}>
             <Text style={{...fontStyles.poppinsMedium16500}}>Food Diary</Text>
             <View style={{paddingTop: 8}}>
-              {dailyLogData.map(item => (
+              {dailyLogData && dailyLogData.map(item => (
                 <View style={{paddingTop:19,paddingBottom:16,paddingLeft:20,paddingRight:34,marginVertical:3, backgroundColor:appThemeColors.backgroundSecondary,borderRadius:20}}>
                   <Text style={{...fontStyles.poppinsSemiBold14600}} key={item.id}>{item.id}</Text>
                 </View>
