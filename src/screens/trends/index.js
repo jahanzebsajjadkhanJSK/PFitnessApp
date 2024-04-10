@@ -7,6 +7,7 @@ import {
   StatusBar,
   Image,
   ScrollView,
+  TouchableOpacity,
 } from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import Carousel from 'react-native-snap-carousel';
@@ -19,12 +20,20 @@ import FabGroup from '../../components/FabGroup';
 import {FAB, Portal, PaperProvider} from 'react-native-paper';
 import {BlurView} from '@react-native-community/blur';
 import {useNavigation} from '@react-navigation/native';
+import {useStores} from '../../store/useStores';
 
 const DiaryScreen = () => {
+  const {
+    nutritionStore,
+    userStore: {token},
+  } = useStores();
+  const foodList = nutritionStore.allFood;
   const screenWidth = Dimensions.get('window').width;
   const [activeIndex, setActiveIndex] = useState(0);
   const [state, setState] = React.useState({open: false});
   const [screenInFocus, setScreenInFocus] = useState(false);
+  const [currentDate, setCurrentDate] = useState(new Date());
+  const [dailyLogData, setDailyLogData] = useState(null);
   const navigation = useNavigation();
 
   const onStateChange = ({open}) => {
@@ -192,6 +201,50 @@ const DiaryScreen = () => {
   };
   const buttonpressed = () => {
     console.log('button pressed ');
+    navigation.navigate('Trends');
+  };
+  ///////////////////////////////
+  useEffect(() => {
+    console.log('2121', currentDate.toISOString().slice(0, 10));
+    fetchDailyLog(currentDate.toISOString().slice(0, 10)); // Initial fetch
+  }, [currentDate]);
+
+  const fetchDailyLog = async date => {
+    try {
+      const logData = await nutritionStore.getDailyLog(token, date);
+      console.log(
+        'this iis the det daily api response',
+        logData,
+        logData.length,
+      );
+      setDailyLogData(logData);
+    } catch (error) {
+      console.error('Error fetching daily log:', error);
+      // Handle error gracefully (e.g., display an error message)
+    }
+  };
+
+  useEffect(() => {
+    if (dailyLogData) {
+      const matchingFoodEntries = [];
+      dailyLogData?.forEach(consumedEntry => {
+        const matchingEntry = foodList.foodList.find(
+          food => food.id === consumedEntry.id,
+        );
+        console.log('this is matching entrt', matchingEntry);
+        if (matchingEntry) {
+          matchingEntry.quantity = consumedEntry.quantity;
+          matchingFoodEntries.push(matchingEntry);
+        }
+      });
+      console.log('this are the entries ', matchingFoodEntries);
+    }
+  }, [currentDate, dailyLogData]);
+
+  const handleDateChange = increment => {
+    const newDate = new Date(currentDate);
+    newDate.setDate(newDate.getDate() + increment);
+    setCurrentDate(newDate);
   };
 
   return (
@@ -240,21 +293,26 @@ const DiaryScreen = () => {
                 flexDirection: 'row',
                 justifyContent: 'center',
               }}>
-              <Image
-                source={require('../../assets/Arrow_alt_left.png')}
-                style={{width: 36, height: 36, transform: [{scaleX: -1}]}}
-              />
+              <TouchableOpacity onPress={() => handleDateChange(-1)}>
+                <Image
+                  source={require('../../assets/Arrow_alt_left.png')}
+                  style={{width: 36, height: 36, transform: [{scaleX: -1}]}}
+                />
+              </TouchableOpacity>
               <Text
                 style={{
-                  ...fontStyles.poppinsRegular16,
+                  ...fontStyles.poppinsRegular16400,
                   alignSelf: 'center',
                 }}>
-                March 7, 2024
+                {currentDate.toLocaleDateString('en-US', {month: 'long'})}{' '}
+                {currentDate.getDate()}, {currentDate.getFullYear()}
               </Text>
-              <Image
-                source={require('../../assets/Arrow_alt_left.png')}
-                style={{width: 36, height: 36}}
-              />
+              <TouchableOpacity onPress={() => handleDateChange(1)}>
+                <Image
+                  source={require('../../assets/Arrow_alt_left.png')}
+                  style={{width: 36, height: 36}}
+                />
+              </TouchableOpacity>
             </View>
             <View
               style={{
@@ -307,7 +365,7 @@ const DiaryScreen = () => {
                   fill={70}
                   tintColor={appThemeColors.progressBarBlue}
                   rotation={220}
-                  lineCap='square'
+                  lineCap="square"
                   arcSweepAngle={280}
                   backgroundColor="#333333"
                   onAnimationComplete={() => console.log('onAnimationComplete')}
@@ -317,7 +375,7 @@ const DiaryScreen = () => {
                     flex: 1,
                     justifyContent: 'center',
                     position: 'absolute',
-                    top: 45,
+                    top: 49,
                   }}>
                   <Text
                     style={{
@@ -473,7 +531,7 @@ const DiaryScreen = () => {
             {/* this is the END OF  flat progress area */}
 
             {/* this is the Gradient button  area */}
-            <View style={{flex: 1.3, paddingTop:37,paddingBottom:28,}}>
+            <View style={{flex: 1.3, paddingTop: 37, paddingBottom: 28}}>
               <View style={{width: 318, alignSelf: 'center', borderRadius: 16}}>
                 <GradientButton
                   onPress={buttonpressed}
@@ -488,14 +546,23 @@ const DiaryScreen = () => {
                   }}>
                   <Image
                     source={require('../../assets/shivronRight.png')}
-                    style={{width: 20, height: 20}}
+                    style={{width: 7, height: 16}}
                   />
                 </GradientButton>
               </View>
             </View>
             {/* this is the END OF Gradient button  area */}
           </View>
-          <View style={{flex: 1}}></View>
+          <View style={{flex: 1, paddingTop: 8}}>
+            <Text style={{...fontStyles.poppinsMedium16500}}>Food Diary</Text>
+            <View style={{paddingTop: 8}}>
+              {dailyLogData.map(item => (
+                <View style={{paddingTop:19,paddingBottom:16,paddingLeft:20,paddingRight:34,marginVertical:3, backgroundColor:appThemeColors.backgroundSecondary,borderRadius:20}}>
+                  <Text style={{...fontStyles.poppinsSemiBold14600}} key={item.id}>{item.id}</Text>
+                </View>
+              ))}
+            </View>
+          </View>
           {/* <FAB
           icon="plus"
           style={styles.fab}
@@ -516,12 +583,21 @@ const DiaryScreen = () => {
                 open={open}
                 visible
                 fabStyle={{
-                  backgroundColor: 'white',
+                  backgroundColor: 'black',
                   borderRadius: 40,
                   marginBottom: 87,
+                  width: 52,
+                  height: 52,
+                  alignItems: 'center',
+                  justifyContent: 'center',
                 }}
                 backdropColor="transparent"
-                icon={'plus'}
+                icon={() => (
+                  <Image
+                    source={require('../../assets/fab_icons/Subtract.png')}
+                    style={{width: 52, height: 52, right: 13, bottom: 13}}
+                  />
+                )}
                 actions={actionItems}
                 onStateChange={onStateChange}
                 onPress={() => {

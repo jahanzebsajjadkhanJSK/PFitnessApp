@@ -9,12 +9,15 @@ const LoginScreen = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const navigation = useNavigation()
-  const { userStore } = useStores()
+  const { userStore , nutritionStore } = useStores()
+  const token = userStore.token
 
   const handleLogin = async () => {
     console.log('these are the email and password ', email, password)
     try {
       const response = await userStore.login(email, password)
+      const allfood = await nutritionStore.getAllFoods(response.data.token)
+      console.log('3232',allfood)
       // const token = response.data.token
       // dispatch(storeToken(token))
       navigation.navigate('Home')

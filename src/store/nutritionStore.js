@@ -34,6 +34,18 @@ export class NutritionStore {
       throw error;
     }
   }
+  //////////////////////////////
+  @action
+  async getDailyLog(token, date) {
+    try {
+      const response = await apiCaller(token).get(`/nutrition/day-log/${date}`);
+      this.dailyLog=response.data;
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching daily log:', error);
+      throw error;
+    }
+  }
 
   @action
   async getAllFoods(token) {

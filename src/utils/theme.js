@@ -41,6 +41,11 @@ export const appThemeColors = {
     fontSize: 12,
     color: 'white',
   },
+  poppinsRegular16400: {
+    fontFamily: 'Poppins-Regular',
+    fontSize: 16,
+    color: 'white',
+  },
   poppinsRegular14: {
     fontFamily: 'Poppins-Regular',
     fontSize: 14,
@@ -49,6 +54,12 @@ export const appThemeColors = {
   poppinsSemiBold24: {
     fontFamily: 'Poppins-SemiBold',
     fontSize: 24,
+    color: 'white',
+
+  },
+  poppinsSemiBold14600: {
+    fontFamily: 'Poppins-SemiBold',
+    fontSize: 14,
     color: 'white',
 
   },
@@ -68,6 +79,11 @@ export const appThemeColors = {
     fontFamily: 'Poppins-Medium',
     fontSize: 12,
     color: '#B0B0B0',
+  },
+  poppinsMedium16500: {
+    fontFamily: 'Poppins-Medium',
+    fontSize: 16,
+    color: 'white',
   },
 }
 
