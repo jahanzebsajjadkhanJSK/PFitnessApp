@@ -4,14 +4,12 @@ import { apiCaller } from '../services/apiCaller'
 export class ExerciseStore {
   @observable accessor exerciseList = {};
   @observable accessor exerciseGroups = {};
-  @observable accessor exerciseLogs = {};
   @observable accessor customExercises = {};
 
   constructor(rootStore) {
     this.rootStore = rootStore;
     this.exerciseList = {};
     this.exerciseGroups = {};
-    this.exerciseLogs = {};
     this.customExercises = {};
   }
 
@@ -54,6 +52,7 @@ export class ExerciseStore {
 
   @action
   async updateExerciseGroup(token, groupId, group) {
+    // TODO: verify flow
     try {
       const resp = await apiCaller(token).put(`/exercise/group/${groupId}`, group);
       if(resp.status === 200){
@@ -79,12 +78,12 @@ export class ExerciseStore {
   }
 
   @action
-  async getExerciseLogs(token) {
+  async getExerciseLogsByDay(day) {
     try {
-      // TODO: Implement API call to get exercise logs
-      // const resp = await apiCaller(token).get('/exercise/logs');
-      // console.log('Exercise logs:', resp.data);
-      // this.exerciseLogs = resp.data;
+      const { token } = this.rootStore.userStore
+      const resp = await apiCaller().get(`/exercise/log/day/${day}`);
+      console.log('Exercise logs by day:', resp.data);
+      return resp.data
     } catch (error) {
       console.log('store error', error);
       return [];
@@ -92,14 +91,27 @@ export class ExerciseStore {
   }
 
   @action
-  async addExerciseLog(token, name, timeTaken, exerciseLogGroup) {
+  async getExerciseLogsByExerciseId(exerciseId) {
+    try {
+      const { token } = this.rootStore.userStore
+      const resp = await apiCaller(token).get(`/exercise/log/exerciseId/${exerciseId}`);
+      console.log('Exercise logs by exercise ID:', resp.data);
+      return resp.data
+    } catch (error) {
+      console.log('store error', error);
+      return [];
+    }
+  }
+
+  @action
+  async addExerciseLog(name, startTimestamp, endTimestamp, exerciseLogs) {
+    const { token } = this.rootStore.userStore
     try {
       const resp = await apiCaller(token).post('/exercise/log/add',
-        { name, timeTaken, exerciseLogGroup }
+        { name, startTimestamp, endTimestamp, exerciseLogs }
       );
-      if (resp.status === 200) {
-        this.getExerciseLogs(token);
-      }
+      console.log(resp.status);
+      return resp.status === 200
     } catch (error) {
       console.log('store error', error);
       return [];
@@ -108,6 +120,7 @@ export class ExerciseStore {
 
   @action
   async updateExerciseLog(token, logId, name, exerciseLogGroup) {
+    // TODO: verify flow
     try {
       const resp = await apiCaller(token).put(`/exercise/group/${logId}`, 
         { name, exerciseLogGroup }

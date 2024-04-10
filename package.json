@@ -24,6 +24,7 @@
     "@react-navigation/stack": "^6.3.29",
     "@types/react-native-snap-carousel": "^3.8.11",
     "axios": "^1.6.8",
+    "luxon": "^3.4.4",
     "mobx": "^6.12.3",
     "mobx-persist": "^0.4.1",
     "mobx-react": "^9.1.1",

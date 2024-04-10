@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { View, Text, TouchableOpacity, Image, StyleSheet, Modal, Dimensions } from 'react-native'
 import { TabView, SceneMap } from 'react-native-tab-view'
 import Icon from 'react-native-vector-icons/Entypo'
+import { observer } from 'mobx-react'
 
 import InfoScreen from './info'
 import InstructionsScreen from './instructions'
@@ -10,7 +11,7 @@ import CloseIcon from '../../../assets/close.png'
 
 const windowHeight = Dimensions.get('window').height
 
-const ExerciseDetailsScreen = ({ visible, onClose, activeExercise }) => {
+export default observer(({ visible, onClose, activeExercise }) => {
   const [index, setIndex] = useState(0)
   const [routes] = useState([
     { key: 'info', title: 'Info' },
@@ -80,7 +81,7 @@ const ExerciseDetailsScreen = ({ visible, onClose, activeExercise }) => {
       </View>
     </Modal>
   )
-}
+})
 
 const styles = StyleSheet.create({
   modalContainer: {
@@ -163,5 +164,3 @@ const styles = StyleSheet.create({
     height: 34
   }
 })
-
-export default ExerciseDetailsScreen

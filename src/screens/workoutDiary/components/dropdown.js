@@ -3,7 +3,6 @@ import { StyleSheet, Text, View } from 'react-native'
 import SelectDropdown from 'react-native-select-dropdown'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 
-import { CategoryToMetric } from '../startWorkout/utils'
 import { typography } from '../styles'
 
 export const ExerciseSet = ({

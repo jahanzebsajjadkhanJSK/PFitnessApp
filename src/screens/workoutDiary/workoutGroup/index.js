@@ -23,6 +23,10 @@ const WorkoutGroupScreen = ({ navigation }) => {
     setIsModalVisible(true)
   }
 
+  const handleStartWorkout = (activeGroup) => {
+    navigation.navigate('StartWorkoutScreen', { activeGroup })
+  }
+
   return (
     <View style={{ height: '100%', backgroundColor: '#010A18' }}>
 
@@ -35,12 +39,13 @@ const WorkoutGroupScreen = ({ navigation }) => {
           title="Start"
           colors={['#0779FF', '#044999']}
           style={styles.header.button}
+          onPress={() => handleStartWorkout(activeGroup)}
         />
       </View>
 
       {activeGroup.exerciseList.length > 0 && activeGroup.exerciseList.map((exercise) => {
         // Parse the images in backend
-        const parsed = JSON.parse(exercise.images);
+        const parsed = JSON.parse(exercise.images)
         return (
           <View key={exercise.id}>
             <TouchableOpacity onPress={() => handleExerciseClick(exercise)}>
@@ -77,7 +82,7 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontStyle: 'normal',
         fontWeight: '500',
-        letterSpacing: -0.165,
+        letterSpacing: -0.165
       }
     },
     paddingBottom: 20,
@@ -94,7 +99,7 @@ const styles = StyleSheet.create({
       fontSize: 24,
       fontStyle: 'normal',
       fontWeight: '600',
-      letterSpacing: -0.165,
+      letterSpacing: -0.165
     },
     button: {
       width: 118,
@@ -118,7 +123,7 @@ const styles = StyleSheet.create({
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
-      height: 4,
+      height: 4
     },
     shadowOpacity: 0.25,
     shadowRadius: 4,
@@ -140,7 +145,7 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontStyle: 'normal',
         fontWeight: '500',
-        letterSpacing: -0.165,
+        letterSpacing: -0.165
       },
       equipment: {
         color: '#D9D9D9',
@@ -148,7 +153,7 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontStyle: 'normal',
         fontWeight: '400',
-        letterSpacing: -0.165,
+        letterSpacing: -0.165
       }
     }
   }
