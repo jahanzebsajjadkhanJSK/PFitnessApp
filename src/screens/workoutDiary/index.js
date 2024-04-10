@@ -1,5 +1,5 @@
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { View, Text, TouchableOpacity, StyleSheet, TouchableHighlight, Image } from 'react-native'
+import { View, Text, TouchableOpacity, StyleSheet, TouchableHighlight, FlatList, Image } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 import { useEffect, useState } from 'react'
 import { observer } from 'mobx-react'
@@ -46,6 +46,30 @@ const WorkoutScreen = () => {
     navigation.navigate('StartWorkoutScreen', { activeGroup })
   }
 
+  const renderListItem = ({ item }) => {
+    return (
+      <TouchableHighlight key={item.id} onPress={() => handleNavigateWorkoutGroup(item)} style={styles.exerciseGroup}>
+        <>
+          <Text style={styles.exerciseGroupText}>{item.name}</Text>
+          <View style={styles.exerciseGroupActionContainer}>
+            <Text style={styles.exerciseGroupActionContainer.text}>{`${item.exerciseList.length} exercises`}</Text>
+            <View style={{ flexDirection: 'row' }}>
+              <TouchableOpacity onPress={() => handleNavigateEdit(item)} style={styles.exerciseGroupActionContainer.editBtn}>
+                <Text style={styles.exerciseGroupActionContainer.editBtn.text}>Edit</Text>
+              </TouchableOpacity>
+              <GradientButton
+                colors={['#0779FF', '#044999']}
+                style={styles.exerciseGroupActionContainer.startBtn}
+                title={'Start'}
+                onPress={() => handleStartWorkout(item)}
+              />
+            </View>
+          </View>
+        </>
+      </TouchableHighlight>
+    )
+  }
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#010A18' }}>
       <Header heading="Workout Log" />
@@ -67,27 +91,11 @@ const WorkoutScreen = () => {
         </TouchableOpacity>
 
         <View>
-          {exerciseStore.exerciseGroups.length > 0 && exerciseStore.exerciseGroups.map((group) => {
-            return (
-              <TouchableOpacity key={group.id} onPress={() => handleNavigateWorkoutGroup(group)} style={styles.exerciseGroup}>
-                <Text style={styles.exerciseGroupText}>{group.name}</Text>
-                <View style={styles.exerciseGroupActionContainer}>
-                  <Text style={styles.exerciseGroupActionContainer.text}>{`${group.exerciseList.length} exercises`}</Text>
-                  <View style={{ flexDirection: 'row' }}>
-                    <TouchableOpacity onPress={() => handleNavigateEdit(group)} style={styles.exerciseGroupActionContainer.editBtn}>
-                      <Text style={styles.exerciseGroupActionContainer.editBtn.text}>Edit</Text>
-                    </TouchableOpacity>
-                      <GradientButton
-                        colors={['#0779FF', '#044999']}
-                        style={styles.exerciseGroupActionContainer.startBtn}
-                        title={'Start'}
-                        onPress={() => handleStartWorkout(group)}
-                      />
-                  </View>
-                </View>
-              </TouchableOpacity>
-            )
-          })}
+          <FlatList
+            data={exerciseStore.exerciseGroups}
+            renderItem={renderListItem}
+            keyExtractor={(item) => item.id}
+          />
         </View>
       </View>
     </SafeAreaView>
