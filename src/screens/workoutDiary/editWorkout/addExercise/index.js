@@ -6,8 +6,8 @@ import Icon from 'react-native-vector-icons/Ionicons'
 import { useStores } from '../../../../store/useStores'
 import CloseIcon from '../../../../assets/close.png'
 import { typography } from '../../styles'
-import ImageCycler from '../../imageCycler'
-import GradientButton from '../../../../utils/GradientButton'
+import ImageCycler from '../../components/imageCycler'
+import GradientButton from '../../../../components/GradientButton'
 
 const windowHeight = Dimensions.get('window').height
 const windowWidth = Dimensions.get('window').width
@@ -23,10 +23,10 @@ export const AddExercise = observer(({ visible, onClose, activeGroup }) => {
   const [newSelectedExercises, setNewSelectedExercises] = useState([])
 
   const handleSearch = (text) => {
-    setSearchText(text);
+    setSearchText(text)
     if (text.toLowerCase().length === 0) {
       setSearchResults(exerciseStore.exerciseList)
-      return;
+      return
     }
     const filteredData = exerciseStore.exerciseList.filter((item) => {
       return (
@@ -34,8 +34,8 @@ export const AddExercise = observer(({ visible, onClose, activeGroup }) => {
         (item.equipment && item.equipment.toLowerCase().includes(text.toLowerCase()))
       )
     })
-    setSearchResults(filteredData);
-  };
+    setSearchResults(filteredData)
+  }
 
   const handleSelectExercise = (exercise) => {
     if (newSelectedExercises.includes(exercise.id)) {
@@ -61,9 +61,8 @@ export const AddExercise = observer(({ visible, onClose, activeGroup }) => {
     )
   }
 
-
   const renderListItem = ({ item }) => {
-    const parsed = JSON.parse(item.images);
+    const parsed = JSON.parse(item.images)
 
     return (
       <TouchableOpacity
@@ -136,28 +135,28 @@ export const AddExercise = observer(({ visible, onClose, activeGroup }) => {
   )
 })
 
-modalContentWidth = windowWidth - 30
+const modalContentWidth = windowWidth - 30
 
-const styles = StyleSheet.create({
+export const styles = StyleSheet.create({
   overlay: {
     flex: 1,
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
     justifyContent: 'center',
-    alignItems: 'center',
+    alignItems: 'center'
   },
   modalContent: {
     height: windowHeight * 0.9,
     backgroundColor: '#1C242D',
     borderRadius: 20,
     padding: 16,
-    width: modalContentWidth,
+    width: modalContentWidth
   },
   headerRow: {
     flexDirection: 'row',
     justifyContent: 'center',
     marginLeft: 16,
     marginBottom: 20,
-    alignItems: 'center',
+    alignItems: 'center'
   },
   inputContainer: {
     flexDirection: 'row',
@@ -169,29 +168,29 @@ const styles = StyleSheet.create({
     height: 32
   },
   searchIcon: {
-    marginRight: 8,
+    marginRight: 8
   },
   statsContainer: {
     marginBottom: 20
   },
   listContainer: {
     backgroundColor: '#121A24',
-    borderRadius: 16,
+    borderRadius: 16
   },
   listItemRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    padding: 15,
+    padding: 15
   },
   listItemRowSelected: {
     flexDirection: 'row',
     alignItems: 'center',
     padding: 15,
-    backgroundColor: '#262626',
+    backgroundColor: '#262626'
   },
   listItemColumn: {
     flexDirection: 'column',
-    marginLeft: 20,
+    marginLeft: 20
   },
   img: {
     backgroundColor: '#656565',
@@ -202,14 +201,14 @@ const styles = StyleSheet.create({
   },
   line: {
     height: 1,
-    backgroundColor: '#262626',
+    backgroundColor: '#262626'
   },
   footer: {
     flexDirection: 'row',
     justifyContent: 'space-evenly'
   },
   saveBtn: {
-    width: (modalContentWidth - 50)/2,
+    width: (modalContentWidth - 50) / 2,
     padding: 9,
     borderRadius: 8,
     alignItems: 'center',

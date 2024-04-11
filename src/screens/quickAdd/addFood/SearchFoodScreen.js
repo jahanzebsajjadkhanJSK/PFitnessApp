@@ -26,13 +26,14 @@ import {Searchbar, IconButton} from 'react-native-paper';
 import DropDown from 'react-native-paper-dropdown';
 import {observer} from 'mobx-react';
 
-import CategoryFilters from '../../../utils/Helpers/CategoryFilters';
+import CategoryFilters from '../../../components/CategoryFilters';
 import {appThemeColors} from '../../../utils/theme';
 import {useStores} from '../../../store/useStores';
 import SearchListView from '../../../components/SearchListView';
 import FoodLogModal from '../../../components/FoodLogModal';
-import GradientButton from '../../../utils/GradientButton';
+// import GradientButton from '../../../utils/GradientButton';
 import {fontStyles} from '../../../utils/theme';
+import GradientButton from '../../../components/GradientButton';
 
 const SearchFoodScreen = ({navigation}) => {
   const {

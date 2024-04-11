@@ -1,38 +1,28 @@
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { View, Text, TouchableOpacity, StyleSheet, TouchableHighlight, FlatList, Image } from 'react-native'
+import { View, Text, TouchableOpacity, StyleSheet, TouchableHighlight, Image } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 import { useEffect, useState } from 'react'
 import { observer } from 'mobx-react'
 
-import Header from './components/header'
-import { useStores } from '../../store/useStores'
-import DumbleBlueIcon from '../../assets/dumble_blue.png'
-import RightArrowIcon from '../../assets/right_arrow.png'
-import CalendarIcon from '../../assets/calendar.png'
-import GradientButton from '../../components/GradientButton'
+import Header from './header'
+import DumbleBlueIcon from '../../../assets/dumble_blue.png'
+import RightArrowIcon from '../../../assets/right_arrow.png'
+import CalendarIcon from '../../../assets/calendar.png'
+import GradientButton from '../../../components/GradientButton'
 
-const WorkoutScreen = () => {
-  const navigation = useNavigation()
-  const { userStore, exerciseStore } = useStores()
-  const [isLoading, setIsLoading] = useState(false)
-
-  useEffect(() => {
-    const getExercises = async () => {
-      setIsLoading(true)
-      await exerciseStore.getAllExercises(userStore.token)
-      setIsLoading(false)
+export const GroupTemplate = observer(({
+  heading,
+  actionCardsTitle = '',
+  actionCards = {
+    card1: {
+      icon: '',
+      title: '',
+      action: () => { }
     }
-
-    getExercises()
-  }, [])
-
-  const handleStartCustomWorkout = () => {
-    navigation.navigate('StartCustomWorkoutScreen')
-  }
-
-  const handleNavigateWorkoutHistory = () => {
-    navigation.navigate('WorkoutHistoryScreen')
-  }
+  },
+  exerciseGroups = []
+}) => {
+  const navigation = useNavigation()
 
   const handleNavigateWorkoutGroup = (activeGroup) => {
     navigation.navigate('WorkoutGroupScreen', { activeGroup })
@@ -42,65 +32,56 @@ const WorkoutScreen = () => {
     navigation.navigate('EditWorkoutScreen', { activeGroup })
   }
 
-  const handleStartWorkout = (activeGroup) => {
-    navigation.navigate('StartWorkoutScreen', { activeGroup })
-  }
-
-  const renderListItem = ({ item }) => {
-    return (
-      <TouchableHighlight key={item.id} onPress={() => handleNavigateWorkoutGroup(item)} style={styles.exerciseGroup}>
-        <>
-          <Text style={styles.exerciseGroupText}>{item.name}</Text>
-          <View style={styles.exerciseGroupActionContainer}>
-            <Text style={styles.exerciseGroupActionContainer.text}>{`${item.exerciseList.length} exercises`}</Text>
-            <View style={{ flexDirection: 'row' }}>
-              <TouchableOpacity onPress={() => handleNavigateEdit(item)} style={styles.exerciseGroupActionContainer.editBtn}>
-                <Text style={styles.exerciseGroupActionContainer.editBtn.text}>Edit</Text>
-              </TouchableOpacity>
-              <GradientButton
-                colors={['#0779FF', '#044999']}
-                style={styles.exerciseGroupActionContainer.startBtn}
-                title={'Start'}
-                onPress={() => handleStartWorkout(item)}
-              />
-            </View>
-          </View>
-        </>
-      </TouchableHighlight>
-    )
+  const startWorkout = () => {
+    console.log('start workout')
   }
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#010A18' }}>
-      <Header heading="Workout Log" />
-      <Text style={styles.startWorkout}>Start a Workout</Text>
+      <Header heading={heading} />
+      <Text style={styles.startWorkout}>{actionCardsTitle}</Text>
       <View style={{ flexDirection: 'column' }}>
-        <TouchableOpacity onPress={handleStartCustomWorkout} style={styles.workoutActions}>
-          <View style={styles.workoutActionsTextGroup}>
-            <Image source={DumbleBlueIcon} />
-            <Text style={styles.workoutActionsText}>Start a Custom Workout</Text>
-          </View>
-          <Image source={RightArrowIcon} />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={handleNavigateWorkoutHistory} style={styles.workoutActions}>
-          <View style={styles.workoutActionsTextGroup}>
-            <Image source={CalendarIcon} />
-            <Text style={styles.workoutActionsText}>View Workout History</Text>
-          </View>
-          <Image source={RightArrowIcon} />
-        </TouchableOpacity>
+        {Object.keys(actionCards).map((key) => {
+          return (
+            <TouchableOpacity onPress={actionCards[key].action} style={styles.workoutActions}>
+              <View style={styles.workoutActionsTextGroup}>
+                <Image source={actionCards[key].icon} />
+                <Text style={styles.workoutActionsText}>{actionCards[key].title}</Text>
+              </View>
+              <Image source={RightArrowIcon} />
+            </TouchableOpacity>
+          )
+        })}
 
         <View>
-          <FlatList
-            data={exerciseStore.exerciseGroups}
-            renderItem={renderListItem}
-            keyExtractor={(item) => item.id}
-          />
+          {exerciseGroups.length > 0 && exerciseGroups.map((group) => {
+            return (
+              <TouchableOpacity key={group.id} onPress={() => handleNavigateWorkoutGroup(group)} style={styles.exerciseGroup}>
+                <Text style={styles.exerciseGroupText}>{group.name}</Text>
+                <View style={styles.exerciseGroupActionContainer}>
+                  <Text style={styles.exerciseGroupActionContainer.text}>{`${group.exerciseList.length} exercises`}</Text>
+                  <View style={{ flexDirection: 'row' }}>
+                    <TouchableOpacity onPress={() => handleNavigateEdit(group)} style={styles.exerciseGroupActionContainer.editBtn}>
+                      <Text style={styles.exerciseGroupActionContainer.editBtn.text}>Edit</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={startWorkout} style={styles.exerciseGroupActionContainer.startBtn}>
+                      <GradientButton
+                        colors={['#0779FF', '#044999']}
+                        style={styles.exerciseGroupActionContainer.startBtn}
+                        title={'Start'}
+                      />
+                    </TouchableOpacity>
+                  </View>
+                </View>
+              </TouchableOpacity>
+            )
+          })}
         </View>
       </View>
     </SafeAreaView>
+
   )
-}
+})
 
 const styles = StyleSheet.create({
   startWorkout: {
@@ -231,5 +212,3 @@ const styles = StyleSheet.create({
     }
   }
 })
-
-export default observer(WorkoutScreen)

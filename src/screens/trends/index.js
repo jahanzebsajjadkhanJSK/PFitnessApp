@@ -15,7 +15,7 @@ import ProgressRingLayout from '../../components/ProgressRingLayout';
 import {appThemeColors, fontStyles} from '../../utils/theme';
 import * as Progress from 'react-native-progress';
 import {AnimatedCircularProgress} from 'react-native-circular-progress';
-import GradientButton from '../../utils/GradientButton';
+import GradientButton from '../../components/GradientButton';
 import FabGroup from '../../components/FabGroup';
 import {FAB, Portal, PaperProvider} from 'react-native-paper';
 import {BlurView} from '@react-native-community/blur';

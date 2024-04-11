@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { View, Text, TouchableOpacity, Image, StyleSheet, Modal, Dimensions } from 'react-native'
 import { TabView, SceneMap } from 'react-native-tab-view'
 import Icon from 'react-native-vector-icons/Entypo'
+import { observer } from 'mobx-react'
 
 import InfoScreen from './info'
 import InstructionsScreen from './instructions'
@@ -10,7 +11,7 @@ import CloseIcon from '../../../assets/close.png'
 
 const windowHeight = Dimensions.get('window').height
 
-const ExerciseDetailsScreen = ({ visible, onClose, activeExercise }) => {
+export default observer(({ visible, onClose, activeExercise }) => {
   const [index, setIndex] = useState(0)
   const [routes] = useState([
     { key: 'info', title: 'Info' },
@@ -25,20 +26,20 @@ const ExerciseDetailsScreen = ({ visible, onClose, activeExercise }) => {
   })
 
   const renderTabBar = props => {
-    const { navigationState, position } = props;
+    const { navigationState, position } = props
 
     return (
       <React.Fragment>
         <View style={styles.tabBar}>
           {navigationState.routes.map((route, i) => {
-            const isTabActive = i === index;
+            const isTabActive = i === index
 
             return (
               <TouchableOpacity
                 key={route.key}
                 style={[
                   styles.tabBarItem,
-                  isTabActive && styles.tabBarItemActive,
+                  isTabActive && styles.tabBarItemActive
                 ]}
                 onPress={() => setIndex(i)}
               >
@@ -46,7 +47,7 @@ const ExerciseDetailsScreen = ({ visible, onClose, activeExercise }) => {
                   {route.title}
                 </Text>
               </TouchableOpacity>
-            );
+            )
           })}
         </View>
         <View style={styles.headerContainer}>
@@ -56,7 +57,7 @@ const ExerciseDetailsScreen = ({ visible, onClose, activeExercise }) => {
           </View>
         </View>
       </React.Fragment>
-    );
+    )
   }
 
   return (
@@ -80,7 +81,7 @@ const ExerciseDetailsScreen = ({ visible, onClose, activeExercise }) => {
       </View>
     </Modal>
   )
-}
+})
 
 const styles = StyleSheet.create({
   modalContainer: {
@@ -123,7 +124,7 @@ const styles = StyleSheet.create({
     fontSize: 22,
     fontStyle: 'normal',
     fontWeight: '500',
-    letterSpacing: -0.165,
+    letterSpacing: -0.165
   },
   tabBar: {
     flexDirection: 'row',
@@ -136,11 +137,11 @@ const styles = StyleSheet.create({
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
-      height: 4,
+      height: 4
     },
     shadowOpacity: 0.25,
     shadowRadius: 4,
-    elevation: 4,
+    elevation: 4
   },
   tabBarItem: {
     width: 100,
@@ -151,7 +152,7 @@ const styles = StyleSheet.create({
       fontSize: 15,
       fontStyle: 'normal',
       fontWeight: '400',
-      letterSpacing: -0.165,
+      letterSpacing: -0.165
     }
   },
   tabBarItemActive: {
@@ -160,8 +161,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 20,
     backgroundColor: '#777',
-    height: 34,
+    height: 34
   }
 })
-
-export default ExerciseDetailsScreen
