@@ -43,6 +43,7 @@ const DiaryScreen = () => {
   useEffect(() => {
     const unsubscribeFocus = navigation.addListener('focus', () => {
       setScreenInFocus(true);
+      fetchDailyLog(currentDate.toISOString().slice(0, 10));
     });
 
     const unsubscribeBlur = navigation.addListener('blur', () => {
