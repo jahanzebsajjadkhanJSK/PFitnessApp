@@ -532,7 +532,7 @@ const DiaryScreen = () => {
 
             {/* this is the Gradient button  area */}
             <View style={{flex: 1.3, paddingTop: 37, paddingBottom: 28}}>
-              <View style={{width: 318, alignSelf: 'center', borderRadius: 16}}>
+              <View style={{width: 318, alignSelf: 'center',borderWidth:1, borderRadius: 16}}>
                 <GradientButton
                   onPress={buttonpressed}
                   colors={['#012D61', '#0158BF']}
@@ -543,6 +543,7 @@ const DiaryScreen = () => {
                     borderRadius: 16,
                     flexDirection: 'row',
                     justifyContent: 'space-between',
+                    flex:1
                   }}>
                   <Image
                     source={require('../../assets/shivronRight.png')}

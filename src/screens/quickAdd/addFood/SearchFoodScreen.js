@@ -645,6 +645,7 @@ const SearchFoodScreen = ({navigation}) => {
                     borderRadius: 16,
                     flexDirection: 'row',
                     justifyContent: 'center',
+                    flex:1
                   }}></GradientButton>
             </View>
           </View>
