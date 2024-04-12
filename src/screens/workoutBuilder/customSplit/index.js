@@ -68,7 +68,7 @@ const CustomSplitScreen = ({ navigation }) => {
     if (currentStep !== 1) {
       setCurrentStep(currentStep - 1)
     } else {
-      navigation.navigate('Workout Builder')
+      navigation.goBack()
     }
   }
 

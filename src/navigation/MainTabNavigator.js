@@ -1,16 +1,16 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import { Image } from 'react-native'
+import { Image, View } from 'react-native'
 
 import DiaryScreen from '../screens/foodDiary'
-// import HomeScreen from '../screens/home'
-import HomeScreen from '../screens/foodDiary/HomeScreen'
+import HomeScreen from '../screens/home'
+
 import MoreScreen from '../screens/aiCoach/MoreScreen'
 import FoodScreen from '../screens/foodDiary/FoodScreen'
 import SearchFoodScreen from '../components/quickAdd/addFood/SearchFoodScreen'
 import TrendsScreen from '../screens/trends'
 
-import { WorkoutStackGroup } from '../screens/workoutDiary/workoutNavigator'
+import { WorkoutStackGroup, WorkoutBuilderStackGroup } from '../screens/workoutDiary/workoutNavigator'
 import stretchingIcon from '../assets/stretching.png'
 import stretchingActiveIcon from '../assets/stretching_active.png'
 import foodDiaryIcon from '../assets/foodDiary.png'
@@ -39,7 +39,7 @@ const FoodStackGroup = () => {
 const MainTabNavigator = () => {
   return (
     <Tab.Navigator
-      initialRouteName="Workout Diary"
+      initialRouteName="Home"
       screenOptions={({ route }) => ({
         useNativeDriver: false,
         headerShown: false,
@@ -51,6 +51,8 @@ const MainTabNavigator = () => {
           let iconName
 
           if (route.name === 'Workout Diary') {
+            iconName = focused ? stretchingActiveIcon : stretchingIcon
+          } else if (route.name === 'Workout Builder') {
             iconName = focused ? stretchingActiveIcon : stretchingIcon
           } else if (route.name === 'Food Diary') {
             iconName = focused ? foodDiaryActiveIcon : foodDiaryIcon
@@ -89,6 +91,14 @@ const MainTabNavigator = () => {
       <Tab.Screen
         name="More"
         component={MoreScreen}
+      />
+      <Tab.Screen
+        name="Workout Builder Tab"
+        component={WorkoutBuilderStackGroup}
+        options={{
+          tabBarButton: () => <View style={{ display: 'none' }} />,
+          tabBarVisible: true
+        }}
       />
     </Tab.Navigator>
   )
