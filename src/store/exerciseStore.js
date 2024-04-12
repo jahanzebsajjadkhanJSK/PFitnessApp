@@ -81,7 +81,7 @@ export class ExerciseStore {
   async getExerciseLogsByDay(day) {
     try {
       const { token } = this.rootStore.userStore
-      const resp = await apiCaller().get(`/exercise/log/day/${day}`);
+      const resp = await apiCaller(token).get(`/exercise/log/day/${day}`);
       console.log('Exercise logs by day:', resp.data);
       return resp.data
     } catch (error) {

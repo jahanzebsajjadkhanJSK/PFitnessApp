@@ -41,3 +41,8 @@ export const getDateObject = (date, format = 'dd-MM-yy') => {
     month: -1
   }
 }
+
+export const getDateInISO = (date, format) => {
+  const dateTime = DateTime.fromFormat(date, format)
+  return dateTime.toISO()
+}

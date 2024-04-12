@@ -19,13 +19,7 @@ export const WorkoutStackGroup = () => {
           headerShown: true,
           animationEnabled: true
         }} />
-      <WorkoutStack.Screen name="WorkoutHistoryScreen" component={WorkoutHistoryScreen}
-        options={{
-          headerShown: true,
-          headerTitleStyle: { display: 'none' },
-          animationEnabled: true,
-          headerBackTitle: 'Workout Log'
-        }} />
+      <WorkoutStack.Screen name="WorkoutHistoryScreen" component={WorkoutHistoryScreen} options={{ headerShown: false }} />
       <WorkoutStack.Screen name="WorkoutGroupScreen" component={WorkoutGroupScreen}
         options={{
           headerShown: false
