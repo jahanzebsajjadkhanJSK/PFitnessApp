@@ -1,75 +1,88 @@
-import React, { useEffect, useState, useMemo } from 'react'
+import React, { useEffect, useState, useMemo, useRef } from 'react'
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native'
 import { Calendar } from 'react-native-calendars'
 import Icon from 'react-native-vector-icons/AntDesign'
+import { DateTime } from 'luxon'
 
 import { useStores } from '../../../store/useStores'
 import { typography, padding, margin } from '../styles'
-import { getCurrentoDateInISO, getDateInISO } from '../../../utils'
-import { groupByExerciseName } from './utils'
-
-const groupLogs = (logGroup) => {
-  console.log('inside logGroup')
-  const arr = []
-  logGroup.forEach((x) => {
-    const res = groupByExerciseName(x.exerciseLogs)
-    const newLogGroup = {
-      id: x.id,
-      logsByExercise: res
-    }
-    arr.push(newLogGroup)
-  })
-}
+import { getDateInISO } from '../../../utils'
+import { groupDataByCreatedAt, groupLogs } from './utils'
 
 const WorkoutHistoryScreen = ({ navigation }) => {
-  const [selectedDate, setSelectedDate] = useState('')
-  const [workoutsForDay, setWorkoutsForDay] = useState([])
-  const [activeMarkedDates, setActiveMarkedDates] = useState([])
-
   const { exerciseStore } = useStores()
 
-  const getLogs = async (date) => {
-    const resp = await exerciseStore.getExerciseLogsByDay(date)
+  const [selectedDate, setSelectedDate] = useState(() => {
+    const today = new Date()
+    return today.toISOString().split('T')[0]
+  })
+  const prevDateRef = useRef(selectedDate)
+
+  const [monthlyLogs, setMonthlyLogs] = useState([])
+  const [workoutsForDay, setWorkoutsForDay] = useState([])
+  const [activeMarkedDates, setActiveMarkedDates] = useState({})
+
+  useEffect(() => {
+    getMonthLogs(selectedDate)
+  }, [])
+
+  useEffect(() => {
+    prevDateRef.current = selectedDate
+    if (prevDateRef.current) {
+      const prevMonth = DateTime.fromISO(prevDateRef.current).month
+      const newMonth = DateTime.fromISO(selectedDate).month
+
+      if (prevMonth !== newMonth) {
+        getMonthLogs(selectedDate)
+      }
+    }
+  }, [selectedDate])
+
+  const getMonthLogs = async (date) => {
+    const resp = await exerciseStore.getExerciseLogsByMonth(date)
+    const dates = resp.map((exerciseGroup) => exerciseGroup.startTimestamp)
+    const newMarkedDatesObj = {}
+    dates.forEach((date) => {
+      const formattedDate = getDateInISO(date)
+      newMarkedDatesObj[formattedDate] = { marked: true }
+    })
+    setActiveMarkedDates(newMarkedDatesObj)
+    const monthlyData = groupDataByCreatedAt(resp)
+    setMonthlyLogs(monthlyData)
     return resp
   }
 
-  // const getMonthLogs = async (date) => {
-  //   const resp = await exerciseStore.getExerciseLogsByMonth(date)
-  //   const dates = resp.map((exerciseGroup) => exerciseGroup.startTimestamp)
-  //   const newMarkedDates = dates.map((date) => {
-  //     const formattedDate = getDateInISO(date, 'yyyy-MM-dd')
-  //     return {
-  //       [formattedDate]: { marked: true }
-  //     }
-  //   })
-  //   setActiveMarkedDates(newMarkedDates)
-  //   return resp
-  // }
-
-  useEffect(async () => {
-    const date = getCurrentoDateInISO()
-    setSelectedDate(date)
-    await getLogs()
-  }, [])
+  const handleMonthChange = async (date) => {
+    const isoDate = getDateInISO(date.dateString)
+    await getMonthLogs(isoDate)
+  }
 
   const onDaySelect = async (day) => {
     setSelectedDate(day.dateString)
-    // const isoDate = getDateInISO(day.dateString, 'yyyy-MM-dd')
-    // const resp = await getLogs(day.dateString)
-    // groupLogs(resp)
-    // console.log(JSON.stringify(resp))
-
-    // const workoutDataForDay = mockWorkoutData[day.dateString]
-    // if (workoutDataForDay) {
-    //   setWorkoutsForDay(workoutDataForDay.workouts)
-    // } else {
-    //   setWorkoutsForDay([])
-    // }
+    const isoDate = getDateInISO(day.dateString, 'yyyy-MM-dd')
+    const dailyLogs = monthlyLogs[isoDate] || []
+    const d = groupLogs(dailyLogs)
+    console.log(d)
+    setWorkoutsForDay(d)
   }
 
   const handleNavigateBack = () => {
     navigation.goBack()
   }
+
+  const getMarkedDates = () => {
+    const baseMarkedDates = activeMarkedDates
+    const selectedMarkings = selectedDate && baseMarkedDates[selectedDate]
+      ? { ...baseMarkedDates[selectedDate], selected: true }
+      : { selected: true }
+
+    return {
+      ...baseMarkedDates,
+      [selectedDate]: selectedMarkings
+    }
+  }
+
+  const markedDates = useMemo(getMarkedDates, [activeMarkedDates, selectedDate])
 
   const CustomDay = ({ date, state, marking, onDayPress }) => {
     const isSelected = marking?.selected
@@ -85,35 +98,6 @@ const WorkoutHistoryScreen = ({ navigation }) => {
       </TouchableOpacity>
     )
   }
-
-  const getMarkedDates = () => {
-    const baseMarkedDates = {
-      '2024-04-02': {
-        marked: true
-      },
-      '2024-04-05': {
-        marked: true
-      }
-    }
-
-    const selectedMarkings = selectedDate && baseMarkedDates[selectedDate]
-      ? {
-          ...baseMarkedDates[selectedDate],
-          selected: true,
-          selectedColor: 'lightblue'
-        }
-      : {
-          selected: true,
-          selectedColor: 'lightblue'
-        }
-
-    return {
-      ...baseMarkedDates,
-      [selectedDate]: selectedMarkings
-    }
-  }
-
-  const markedDates = useMemo(getMarkedDates, [selectedDate])
 
   return (
     <View style={{ height: '100%', backgroundColor: '#010A18' }}>
@@ -131,6 +115,7 @@ const WorkoutHistoryScreen = ({ navigation }) => {
       <View style={styles.calendarContainer}>
         <Calendar
           onDayPress={onDaySelect}
+          onMonthChange={handleMonthChange}
           dayComponent={({ date, state }) => (
             <CustomDay
               date={date}
@@ -155,7 +140,7 @@ const WorkoutHistoryScreen = ({ navigation }) => {
               }
             }
           }}
-          style={{ height: '90%', margin: 6, borderRadius: 15 }}
+          style={{ margin: 6, borderRadius: 15 }}
         />
         </View>
         <View style={styles.workoutsContainer}>
@@ -163,9 +148,9 @@ const WorkoutHistoryScreen = ({ navigation }) => {
             ? (
                 workoutsForDay.map((workout, index) => (
                 <View key={index} style={styles.workoutCard}>
-                  <Text style={styles.workoutText}>{workout.title}</Text>
+                  <Text style={styles.workoutText}>{workout.name}</Text>
                   <Text style={styles.workoutSubtext}>
-                    {workout.exercisesCount} Exercises
+                    {workout.primaryMuscles} Primary Muscles
                   </Text>
                 </View>
                 ))
@@ -208,18 +193,6 @@ const styles = StyleSheet.create({
     height: 30,
     justifyContent: 'center',
     alignItems: 'center'
-  },
-  selectedContainer: {
-    width: '100%',
-    aspectRatio: 1,
-    borderRadius: 10,
-    height: 30,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#B3B3B3'
-  },
-  text: {
-    fontSize: 16
   },
   textDisabled: {
     color: 'grey'

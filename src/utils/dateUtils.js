@@ -42,7 +42,7 @@ export const getDateObject = (date, format = 'dd-MM-yy') => {
   }
 }
 
-export const getDateInISO = (date, format) => {
-  const dateTime = DateTime.fromFormat(date, format)
-  return dateTime.toISO()
+export const getDateInISO = (date) => {
+  const dateTime = DateTime.fromISO(date)
+  return dateTime.toISODate()
 }

@@ -91,6 +91,18 @@ export class ExerciseStore {
   }
 
   @action
+  async getExerciseLogsByMonth(day) {
+    try {
+      const { token } = this.rootStore.userStore
+      const resp = await apiCaller(token).get(`/exercise/log/month/${day}`);
+      return resp.data
+    } catch (error) {
+      console.log('store error', error);
+      return [];
+    }
+  }
+
+  @action
   async getExerciseLogsByExerciseId(exerciseId) {
     try {
       const { token } = this.rootStore.userStore
