@@ -3,6 +3,7 @@
 export const appThemeColors = {
   backgroundGrey: '#272a3c',
   secondary: '#00FF00',
+  tfBackground: '#121A24',
   backgroundBlack: '#101123',
   text: '#000000',
   backgroundSecondary: '#121A24',
